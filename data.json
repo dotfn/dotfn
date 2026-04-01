@@ -13,13 +13,13 @@
     },
     {
       "label": "GitHub",
-      "url": "https://github.io/dotfn",
+      "url": "https://github.com/dotfn",
       "icon": "gh",
       "description": "Repositorios & proyectos"
     },
     {
       "label": "Portafolio",
-      "url": "https://dotfn.github.com/dotfn",
+      "url": "https://dotfn.github.io/dotfn",
       "icon": "pf",
       "description": "En construccion"
     },
