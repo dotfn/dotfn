@@ -40,21 +40,10 @@ Hoy estoy enfocado en crear productos que no solo funcionen, sino que también c
 
 
 ---
-
-### 📈 GitHub Stats
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=dotfn&show_icons=true&theme=tokyonight&hide_title=true" height="150"/>
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=dotfn&layout=compact&theme=tokyonight" height="150"/>
-</p>
-
 ![](https://komarev.com/ghpvc/?username=dotfn&label=Profile+views&color=blue)
 
 ---
 
-### 🧭 Objetivo actual
-
-> Buscando mi primer empleo como desarrollador frontend.  
 > Disponible para roles remotos, híbridos o presenciales.
 
 ---
