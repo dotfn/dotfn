@@ -1,0 +1,105 @@
+---
+export interface LinkItem {
+	label: string;
+	url: string;
+	icon?: string;
+	description?: string;
+}
+
+export interface ProfileData {
+	username?: string;
+	name: string;
+	bio?: string;
+	avatar?: string;
+	featuredImage?: string;
+	links: LinkItem[];
+	footer?: string;
+}
+
+interface Props {
+	data: ProfileData;
+}
+
+const ICON_MAP: Record<string, string> = {
+	in: 'IN',
+	gh: 'GH',
+	pf: '◈',
+	em: '✉',
+};
+
+function getIcon(code: string | undefined, label: string) {
+	if (code && ICON_MAP[code]) return ICON_MAP[code];
+	return label.substring(0, 2).toUpperCase();
+}
+
+const { data } = Astro.props;
+const featuredAlt = 'Imagen destacada';
+const avatarAlt = data.name || 'Avatar';
+---
+
+<main id="phone" class="phone" role="main" aria-label="Tarjeta de perfil">
+	<section class="featured-wrap" aria-label={featuredAlt}>
+		{
+			data.featuredImage ? (
+				<img
+					src={data.featuredImage}
+					alt={featuredAlt}
+					class="featured-img"
+					onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'img-placeholder',textContent:'NO IMAGE'}))"
+				/>
+			) : (
+				<div class="img-placeholder">{featuredAlt.toUpperCase()}</div>
+			)
+		}
+	</section>
+
+	<header class="profile-header">
+		<div class="avatar-ring" aria-hidden="true">
+			{
+				data.avatar ? (
+					<img
+						src={data.avatar}
+						alt={avatarAlt}
+						class="avatar-img"
+						onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'img-placeholder',textContent:'NO IMAGE'}))"
+					/>
+				) : (
+					<div class="img-placeholder">{avatarAlt.toUpperCase()}</div>
+				)
+			}
+		</div>
+		<h1 class="profile-name">{data.name}</h1>
+		{data.username && <p class="profile-username">{data.username}</p>}
+		{data.bio && <p class="profile-bio">{data.bio}</p>}
+	</header>
+
+	<div class="divider" role="separator"></div>
+
+	<nav aria-label="Links principales">
+		<ul class="links-list">
+			{
+				data.links.map((link, i) => (
+					<li class="link-item" style={`animation-delay:${0.3 + i * 0.08}s`}>
+						<a
+							href={link.url}
+							class="link-btn"
+							target={link.url.startsWith('mailto') ? '_self' : '_blank'}
+							rel={link.url.startsWith('mailto') ? undefined : 'noopener noreferrer'}
+						>
+							<div class="link-icon">{getIcon(link.icon, link.label)}</div>
+							<div class="link-text">
+								<span class="link-label">{link.label}</span>
+								{link.description && <span class="link-desc">{link.description}</span>}
+							</div>
+							<span class="link-arrow" aria-hidden="true">↗</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</nav>
+
+	<footer class="site-footer">
+		<span>{data.footer ?? '🔧 Sitio en construcción'}</span>
+	</footer>
+</main>

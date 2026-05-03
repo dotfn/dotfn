@@ -1,0 +1,63 @@
+---
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = 'Links · @dotfn',
+	description = 'Link hub personal',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" data-theme="dark">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content={description} />
+		<title>{title}</title>
+		<script is:inline>
+			const t = localStorage.getItem('theme') || 'dark';
+			document.documentElement.setAttribute('data-theme', t);
+		</script>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<Analytics />
+	</head>
+	<body>
+		<button type="button" class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema"
+			>☀️</button
+		>
+		<slot />
+		<script is:inline>
+			(function () {
+				const themeBtn = document.getElementById('theme-toggle');
+				if (!themeBtn) return;
+				function updateThemeIcon(theme) {
+					themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+					themeBtn.setAttribute(
+						'aria-label',
+						theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro',
+					);
+				}
+				const savedTheme = localStorage.getItem('theme') || 'dark';
+				document.documentElement.setAttribute('data-theme', savedTheme);
+				updateThemeIcon(savedTheme);
+				themeBtn.addEventListener('click', () => {
+					const current = document.documentElement.getAttribute('data-theme');
+					const next = current === 'dark' ? 'light' : 'dark';
+					document.documentElement.setAttribute('data-theme', next);
+					localStorage.setItem('theme', next);
+					updateThemeIcon(next);
+				});
+			})();
+		</script>
+		<SpeedInsights />
+	</body>
+</html>

@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProfileCard from '../components/ProfileCard.astro';
+import profileData from '../data/profile.json';
+---
+
+<Layout
+	title={`Links · ${profileData.username ?? 'dotfn'}`}
+	description="Link hub personal"
+>
+	<ProfileCard data={profileData} />
+</Layout>
