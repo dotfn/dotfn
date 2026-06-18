@@ -1,0 +1,589 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import cvData from '../../data/cv.json';
+import CVToolbar from '../../components/cv/CVToolbar.astro';
+import CVHeader from '../../components/cv/CVHeader.astro';
+
+const profilePageSchema = {
+	"@context": "https://schema.org",
+	"@type": "ProfilePage",
+	"mainEntity": {
+		"@type": "Person",
+		"name": cvData.name,
+		"alternateName": "dotfn",
+		"description": cvData.summary,
+		"jobTitle": cvData.title,
+		"knowsAbout": cvData.technologies.concat(cvData.skills),
+		"alumniOf": cvData.education.map(edu => ({
+			"@type": "EducationalOrganization",
+			"name": edu.school
+		})),
+		"worksFor": [
+			{
+				"@type": "Project",
+				"name": "BondiMDP",
+				"url": "https://bondimdp.com.ar"
+			}
+		]
+	}
+};
+---
+
+<Layout
+	title={`${cvData.name} — ${cvData.title}`}
+	description={`Curriculum Vitae de ${cvData.name}, ${cvData.title}.`}
+	ogType="profile"
+	schema={profilePageSchema}
+>
+	<CVToolbar />
+
+	<main class="page">
+		<CVHeader />
+
+		<!-- ===== PERFIL PROFESIONAL ===== -->
+		<h2 class="section-title">Perfil profesional</h2>
+		<p class="profile">{cvData.summary}</p>
+
+		<!-- ===== EXPERIENCIA / PRODUCTOS ===== -->
+		<h2 class="section-title">Experiencia / Productos</h2>
+		<div class="timeline">
+			{
+				cvData.experience.map((exp) => (
+					<article class="entry">
+						<div class="entry-header">
+							<h3>{exp.role}</h3>
+							<span class="entry-date">{exp.period}</span>
+						</div>
+						<p class="entry-subtitle">{exp.subtitle}</p>
+						{exp.description && <p>{exp.description}</p>}
+						{exp.highlights && (
+							<ul>
+								{exp.highlights.map((hl) => (
+									<li>{hl}</li>
+								))}
+							</ul>
+						)}
+						{exp.techs && (
+							<p class="meta">
+								<span class="label">Tecnologías</span> <strong>{exp.techs}</strong>
+							</p>
+						)}
+						{exp.link && (
+							<p class="meta">
+								<span class="label">Sitio web</span>{' '}
+								<a href={exp.link} target="_blank" rel="noopener noreferrer">
+									{exp.link.replace('https://', '')}
+								</a>
+							</p>
+						)}
+					</article>
+				))
+			}
+		</div>
+
+		<!-- ===== EDUCACIÓN ===== -->
+		<h2 class="section-title">Educación</h2>
+		<div class="timeline">
+			{
+				cvData.education.map((edu) => (
+					<article class="entry">
+						<div class="entry-header">
+							<h3>{edu.degree}</h3>
+							<span class="entry-date">{edu.period}</span>
+						</div>
+						<p class="entry-subtitle">{edu.school}</p>
+						{edu.description && <p class="edu-body">{edu.description}</p>}
+					</article>
+				))
+			}
+		</div>
+
+		<!-- ===== TECNOLOGÍAS ===== -->
+		<h2 class="section-title">Tecnologías</h2>
+		<div class="tags">
+			{cvData.technologies.map((tech) => <span class="tag accent">{tech}</span>)}
+		</div>
+
+		<!-- ===== HABILIDADES ===== -->
+		<h2 class="section-title">Habilidades</h2>
+		<div class="tags">
+			{cvData.skills.map((skill) => <span class="tag">{skill}</span>)}
+		</div>
+
+		<!-- ===== LOGROS ===== -->
+		<h2 class="section-title">Logros</h2>
+		<ul class="achievements">
+			{cvData.achievements.map((ach) => <li>{ach}</li>)}
+		</ul>
+
+		<!-- ===== IDIOMAS ===== -->
+		<h2 class="section-title">Idiomas</h2>
+		<p
+			class="languages"
+			set:html={cvData.languages
+				.replace('Español', '<strong>Español</strong>')
+				.replace('Inglés', '<strong>Inglés</strong>')}
+		/>
+	</main>
+</Layout>
+
+<style>
+	/* Hide global theme toggle on CV page */
+	:global(.theme-toggle) {
+		display: none !important;
+	}
+
+	/* Page Container matching design system cards */
+	.page {
+		max-width: 760px;
+		margin: 40px auto;
+		font-size: 15px;
+		background: var(--card);
+		border: 1px solid var(--line);
+		padding: 56px 56px 64px;
+		box-shadow: var(--shadow-deep);
+		transition: var(--transition-theme);
+		border-radius: var(--radius-card);
+	}
+
+	/* ===== Section headings ===== */
+	.section-title {
+		font-family: var(--font-display), sans-serif;
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		color: var(--ink);
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin: 42px 0 18px;
+	}
+
+	.section-title::before {
+		content: '';
+		width: 9px;
+		height: 9px;
+		border-radius: 50%;
+		background: var(--accent);
+		flex-shrink: 0;
+		transition: var(--transition-theme);
+	}
+
+	.section-title::after {
+		content: '';
+		flex: 1;
+		height: 1px;
+		background: var(--line);
+		transition: var(--transition-theme);
+	}
+
+	/* ===== Profile paragraph ===== */
+	.profile {
+		font-size: 0.95rem;
+		color: var(--ink-soft);
+		max-width: 62ch;
+	}
+
+	/* ===== Timeline ===== */
+	.timeline {
+		position: relative;
+		margin-left: 4px;
+		padding-left: 24px;
+		border-left: 2px solid var(--line);
+		transition: var(--transition-theme);
+	}
+
+	.entry {
+		position: relative;
+		margin-bottom: 32px;
+		break-inside: avoid;
+		page-break-inside: avoid;
+	}
+
+	.entry:last-child {
+		margin-bottom: 0;
+	}
+
+	.entry::before {
+		content: '';
+		position: absolute;
+		left: -30px;
+		top: 6px;
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+		background: var(--card);
+		border: 2px solid var(--accent);
+		transition: var(--transition-theme);
+	}
+
+	.entry-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		flex-wrap: wrap;
+		gap: 4px 16px;
+	}
+
+	.entry-header h3 {
+		font-family: var(--font-display), sans-serif;
+		font-size: 1.05rem;
+		font-weight: 600;
+		margin: 0;
+		color: var(--ink);
+	}
+
+	.entry-date {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.76rem;
+		color: var(--accent);
+		white-space: nowrap;
+		transition: var(--transition-theme);
+	}
+
+	.entry-subtitle {
+		font-size: 0.85rem;
+		font-style: italic;
+		color: var(--ink-soft);
+		margin: 3px 0 10px;
+	}
+
+	.entry p {
+		margin: 0 0 10px;
+		font-size: 0.92rem;
+		color: var(--ink-soft);
+	}
+
+	.entry ul {
+		margin: 0 0 10px;
+		padding-left: 1.15em;
+	}
+
+	.entry li {
+		font-size: 0.92rem;
+		margin-bottom: 5px;
+		color: var(--ink-soft);
+	}
+
+	.entry li::marker {
+		color: var(--accent);
+	}
+
+	.entry .meta {
+		font-size: 0.8rem;
+		color: var(--ink-soft);
+		margin: 4px 0;
+	}
+
+	.entry .meta .label {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.72rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--muted);
+		margin-right: 6px;
+	}
+
+	.entry .meta strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	.entry a {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--accent-soft);
+		transition: var(--transition-theme);
+	}
+
+	.entry a:hover {
+		border-bottom-color: var(--accent);
+	}
+
+	.edu-body {
+		font-size: 0.88rem;
+		color: var(--ink-soft);
+		margin: 0;
+	}
+
+	/* ===== Tags ===== */
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.tag {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.76rem;
+		padding: 5px 11px;
+		border-radius: 5px;
+		border: 1px solid var(--line);
+		color: var(--ink-soft);
+		background: var(--card);
+		transition: var(--transition-theme);
+	}
+
+	.tag.accent {
+		border-color: var(--accent-soft);
+		background: var(--accent-soft);
+		color: var(--accent);
+	}
+
+	:global([data-theme='dark']) .tag.accent {
+		color: var(--accent-hot);
+	}
+
+	/* ===== Achievements ===== */
+	.achievements {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.achievements li {
+		position: relative;
+		padding-left: 22px;
+		margin-bottom: 10px;
+		font-size: 0.92rem;
+		color: var(--ink-soft);
+	}
+
+	.achievements li::before {
+		content: '▸';
+		position: absolute;
+		left: 0;
+		color: var(--accent);
+		font-size: 0.85rem;
+		transition: var(--transition-theme);
+	}
+
+	.achievements li:last-child {
+		margin-bottom: 0;
+	}
+
+	/* ===== Languages ===== */
+	.languages {
+		font-size: 0.92rem;
+		color: var(--ink-soft);
+	}
+
+	.languages strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	/* ===== Responsive ===== */
+	@media (max-width: 790px) {
+		.page {
+			margin: 20px 16px;
+			padding: 36px 24px 48px;
+		}
+	}
+
+	@media (max-width: 620px) {
+		.entry-header {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+
+	/* ===== Print ===== */
+	@media print {
+		* {
+			-webkit-print-color-adjust: exact !important;
+			print-color-adjust: exact !important;
+			box-shadow: none !important;
+			text-shadow: none !important;
+		}
+
+		@page {
+			size: A4;
+			margin: 0; /* Quita el título/fecha (encabezado) y URL (pie de página) del navegador */
+		}
+
+		:global(body) {
+			background: #ffffff !important;
+			color: #282828 !important;
+			padding: 15mm 15mm 18mm 15mm !important; /* Margen seguro del documento aplicado en el cuerpo */
+			margin: 0 !important;
+			font-size: 10.5pt !important;
+			line-height: 1.45 !important;
+		}
+
+		.page {
+			border: none !important;
+			box-shadow: none !important;
+			padding: 0 !important;
+			max-width: 100% !important;
+			margin: 0 !important;
+			background: transparent !important;
+		}
+
+		/* Section Titles */
+		.section-title {
+			color: #282828 !important;
+			margin-top: 28px !important;
+			margin-bottom: 14px !important;
+			break-after: avoid-page;
+			page-break-after: avoid;
+		}
+
+		.section-title::before {
+			background: #b57614 !important;
+		}
+
+		.section-title::after {
+			background: #d5c4a1 !important;
+		}
+
+		/* Profile text */
+		.profile {
+			color: #3c3836 !important;
+			font-size: 10pt !important;
+			max-width: 100% !important;
+			margin-bottom: 12px !important;
+		}
+
+		/* Timeline */
+		.timeline {
+			border-left-color: #d5c4a1 !important;
+			margin-left: 3px !important;
+			padding-left: 20px !important;
+		}
+
+		.entry {
+			margin-bottom: 24px !important;
+			break-inside: avoid;
+			page-break-inside: avoid;
+		}
+
+		.entry::before {
+			background: #ffffff !important;
+			border-color: #b57614 !important;
+			left: -26px !important;
+		}
+
+		.entry-header h3 {
+			color: #282828 !important;
+			font-size: 11pt !important;
+		}
+
+		.entry-date {
+			color: #b57614 !important;
+			font-size: 8.5pt !important;
+		}
+
+		.entry-subtitle {
+			color: #504945 !important;
+			font-size: 9pt !important;
+			margin-bottom: 6px !important;
+		}
+
+		.entry p, .entry li {
+			color: #3c3836 !important;
+			font-size: 9.5pt !important;
+			margin-bottom: 4px !important;
+		}
+
+		.entry li::marker {
+			color: #b57614 !important;
+		}
+
+		.entry .meta {
+			font-size: 8.5pt !important;
+			color: #504945 !important;
+			margin: 3px 0 !important;
+		}
+
+		.entry .meta .label {
+			color: #665c54 !important;
+		}
+
+		.entry .meta strong {
+			color: #282828 !important;
+		}
+
+		.entry a {
+			color: #b57614 !important;
+			border-bottom-color: #b57614 !important;
+		}
+
+		.edu-body {
+			font-size: 9.5pt !important;
+			color: #3c3836 !important;
+		}
+
+		/* Tags */
+		.tags {
+			gap: 6px !important;
+		}
+
+		.tag {
+			font-size: 8pt !important;
+			padding: 3px 8px !important;
+			border-color: #d5c4a1 !important;
+			background: #fbfaf5 !important;
+			color: #3c3836 !important;
+		}
+
+		.tag.accent {
+			border-color: #fabd2f !important;
+			background: #fbf1c7 !important;
+			color: #b57614 !important;
+		}
+
+		/* Achievements */
+		.achievements li {
+			font-size: 9.5pt !important;
+			color: #3c3836 !important;
+			margin-bottom: 6px !important;
+		}
+
+		.achievements li::before {
+			color: #b57614 !important;
+		}
+
+		/* Languages */
+		.languages {
+			font-size: 9.5pt !important;
+			color: #3c3836 !important;
+		}
+
+		.languages strong {
+			color: #282828 !important;
+		}
+
+		/* Overwrite header variables inside CVHeader.astro */
+		:global(header h1) {
+			color: #282828 !important;
+			font-size: 24pt !important;
+		}
+
+		:global(header .role) {
+			color: #504945 !important;
+			font-size: 11pt !important;
+			margin-bottom: 12px !important;
+		}
+
+		:global(.contact) {
+			color: #504945 !important;
+			font-size: 8.5pt !important;
+			gap: 4px 0 !important;
+		}
+
+		:global(.contact-icon) {
+			color: #504945 !important;
+		}
+
+		:global(.contact a) {
+			color: #504945 !important;
+		}
+
+		:global(.accent-rule) {
+			background: #b57614 !important;
+			margin-top: 16px !important;
+		}
+	}
+</style>

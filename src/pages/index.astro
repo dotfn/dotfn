@@ -1,12 +1,113 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ProfileCard from '../components/ProfileCard.astro';
 import profileData from '../data/profile.json';
+import NavHeader from '../components/NavHeader.astro';
+import Hero from '../components/sections/Hero.astro';
+import Focus from '../components/sections/Focus.astro';
+import FeaturedProject from '../components/sections/FeaturedProject.astro';
+import OtherProjects from '../components/sections/OtherProjects.astro';
+import GitHubActivity from '../components/sections/GitHubActivity.astro';
+import Journey from '../components/sections/Journey.astro';
+import CurrentFocus from '../components/sections/CurrentFocus.astro';
+import Contact from '../components/sections/Contact.astro';
+import Footer from '../components/Footer.astro';
+
+const personSchema = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	"name": "Nicolás Jiménez",
+	"alternateName": "dotfn",
+	"url": "https://dotfn.dev",
+	"image": "https://dotfn.dev/contact-profile.png",
+	"sameAs": [
+		"https://github.com/dotfn",
+		"https://www.linkedin.com/in/dotfn"
+	],
+	"jobTitle": "Frontend Developer",
+	"description": "Frontend Developer con formación en diseño multimedial. Construyo productos digitales en la intersección entre diseño y código."
+};
+
+const bondiMDPSchema = {
+	"@context": "https://schema.org",
+	"@type": "SoftwareApplication",
+	"name": "BondiMDP",
+	"url": "https://bondimdp.com.ar",
+	"applicationCategory": "TravelApplication",
+	"operatingSystem": "All",
+	"description": "Plataforma digital para mejorar la experiencia del transporte público en Mar del Plata mediante información de arribos en tiempo real."
+};
+
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	"mainEntity": [
+		{
+			"@type": "Question",
+			"name": "¿Quién es Nicolás Jiménez (dotfn)?",
+			"acceptedAnswer": {
+				"@type": "Answer",
+				"text": "Nicolás Jiménez (también conocido como dotfn) es un desarrollador frontend argentino con formación en diseño multimedial de la UNLP y programación en la UTN. Se especializa en la intersección de diseño de producto UX/UI y desarrollo de software."
+			}
+		},
+		{
+			"@type": "Question",
+			"name": "¿Qué proyectos destacados ha creado dotfn?",
+			"acceptedAnswer": {
+				"@type": "Answer",
+				"text": "Su proyecto más destacado es BondiMDP, una aplicación colaborativa PWA de transporte público en Mar del Plata que superó los 19,000 usuarios en su primer mes, desarrollada con React, Next.js y geolocalización en tiempo real."
+			}
+		},
+		{
+			"@type": "Question",
+			"name": "¿Cuáles son las habilidades técnicas de Nicolás Jiménez?",
+			"acceptedAnswer": {
+				"@type": "Answer",
+				"text": "Sus habilidades técnicas principales incluyen React, Next.js, JavaScript, Astro, HTML, CSS/Tailwind CSS, Git/GitHub y diseño con Figma, con experiencia en el desarrollo de Progressive Web Apps (PWA) e integración de APIs."
+			}
+		}
+	]
+};
+
+const schemas = [personSchema, bondiMDPSchema, faqSchema];
 ---
 
 <Layout
-	title={`Links · ${profileData.username ?? 'dotfn'}`}
-	description="Link hub personal"
+	title={`${profileData.name} — Portfolio & Digital Products`}
+	description="Sitio web personal de Nicolás Jiménez. Frontend Developer con background en Diseño Multimedial y enfoque en producto digital."
+	schema={schemas}
 >
-	<ProfileCard data={profileData} />
+	<NavHeader />
+
+	<main class="home-wrapper">
+		<Hero />
+		<Focus />
+		<FeaturedProject />
+		<OtherProjects />
+		<GitHubActivity />
+		<Journey />
+		<CurrentFocus />
+		<Contact />
+	</main>
+
+	<Footer />
 </Layout>
+
+<style>
+	.home-wrapper {
+		max-width: 860px;
+		margin: 120px auto 0;
+		padding: 0 24px;
+	}
+
+	@media (max-width: 860px) {
+		.home-wrapper {
+			margin-top: 100px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.home-wrapper {
+			padding: 0 16px;
+		}
+	}
+</style>

@@ -1,0 +1,95 @@
+---
+import { MapPin, Mail, Globe } from '@lucide/astro';
+import Linkedin from '../icons/LinkedIn.astro';
+import Github from '../icons/Github.astro';
+import X from '../icons/X.astro';
+import cvData from '../../data/cv.json';
+---
+
+<header>
+	<h1>{cvData.name}</h1>
+	<p class="role">{cvData.title}</p>
+	<ul class="contact">
+		<li><MapPin size={13} class="contact-icon" /> {cvData.location}</li>
+		<li><Mail size={13} class="contact-icon" /> <a href={`mailto:${cvData.email}`}>{cvData.email}</a></li>
+		<li><Linkedin size={13} class="contact-icon" /> <a href={cvData.linkedin} target="_blank" rel="noopener noreferrer">linkedin.com/in/dotfn</a></li>
+		<li><Github size={13} class="contact-icon" /> <a href={cvData.github} target="_blank" rel="noopener noreferrer">github.com/dotfn</a></li>
+		<li><X size={13} class="contact-icon" /> <a href={cvData.x} target="_blank" rel="noopener noreferrer">x.com/dotfn_</a></li>
+		<li><Globe size={13} class="contact-icon" /> <a href={cvData.website} target="_blank" rel="noopener noreferrer">dotfn.dev</a></li>
+	</ul>
+	<div class="accent-rule" />
+</header>
+
+<style>
+	header h1 {
+		font-family: var(--font-display), sans-serif;
+		font-size: 2.5rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		margin: 0;
+		color: var(--ink);
+	}
+
+	header .role {
+		font-size: 1rem;
+		color: var(--ink-soft);
+		margin: 6px 0 16px;
+	}
+
+	.contact {
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px 0;
+		margin: 0;
+		padding: 0;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		color: var(--muted);
+	}
+
+	.contact li {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	.contact-icon {
+		margin-right: 5px;
+		color: var(--muted);
+		flex-shrink: 0;
+	}
+
+	.contact li:not(:last-child)::after {
+		content: '·';
+		margin: 0 10px;
+		color: var(--muted);
+		display: inline-block;
+	}
+
+	.contact a {
+		color: var(--ink-soft);
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.15s, color 0.15s;
+	}
+
+	.contact a:hover {
+		color: var(--accent);
+		border-bottom-color: var(--accent);
+	}
+
+	.accent-rule {
+		width: 48px;
+		height: 4px;
+		background: var(--accent);
+		border-radius: 2px;
+		margin-top: 22px;
+		transition: var(--transition-theme);
+	}
+
+	@media (max-width: 620px) {
+		header h1 {
+			font-size: 2rem;
+		}
+	}
+</style>

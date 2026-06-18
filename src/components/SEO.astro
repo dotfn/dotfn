@@ -1,0 +1,57 @@
+---
+interface Props {
+	title: string;
+	description: string;
+	ogImage?: string;
+	ogType?: 'website' | 'profile' | 'article';
+	schema?: Record<string, any> | Record<string, any>[];
+}
+
+const {
+	title,
+	description,
+	ogImage = '/contact-profile.jpg',
+	ogType = 'website',
+	schema,
+} = Astro.props;
+
+const siteURL = 'https://dotfn.dev';
+const canonicalURL = new URL(Astro.url.pathname, siteURL).toString();
+const ogImageURL = new URL(ogImage, siteURL).toString();
+
+// Convert single schema object to array if needed
+const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+---
+
+<!-- Global Metadata -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Multilingual / hreflang tags -->
+<link rel="alternate" hreflang="es" href={canonicalURL} />
+<link rel="alternate" hreflang="x-default" href={canonicalURL} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageURL} />
+<meta property="og:site_name" content="dotfn" />
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageURL} />
+
+<!-- JSON-LD Schema Markup -->
+{
+	schemas.map((s) => (
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(s)} />
+	))
+}

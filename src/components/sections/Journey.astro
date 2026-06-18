@@ -1,0 +1,240 @@
+---
+import { Terminal, Video, LayoutTemplate as LayoutIcon, GraduationCap } from '@lucide/astro';
+---
+
+<section class="home-section journey-section" id="journey" data-no-reveal>
+	<div class="journey-sticky-label">
+		<h2 class="section-num">05 / Trayectoria</h2>
+	</div>
+	<div class="journey-body">
+		<h3 class="section-heading">Una mirada construida desde distintas disciplinas</h3>
+		<p class="journey-intro">
+			Mi recorrido académico pasó por la informática, el arte y el diseño antes de enfocarme en el desarrollo de software. Más que una secuencia de carreras, cada etapa incorporó una forma distinta de entender cómo se diseñan y construyen los productos digitales.
+		</p>
+		<div class="journey-timeline" id="journeyTimeline">
+			<div class="journey-item" data-index="0">
+				<span class="journey-year">2018</span>
+				<div class="journey-content">
+					<h4>
+						<Terminal size={16} class="timeline-icon" />
+						Informática
+					</h4>
+					<p>Mi primer acercamiento a la programación y al pensamiento lógico. Descubrí cómo descomponer problemas y construir soluciones paso a paso.</p>
+				</div>
+			</div>
+			<div class="journey-item" data-index="1">
+				<span class="journey-year">2018</span>
+				<div class="journey-content">
+					<h4>
+						<Video size={16} class="timeline-icon" />
+						Artes Audiovisuales
+					</h4>
+					<p>Exploré la narrativa, el lenguaje visual y la comunicación. Aprendí que toda experiencia transmite un mensaje, incluso cuando el expectador no lo percibe de forma consciente.</p>
+				</div>
+			</div>
+			<div class="journey-item" data-index="2">
+				<span class="journey-year">2019 - 2022</span>
+				<div class="journey-content">
+					<h4>
+						<LayoutIcon size={16} class="timeline-icon" />
+						Licenciatura en Diseño Multimedial
+					</h4>
+					<p>Profundicé en diseño de interfaces, experiencia de usuario, prototipado y desarrollo interactivo. Fue la etapa donde entendí que el diseño y la tecnología no compiten: trabajan mejor cuando forman parte del mismo proceso.</p>
+				</div>
+			</div>
+			<div class="journey-item" data-index="3">
+				<span class="journey-year">2025 - Pres.</span>
+				<div class="journey-content">
+					<h4>
+						<GraduationCap size={18} class="timeline-icon" />
+						Tecnicatura en Programación UTN
+					</h4>
+					<p>Consolidé mis fundamentos en desarrollo de software.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	/* layout */
+	.journey-section {
+		margin-bottom: 120px;
+		display: grid;
+		grid-template-columns: 180px 1fr;
+		gap: 0 40px;
+		align-items: start;
+	}
+
+	/* STICKY LABEL (left column) */
+	.journey-sticky-label {
+		position: sticky;
+		top: 80px;
+		align-self: start;
+		padding-top: 6px;
+	}
+
+	.section-num {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		color: var(--accent);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		margin-bottom: 0;
+		writing-mode: initial;
+	}
+
+	.section-heading {
+		font-family: var(--font-display);
+		font-size: 1.8rem;
+		font-weight: 700;
+		color: var(--ink);
+		margin-bottom: 32px;
+		letter-spacing: -0.01em;
+	}
+
+	.journey-intro {
+		font-size: 1rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		max-width: 62ch;
+		margin-bottom: 40px;
+	}
+
+	.journey-timeline {
+		position: relative;
+		padding-left: 20px;
+		border-left: 2px solid var(--line);
+		transition: var(--transition-theme);
+	}
+
+	/* each timeline item hidden until scroll-reveals */
+	.journey-item {
+		position: relative;
+		margin-bottom: 36px;
+		display: grid;
+		grid-template-columns: 80px 1fr;
+		gap: 20px;
+		opacity: 0;
+		transform: translateX(-12px);
+		transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1);
+	}
+
+	/* :global() so the JS-added class bypasses Astro scope hashing */
+	:global(.journey-item.journey-in) {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	.journey-item:last-child {
+		margin-bottom: 0;
+	}
+
+	.journey-year {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--accent);
+		line-height: 1.4;
+		transition: color 0.3s;
+	}
+
+	/* timeline dot — base */
+	.journey-item::before {
+		content: '';
+		position: absolute;
+		left: -27px;
+		top: 5px;
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+		background: var(--bg);
+		border: 2px solid var(--line);
+		transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+	}
+
+	/* :global() so JS-added class is matched after Astro scoping */
+	:global(.journey-item.journey-in)::before {
+		border-color: var(--accent);
+		background: var(--accent-soft);
+		box-shadow: 0 0 0 4px var(--accent-soft);
+		transform: scale(1.2);
+	}
+
+	.journey-content h4 {
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: var(--ink);
+		margin-bottom: 6px;
+		transition: color 0.3s;
+	}
+
+	.journey-item.journey-in .journey-content h4 {
+		color: var(--ink);
+	}
+
+	.journey-content p {
+		font-size: 0.88rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+		max-width: 55ch;
+	}
+
+	.timeline-icon {
+		margin-right: 8px;
+		vertical-align: text-bottom;
+		display: inline-block;
+		color: var(--accent);
+		transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+	}
+
+	/* icon pop via :global so JS class is recognized */
+	:global(.journey-item.journey-in) .timeline-icon {
+		transform: scale(1.15);
+	}
+
+	/* mobile: collapse 2-column sticky layout */
+	@media (max-width: 768px) {
+		.journey-section {
+			grid-template-columns: 1fr;
+		}
+
+		.journey-sticky-label {
+			position: static;
+			margin-bottom: 12px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.journey-item {
+			grid-template-columns: 1fr;
+			gap: 4px;
+		}
+
+		.journey-item::before {
+			left: -25px;
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		// Staggered IntersectionObserver for timeline items
+		const items = document.querySelectorAll('#journeyTimeline .journey-item');
+		if (items.length) {
+			const io = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						const idx = Number((entry.target as HTMLElement).dataset.index) || 0;
+						setTimeout(() => {
+							entry.target.classList.add('journey-in');
+						}, idx * 140);
+						io.unobserve(entry.target);
+					}
+				});
+			}, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+			items.forEach(el => io.observe(el));
+		}
+	});
+</script>

@@ -1,0 +1,132 @@
+---
+import { ArrowRight } from '@lucide/astro';
+---
+
+<section class="home-section">
+	<h2 class="section-num">03 / Otros Proyectos</h2>
+	<h3 class="section-heading">Experimentación e Interacción</h3>
+	<div class="other-projects-grid">
+		<div class="other-project-card card-glow">
+			<h4>Videojuego con sensores físicos</h4>
+			<p class="op-subtitle">Proyecto Universitario · Programador Único</p>
+			<p class="op-desc">
+				Diseño de software y hardware (alfombra sensorizada) para un videojuego interactivo presentado en una muestra pública para más de 100 personas.
+			</p>
+			<span class="op-tech">JS · Hardware Integration</span>
+		</div>
+		<div class="other-project-card card-glow">
+			<h4>Tarjeta Digital / Links Hub</h4>
+			<p class="op-subtitle">Producto Personal</p>
+			<p class="op-desc">
+				Tarjeta de presentación digital minimalista optimizada para mobile, con soporte de temas rápido y micro-animaciones personalizadas.
+			</p>
+			<a href="/links" class="op-link">
+				Ver tarjeta <ArrowRight size={14} class="btn-icon" />
+			</a>
+		</div>
+	</div>
+</section>
+
+<style>
+	.home-section {
+		margin-bottom: 120px;
+	}
+
+	.section-num {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		color: var(--accent);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		margin-bottom: 12px;
+	}
+
+	.section-heading {
+		font-family: var(--font-display);
+		font-size: 1.8rem;
+		font-weight: 700;
+		color: var(--ink);
+		margin-bottom: 32px;
+		letter-spacing: -0.01em;
+	}
+
+	.other-projects-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 24px;
+	}
+
+	.other-project-card {
+		background: var(--card);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+		padding: 32px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		transition: var(--transition);
+	}
+
+	.other-project-card:hover {
+		border-color: var(--accent);
+		transform: translateY(-2px);
+	}
+
+	.other-project-card h4 {
+		font-family: var(--font-display);
+		font-size: 1.2rem;
+		font-weight: 700;
+		color: var(--ink);
+		margin-bottom: 4px;
+	}
+
+	.op-subtitle {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.72rem;
+		color: var(--accent);
+		margin-bottom: 16px;
+	}
+
+	.op-desc {
+		font-size: 0.88rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+		margin-bottom: 20px;
+		flex-grow: 1;
+	}
+
+	.op-tech {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.7rem;
+		color: var(--muted);
+		display: block;
+	}
+
+	.op-link {
+		display: inline-flex;
+		font-family: var(--font-display);
+		font-size: 0.88rem;
+		font-weight: 700;
+		color: var(--accent);
+		text-decoration: none;
+		margin-top: 16px;
+		transition: var(--transition);
+	}
+
+	.op-link:hover {
+		transform: translateX(2px);
+	}
+
+	.btn-icon {
+		margin-left: 6px;
+		vertical-align: middle;
+		display: inline-block;
+	}
+
+	@media (max-width: 768px) {
+		.other-projects-grid {
+			grid-template-columns: 1fr;
+			gap: 16px;
+		}
+	}
+</style>

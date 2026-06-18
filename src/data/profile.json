@@ -1,13 +1,19 @@
 {
   "username": "@dotfn",
   "name": "Nicolás Jiménez",
-  "bio": "Frontend Developer | Multimedia Designer",
-  "avatar": "/avatar.png",
+  "bio": "Frontend Developer · Producto Digital · Diseño UX/UI",
+  "avatar": "/contact-profile.jpg",
   "featuredImage": "/background.jpg",
   "links": [
     {
+      "label": "Curriculum Vitae",
+      "url": "/cv",
+      "icon": "cv",
+      "description": "Versión web interactiva & PDF"
+    },
+    {
       "label": "LinkedIn",
-      "url": "https://linkedin.com/dotfn",
+      "url": "https://www.linkedin.com/in/dotfn",
       "icon": "in",
       "description": "Perfil profesional"
     },
@@ -18,10 +24,16 @@
       "description": "Repositorios & proyectos"
     },
     {
-      "label": "Portafolio",
-      "url": "https://dotfn.github.io/dotfn",
+      "label": "X (Twitter)",
+      "url": "https://x.com/dotfn_",
+      "icon": "x",
+      "description": "Pensamientos & tecnología"
+    },
+    {
+      "label": "Sitio Web",
+      "url": "https://dotfn.dev",
       "icon": "pf",
-      "description": "En construccion"
+      "description": "Portafolio & Blog"
     },
     {
       "label": "Email",
@@ -30,5 +42,5 @@
       "description": "Escribime directo"
     }
   ],
-  "footer": "Sitio en construcción · Volvé pronto 🔧"
+  "footer": "Sitio en construcción · Volvé pronto"
 }

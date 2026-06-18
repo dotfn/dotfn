@@ -1,0 +1,111 @@
+---
+import { Brain, Compass, CodeXml } from '@lucide/astro';
+---
+
+<section class="home-section">
+	<h2 class="section-num">01 / Enfoque</h2>
+	<h3 class="section-heading">Cómo abordo un proyecto</h3>
+
+	<div class="focus-grid">
+		<div class="focus-card">
+			<div class="focus-icon"><Brain size={24} /></div>
+			<h4>Entender el problema</h4>
+			<p>
+				Antes de pensar en una solución, intento entender qué se necesita resolver y por qué.
+				Me gusta hacer preguntas, analizar el contexto y encontrar el problema real detrás
+				del pedido inicial.
+			</p>
+		</div>
+
+		<div class="focus-card">
+			<div class="focus-icon"><Compass size={24} /></div>
+			<h4>Pensar alternativas</h4>
+			<p>
+				Exploro distintas formas de abordar un problema antes de empezar a desarrollar.
+				Utilizo diferentes sistemas para organizar ideas, visualizar propuestas y
+				evaluar posibles caminos.
+			</p>
+		</div>
+
+		<div class="focus-card">
+			<div class="focus-icon"><CodeXml size={24} /></div>
+			<h4>Construir y mejorar</h4>
+			<p>
+				Una vez definida la dirección, desarrollo interfaces web buscando claridad,
+				simplicidad y una buena experiencia de uso. Considero el desarrollo como un
+				proceso iterativo que siempre puede mejorarse.
+			</p>
+		</div>
+	</div>
+</section>
+
+<style>
+	.home-section {
+		margin-bottom: 120px;
+	}
+
+	.section-num {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		color: var(--accent);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		margin-bottom: 12px;
+	}
+
+	.section-heading {
+		font-family: var(--font-display);
+		font-size: 1.8rem;
+		font-weight: 700;
+		color: var(--ink);
+		margin-bottom: 32px;
+		letter-spacing: -0.01em;
+	}
+
+	.focus-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+	}
+
+	.focus-card {
+		background: var(--card);
+		border: 1px solid var(--line);
+		border-radius: 12px;
+		padding: 32px 24px;
+		transition: var(--transition);
+	}
+
+	.focus-card:hover {
+		border-color: var(--accent);
+		transform: translateY(-4px);
+	}
+
+	.focus-icon {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.8rem;
+		color: var(--accent);
+		margin-bottom: 24px;
+	}
+
+	.focus-card h4 {
+		font-family: var(--font-display);
+		font-size: 1.15rem;
+		font-weight: 700;
+		color: var(--ink);
+		margin-bottom: 12px;
+	}
+
+	.focus-card p {
+		font-size: 0.88rem;
+		line-height: 1.6;
+		color: var(--ink-soft);
+	}
+
+	@media (max-width: 768px) {
+		.focus-grid {
+			grid-template-columns: 1fr;
+			gap: 16px;
+		}
+	}
+</style>

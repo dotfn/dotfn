@@ -20,49 +20,80 @@ interface Props {
 	data: ProfileData;
 }
 
-const ICON_MAP: Record<string, string> = {
-	in: 'IN',
-	gh: 'GH',
-	pf: '◈',
-	em: '✉',
+import {
+	Globe,
+	Mail,
+	FileText,
+	ArrowUpRight
+} from '@lucide/astro';
+import Linkedin from './icons/LinkedIn.astro';
+import Github from './icons/Github.astro';
+import X from './icons/X.astro';
+import { Image } from 'astro:assets';
+import defaultAvatar from '../assets/contact-profile.jpg';
+import defaultFeatured from '../assets/background.jpg';
+
+const ICON_MAP: Record<string, any> = {
+	in: Linkedin,
+	gh: Github,
+	x: X,
+	pf: Globe,
+	em: Mail,
+	cv: FileText,
 };
 
-function getIcon(code: string | undefined, label: string) {
-	if (code && ICON_MAP[code]) return ICON_MAP[code];
-	return label.substring(0, 2).toUpperCase();
-}
-
 const { data } = Astro.props;
-const featuredAlt = 'Imagen destacada';
 const avatarAlt = data.name || 'Avatar';
 ---
 
-<main id="phone" class="phone" role="main" aria-label="Tarjeta de perfil">
-	<section class="featured-wrap" aria-label={featuredAlt}>
+<div class="profile-card" role="region" aria-label="Tarjeta de perfil">
+	<div class="featured-wrap">
 		{
 			data.featuredImage ? (
-				<img
-					src={data.featuredImage}
-					alt={featuredAlt}
-					class="featured-img"
-					onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'img-placeholder',textContent:'NO IMAGE'}))"
-				/>
+				data.featuredImage === '/background.jpg' ? (
+					<Image
+						src={defaultFeatured}
+						alt=""
+						class="featured-img"
+						width={580}
+						height={200}
+						quality="high"
+					/>
+				) : (
+					<img
+						src={data.featuredImage}
+						alt=""
+						class="featured-img"
+						onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'img-placeholder',textContent:'NO IMAGE'}))"
+					/>
+				)
 			) : (
-				<div class="img-placeholder">{featuredAlt.toUpperCase()}</div>
+				<div class="img-placeholder">PORTADA</div>
 			)
 		}
-	</section>
+	</div>
 
 	<header class="profile-header">
 		<div class="avatar-ring" aria-hidden="true">
 			{
 				data.avatar ? (
-					<img
-						src={data.avatar}
-						alt={avatarAlt}
-						class="avatar-img"
-						onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'img-placeholder',textContent:'NO IMAGE'}))"
-					/>
+					data.avatar === '/contact-profile.jpg' ? (
+						<Image
+							src={defaultAvatar}
+							alt={avatarAlt}
+							class="avatar-img"
+							width={80}
+							height={80}
+							quality="max"
+						/>
+					) : (
+						<img
+							src={data.avatar}
+							alt={avatarAlt}
+							class="avatar-img"
+							onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'img-placeholder',textContent:'NO IMAGE'}))"
+						/>
+					)
 				) : (
 					<div class="img-placeholder">{avatarAlt.toUpperCase()}</div>
 				)
@@ -78,28 +109,329 @@ const avatarAlt = data.name || 'Avatar';
 	<nav aria-label="Links principales">
 		<ul class="links-list">
 			{
-				data.links.map((link, i) => (
-					<li class="link-item" style={`animation-delay:${0.3 + i * 0.08}s`}>
-						<a
-							href={link.url}
-							class="link-btn"
-							target={link.url.startsWith('mailto') ? '_self' : '_blank'}
-							rel={link.url.startsWith('mailto') ? undefined : 'noopener noreferrer'}
-						>
-							<div class="link-icon">{getIcon(link.icon, link.label)}</div>
-							<div class="link-text">
-								<span class="link-label">{link.label}</span>
-								{link.description && <span class="link-desc">{link.description}</span>}
-							</div>
-							<span class="link-arrow" aria-hidden="true">↗</span>
-						</a>
-					</li>
-				))
+				data.links.map((link, i) => {
+					const IconComponent = link.icon && ICON_MAP[link.icon] ? ICON_MAP[link.icon] : null;
+					return (
+						<li class="link-item" style={`animation-delay:${0.2 + i * 0.06}s`}>
+							<a
+								href={link.url}
+								class="link-btn"
+								target={link.url.startsWith('mailto') || link.url.startsWith('/') ? '_self' : '_blank'}
+								rel={link.url.startsWith('mailto') || link.url.startsWith('/') ? undefined : 'noopener noreferrer'}
+							>
+								<div class="link-icon">
+									{IconComponent ? <IconComponent size={20} /> : <span>{link.label.substring(0, 2).toUpperCase()}</span>}
+								</div>
+								<div class="link-text">
+									<span class="link-label">{link.label}</span>
+									{link.description && <span class="link-desc">{link.description}</span>}
+								</div>
+								<span class="link-arrow" aria-hidden="true">
+									<ArrowUpRight size={18} />
+								</span>
+							</a>
+						</li>
+					);
+				})
 			}
 		</ul>
 	</nav>
+</div>
 
-	<footer class="site-footer">
-		<span>{data.footer ?? '🔧 Sitio en construcción'}</span>
-	</footer>
-</main>
+<style>
+	/* ── PROFILE CARD CONTAINER ─────────────────────────── */
+	.profile-card {
+		position: relative;
+		z-index: 1;
+		width: 100%;
+		background: var(--card);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-card);
+		box-shadow: var(--shadow-deep);
+		overflow: hidden;
+		animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+		transition: var(--transition-theme);
+	}
+
+	/* ── FEATURED IMAGE ─────────────────────────────────── */
+	.featured-wrap {
+		position: relative;
+		height: 200px;
+		overflow: hidden;
+		margin: 12px 14px 0;
+		border-radius: 18px;
+	}
+	
+	.featured-wrap img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+		transition: transform 0.6s ease;
+	}
+	
+	.featured-wrap:hover img {
+		transform: scale(1.04);
+	}
+
+	/* gradient overlay on image */
+	.featured-wrap::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to bottom, transparent 40%, var(--card) 100%);
+		border-radius: inherit;
+	}
+
+	/* ── HEADER ─────────────────────────────────────────── */
+	.profile-header {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 0 24px 20px;
+		position: relative;
+		margin-top: -40px;
+		z-index: 2;
+		animation: fadeUp 0.6s 0.2s both;
+	}
+
+	.avatar-ring {
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		padding: 3px;
+		background: conic-gradient(from 180deg, var(--accent-hot), var(--accent), var(--accent-hot));
+		box-shadow: 0 0 0 3px var(--card);
+		flex-shrink: 0;
+		transition: var(--transition-theme);
+	}
+	
+	.avatar-ring img {
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		object-fit: cover;
+		background: var(--line);
+		display: block;
+	}
+
+	.profile-name {
+		font-family: var(--font-display);
+		font-size: 1.5rem;
+		font-weight: 800;
+		color: var(--text-light);
+		margin-top: 12px;
+		letter-spacing: -0.02em;
+		line-height: 1.1;
+		text-align: center;
+	}
+
+	.profile-username {
+		font-size: 0.8rem;
+		font-weight: 400;
+		color: var(--accent-hot);
+		letter-spacing: 0.04em;
+		margin-top: 4px;
+	}
+
+	.profile-bio {
+		font-size: 0.82rem;
+		color: var(--ink-soft);
+		text-align: center;
+		margin-top: 10px;
+		line-height: 1.55;
+		max-width: 280px;
+	}
+
+	/* ── DIVIDER ─────────────────────────────────────────── */
+	.divider {
+		height: 1px;
+		background: linear-gradient(to right, transparent, var(--line), transparent);
+		margin: 0 24px 20px;
+	}
+
+	/* ── LINKS LIST ──────────────────────────────────────── */
+	.links-list {
+		list-style: none;
+		padding: 0 24px 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.link-item {
+		animation: fadeUp 0.5s both;
+	}
+
+	.link-btn {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		width: 100%;
+		padding: 14px 16px;
+		background: var(--card-mid);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-btn);
+		text-decoration: none;
+		color: var(--text-light);
+		transition: var(--transition);
+		box-shadow: var(--shadow-btn);
+		position: relative;
+		overflow: hidden;
+	}
+	
+	.link-btn::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(135deg, #ffffff09 0%, transparent 60%);
+		opacity: 0;
+		transition: opacity var(--transition);
+	}
+	
+	.link-btn:hover {
+		transform: translateY(-2px) scale(1.01);
+		border-color: var(--accent);
+		box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+	}
+	
+	.link-btn:hover::before {
+		opacity: 1;
+	}
+	
+	.link-btn:active {
+		transform: scale(0.98);
+	}
+
+	.link-icon {
+		width: 40px;
+		height: 40px;
+		border-radius: 12px;
+		background: var(--card);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: var(--font-display);
+		font-size: 0.7rem;
+		font-weight: 800;
+		color: var(--accent-hot);
+		letter-spacing: 0.02em;
+		flex-shrink: 0;
+		border: 1px solid var(--line);
+		transition: var(--transition-theme);
+	}
+
+	.link-text {
+		flex: 1;
+		min-width: 0;
+	}
+	
+	.link-label {
+		font-family: var(--font-display);
+		font-size: 0.95rem;
+		font-weight: 700;
+		display: block;
+		line-height: 1.2;
+	}
+	
+	.link-desc {
+		font-size: 0.74rem;
+		color: var(--ink-soft);
+		margin-top: 2px;
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.link-arrow {
+		color: var(--muted);
+		font-size: 1rem;
+		transition: transform var(--transition), color var(--transition);
+		flex-shrink: 0;
+	}
+	
+	.link-btn:hover .link-arrow {
+		transform: translate(3px, -3px);
+		color: var(--accent-hot);
+	}
+
+	/* ── PLACEHOLDER IMAGE ───────────────────────────────── */
+	.img-placeholder {
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(135deg, var(--card), var(--card-mid));
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--muted);
+		font-family: var(--font-display);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+	}
+
+	/* ── RESPONSIVE ──────────────────────────────────────── */
+	@media (max-width: 480px) {
+		.profile-card {
+			border-radius: 24px;
+		}
+		.featured-wrap {
+			height: 160px;
+			margin: 8px 8px 0;
+			border-radius: 14px;
+		}
+		.profile-header {
+			margin-top: -30px;
+			padding: 0 16px 16px;
+		}
+		.avatar-ring {
+			width: 70px;
+			height: 70px;
+		}
+		.divider {
+			margin: 0 16px 16px;
+		}
+		.links-list {
+			padding: 0 16px 16px;
+		}
+		.link-btn {
+			padding: 12px 14px;
+			gap: 10px;
+		}
+		.link-icon {
+			width: 36px;
+			height: 36px;
+			border-radius: 10px;
+		}
+	}
+	
+	@media (min-width: 900px) {
+		.profile-card {
+			box-shadow: var(--shadow-deep), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+		}
+	}
+
+	/* ── ANIMATIONS ──────────────────────────────────────── */
+	@keyframes slideUp {
+		from {
+			opacity: 0;
+			transform: translateY(40px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	
+	@keyframes fadeUp {
+		from {
+			opacity: 0;
+			transform: translateY(16px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>

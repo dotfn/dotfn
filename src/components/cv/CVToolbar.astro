@@ -1,0 +1,617 @@
+---
+import { ArrowLeft, Search, X, ChevronUp, ChevronDown, Printer, Share2, Sun, Moon } from '@lucide/astro';
+import Button from '../Button.astro';
+---
+
+<div class="toolbar no-print" role="search">
+	<div class="toolbar-inner">
+		<!-- Back Button to Home -->
+		<Button href="/" variant="secondary" class="btn-back-cv" aria-label="Volver a la página principal" title="Volver al Inicio">
+			<ArrowLeft size={16} />
+		</Button>
+		<div class="search-wrap">
+			<Search size={16} class="search-icon-inside" />
+			<input
+				type="text"
+				id="searchInput"
+				placeholder="Buscar en el CV: React, UX, BondiMDP…"
+				autocomplete="off"
+				enterkeyhint="search"
+				aria-label="Buscar en el CV"
+			/>
+			<span class="search-count" id="searchCount" aria-live="polite"></span>
+			<button class="clear-btn" id="clearBtn" aria-label="Limpiar búsqueda"><X size={16} /></button>
+		</div>
+		<div class="search-nav">
+			<Button id="prevMatch" variant="secondary" aria-label="Resultado anterior" title="Anterior"><ChevronUp size={16} /></Button>
+			<Button id="nextMatch" variant="secondary" aria-label="Resultado siguiente" title="Siguiente"><ChevronDown size={16} /></Button>
+		</div>
+		<Button variant="secondary" class="print-btn" id="btnPrint" title="Imprimir o guardar como PDF"><Printer size={16} class="btn-icon-inline" /> <span>PDF</span></Button>
+		<Button variant="secondary" class="share-btn" id="btnShare" title="Compartir CV" aria-label="Compartir CV"><Share2 size={16} class="btn-icon-inline" /> <span>Compartir</span></Button>
+		<!-- Theme Toggle Integration -->
+		<Button variant="secondary" class="theme-toggle-cv" id="themeToggleCV" title="Cambiar tema" aria-label="Cambiar tema">
+			<Sun class="icon-sun" size={16} />
+			<Moon class="icon-moon" size={16} />
+		</Button>
+	</div>
+</div>
+
+<style>
+	.toolbar {
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		background: var(--card);
+		border-bottom: 1px solid var(--line);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+		transition: var(--transition-theme);
+	}
+
+	.toolbar-inner {
+		max-width: 760px;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 10px 16px;
+	}
+
+	/* Uniform square buttons for back, navigation, and theme toggle */
+	.toolbar-inner :global(.btn-back-cv),
+	.toolbar-inner :global(.search-nav .custom-btn),
+	.toolbar-inner :global(.theme-toggle-cv) {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		padding: 0;
+		border: 1px solid var(--line);
+		background: var(--card);
+		color: var(--ink-soft);
+		border-radius: 6px;
+		cursor: pointer;
+		text-decoration: none;
+		transition: var(--transition-theme);
+		flex-shrink: 0;
+	}
+
+	.toolbar-inner :global(.btn-back-cv:hover),
+	.toolbar-inner :global(.search-nav .custom-btn:hover),
+	.toolbar-inner :global(.theme-toggle-cv:hover) {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	.toolbar-inner :global(.theme-toggle-cv .icon-sun) {
+		display: none;
+	}
+	.toolbar-inner :global(.theme-toggle-cv .icon-moon) {
+		display: block;
+	}
+	:global([data-theme="light"]) .toolbar-inner :global(.theme-toggle-cv .icon-sun) {
+		display: block;
+	}
+	:global([data-theme="light"]) .toolbar-inner :global(.theme-toggle-cv .icon-moon) {
+		display: none;
+	}
+
+	.search-wrap {
+		flex: 1;
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.search-icon-inside {
+		position: absolute;
+		left: 12px;
+		color: var(--muted);
+		pointer-events: none;
+		flex-shrink: 0;
+		z-index: 2;
+	}
+
+	#searchInput {
+		width: 100%;
+		font-family: var(--font-body), sans-serif;
+		font-size: 16px; /* Evita zoom automatico no deseado en iOS Safari */
+		padding: 10px 70px 10px 36px;
+		border: 1px solid var(--line);
+		border-radius: 8px;
+		background: var(--bg);
+		color: var(--ink);
+		outline: none;
+		transition: var(--transition-theme);
+		position: relative;
+		z-index: 1;
+	}
+
+	#searchInput:focus {
+		border-color: var(--accent);
+	}
+
+	.search-count {
+		position: absolute;
+		right: 38px;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.72rem;
+		color: var(--muted);
+		pointer-events: none;
+		white-space: nowrap;
+		z-index: 2;
+	}
+
+	.clear-btn {
+		position: absolute;
+		right: 6px;
+		width: 26px;
+		height: 26px;
+		border: none;
+		background: transparent;
+		color: var(--muted);
+		font-size: 1.1rem;
+		line-height: 1;
+		cursor: pointer;
+		display: none;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		z-index: 2;
+	}
+
+	.clear-btn:hover {
+		color: var(--accent);
+		background: var(--accent-soft);
+	}
+
+	.clear-btn.visible {
+		display: flex;
+	}
+
+	.search-nav {
+		display: flex;
+		gap: 4px;
+		flex-shrink: 0;
+	}
+
+	/* Print and Share button styling with text alignment */
+	.toolbar-inner :global(.print-btn),
+	.toolbar-inner :global(.share-btn) {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		border: 1px solid var(--line);
+		background: var(--card);
+		color: var(--ink-soft);
+		border-radius: 6px;
+		padding: 0 12px;
+		height: 36px;
+		cursor: pointer;
+		line-height: 1;
+		transition: var(--transition-theme);
+		flex-shrink: 0;
+	}
+
+	.btn-icon-inline {
+		flex-shrink: 0;
+	}
+
+	.toolbar-inner :global(.print-btn:hover),
+	.toolbar-inner :global(.share-btn:hover) {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	:global(mark.search-hit) {
+		background: var(--accent-soft);
+		color: var(--ink);
+		border-bottom: 2px solid var(--accent);
+		border-radius: 2px;
+		padding: 0;
+		margin: 0;
+		scroll-margin-top: 76px;
+		transition: background-color 0.2s, border-color 0.2s;
+	}
+
+	:global([data-theme="dark"]) :global(mark.search-hit) {
+		background: rgba(250, 189, 47, 0.22);
+	}
+
+	:global([data-theme="light"]) :global(mark.search-hit) {
+		background: rgba(181, 118, 20, 0.16);
+	}
+
+	:global(mark.search-hit.active) {
+		background: var(--accent) !important;
+		color: var(--bg) !important;
+		font-weight: 700;
+		border-radius: 2px;
+	}
+
+	.search-wrap.input-error {
+		animation: input-shake 0.25s ease-in-out;
+	}
+
+	.search-wrap.input-error #searchInput {
+		border-color: var(--accent-hot) !important;
+		box-shadow: 0 0 8px rgba(254, 128, 25, 0.25) !important;
+	}
+
+	:global([data-theme="light"]) .search-wrap.input-error #searchInput {
+		box-shadow: 0 0 8px rgba(175, 58, 3, 0.2) !important;
+	}
+
+	@keyframes input-shake {
+		0%, 100% { transform: translateX(0); }
+		20%, 60% { transform: translateX(-4px); }
+		40%, 80% { transform: translateX(4px); }
+	}
+
+	@media (max-width: 620px) {
+		.toolbar-inner {
+			padding: 8px 10px;
+			gap: 6px;
+		}
+
+		.toolbar-inner :global(.btn-back-cv),
+		.toolbar-inner :global(.search-nav .custom-btn),
+		.toolbar-inner :global(.theme-toggle-cv) {
+			width: 32px;
+			height: 32px;
+		}
+
+		.toolbar-inner :global(.print-btn),
+		.toolbar-inner :global(.share-btn) {
+			width: 32px;
+			height: 32px;
+			padding: 0;
+			justify-content: center;
+		}
+
+		.toolbar-inner :global(.print-btn span),
+		.toolbar-inner :global(.share-btn span) {
+			display: none;
+		}
+
+		#searchInput {
+			font-size: 16px; /* Evita zoom automatico no deseado en iOS Safari */
+			padding: 8px 56px 8px 30px;
+		}
+
+		.search-count {
+			right: 32px;
+			font-size: 0.65rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.search-nav {
+			display: none;
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		const input = document.getElementById('searchInput') as HTMLInputElement | null;
+		const countEl = document.getElementById('searchCount');
+		const clearBtn = document.getElementById('clearBtn');
+		const prevBtn = document.getElementById('prevMatch');
+		const nextBtn = document.getElementById('nextMatch');
+		const root = document.querySelector('.page');
+		const printBtn = document.getElementById('btnPrint');
+		const shareBtn = document.getElementById('btnShare');
+
+		if (printBtn) {
+			printBtn.addEventListener('click', () => {
+				window.print();
+			});
+		}
+
+		// Multi-platform robust clipboard helper (handles secure contexts & in-app webviews)
+		async function copyTextToClipboard(text: string): Promise<boolean> {
+			if (navigator.clipboard && navigator.clipboard.writeText) {
+				try {
+					await navigator.clipboard.writeText(text);
+					return true;
+				} catch (err) {
+					console.warn('navigator.clipboard falló, usando método de respaldo', err);
+				}
+			}
+
+			const textarea = document.createElement('textarea');
+			textarea.value = text;
+			textarea.style.position = 'fixed';
+			textarea.style.top = '0';
+			textarea.style.left = '0';
+			textarea.style.opacity = '0';
+			document.body.appendChild(textarea);
+			textarea.focus();
+			textarea.select();
+			try {
+				const successful = document.execCommand('copy');
+				document.body.removeChild(textarea);
+				return successful;
+			} catch (err) {
+				console.error('Método de respaldo para copiar falló:', err);
+				document.body.removeChild(textarea);
+				return false;
+			}
+		}
+
+		if (shareBtn) {
+			shareBtn.addEventListener('click', async () => {
+				const url = window.location.href;
+				
+				if (navigator.share) {
+					try {
+						await navigator.share({
+							title: 'dotfn - Curriculum Vitae',
+							text: 'Curriculum Vitae de Nicolás Jiménez, Frontend Developer.',
+							url: url
+						});
+						return;
+					} catch (err) {
+						if ((err as Error).name !== 'AbortError') {
+							console.warn('Web Share API falló, copiando al portapapeles', err);
+						} else {
+							return; // User cancelled share
+						}
+					}
+				}
+				
+				const success = await copyTextToClipboard(url);
+				const icon = shareBtn.querySelector('svg');
+				const textSpan = shareBtn.querySelector('span');
+				const originalText = textSpan?.textContent || 'Compartir';
+				
+				if (success) {
+					if (textSpan) textSpan.textContent = '¡Copiado!';
+					shareBtn.classList.add('btn-copied');
+					
+					setTimeout(() => {
+						if (textSpan) textSpan.textContent = originalText;
+						shareBtn.classList.remove('btn-copied');
+					}, 2000);
+				}
+			});
+		}
+
+		if (!input || !countEl || !clearBtn || !prevBtn || !nextBtn || !root) return;
+
+		let matches: HTMLElement[] = [];
+		let currentIndex = -1;
+		let scrollTimer: NodeJS.Timeout | null = null;
+		let searchTimeout: any = null;
+
+		function clearHighlights() {
+			if (!root) return;
+			root.querySelectorAll('mark.search-hit').forEach((mark) => {
+				const parent = mark.parentNode;
+				if (parent) {
+					parent.replaceChild(document.createTextNode(mark.textContent || ''), mark);
+					parent.normalize();
+				}
+			});
+		}
+
+		function highlight(term: string) {
+			if (scrollTimer) clearTimeout(scrollTimer);
+			clearHighlights();
+			matches = [];
+			currentIndex = -1;
+
+			if (!term || term.length < 3 || !root) {
+				updateCount();
+				return;
+			}
+
+			const lower = term.toLowerCase();
+			const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+				acceptNode(node) {
+					if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+					const parentNode = node.parentNode as HTMLElement | null;
+					if (!parentNode) return NodeFilter.FILTER_REJECT;
+					const tag = parentNode.nodeName;
+					if (tag === 'SCRIPT' || tag === 'STYLE') return NodeFilter.FILTER_REJECT;
+					return NodeFilter.FILTER_ACCEPT;
+				},
+			});
+
+			const textNodes: Text[] = [];
+			let node: Node | null;
+			while ((node = walker.nextNode())) {
+				textNodes.push(node as Text);
+			}
+
+			textNodes.forEach((textNode) => {
+				const text = textNode.nodeValue || '';
+				const lowerText = text.toLowerCase();
+				if (!lowerText.includes(lower)) return;
+
+				const frag = document.createDocumentFragment();
+				let lastIndex = 0;
+				let idx: number;
+				while ((idx = lowerText.indexOf(lower, lastIndex)) !== -1) {
+					if (idx > lastIndex) frag.appendChild(document.createTextNode(text.slice(lastIndex, idx)));
+					const mark = document.createElement('mark');
+					mark.className = 'search-hit';
+					mark.textContent = text.slice(idx, idx + term.length);
+					frag.appendChild(mark);
+					matches.push(mark);
+					lastIndex = idx + term.length;
+				}
+				if (lastIndex < text.length) frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+				
+				const parent = textNode.parentNode;
+				if (parent) {
+					parent.replaceChild(frag, textNode);
+				}
+			});
+
+			if (matches.length) {
+				currentIndex = 0;
+				setActive(currentIndex, false);
+				scrollTimer = setTimeout(() => scrollToActive(), 350);
+			}
+			updateCount();
+		}
+
+		function setActive(i: number, scroll: boolean) {
+			matches.forEach((m) => m.classList.remove('active'));
+			const m = matches[i];
+			if (m) {
+				m.classList.add('active');
+				if (scroll) scrollToActive();
+			}
+		}
+
+		function scrollToActive() {
+			const m = matches[currentIndex];
+			if (m) m.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		}
+
+		function updateCount() {
+			if (!input || !input.value) {
+				countEl!.textContent = '';
+				return;
+			}
+			countEl!.textContent = matches.length ? `${currentIndex + 1}/${matches.length}` : '0/0';
+		}
+
+		function goTo(delta: number) {
+			if (!matches.length) return;
+			if (scrollTimer) clearTimeout(scrollTimer);
+			currentIndex = (currentIndex + delta + matches.length) % matches.length;
+			setActive(currentIndex, true);
+			updateCount();
+		}
+
+		function resetSearch() {
+			if (scrollTimer) clearTimeout(scrollTimer);
+			if (searchTimeout) clearTimeout(searchTimeout);
+			if (input) {
+				input.value = '';
+				const wrap = input.parentElement;
+				if (wrap) wrap.classList.remove('input-error');
+			}
+			highlight('');
+			clearBtn!.classList.remove('visible');
+		}
+
+		let audioCtx: AudioContext | null = null;
+		function playErrorSound() {
+			try {
+				if (!audioCtx) {
+					audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+				}
+				if (audioCtx.state === 'suspended') {
+					audioCtx.resume();
+				}
+				const osc = audioCtx.createOscillator();
+				const gainNode = audioCtx.createGain();
+				
+				osc.connect(gainNode);
+				gainNode.connect(audioCtx.destination);
+				
+				osc.type = 'sine';
+				// Generates a subtle, retro/clean tactile click/dull thump sound at 120Hz decaying quickly
+				osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+				osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.08);
+				
+				gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+				gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+				
+				osc.start();
+				osc.stop(audioCtx.currentTime + 0.08);
+			} catch (e) {
+				console.warn('Audio feedback failed to play:', e);
+			}
+		}
+
+		function triggerErrorVibration() {
+			if (typeof navigator !== 'undefined' && navigator.vibrate) {
+				navigator.vibrate(40); // 40ms short vibration
+			}
+		}
+
+		input.addEventListener('input', () => {
+			// Show/hide clear button immediately for responsive feedback
+			clearBtn.classList.toggle('visible', input.value.length > 0);
+			// Remove error class immediately while typing to keep it clean
+			const wrap = input.parentElement;
+			if (wrap) wrap.classList.remove('input-error');
+
+			if (searchTimeout) clearTimeout(searchTimeout);
+
+			searchTimeout = setTimeout(() => {
+				const term = input.value.trim();
+				highlight(term);
+
+				// Only evaluate error state, shake, sound, and vibration for terms >= 3 characters
+				if (term.length >= 3 && matches.length === 0) {
+					if (wrap) {
+						wrap.classList.remove('input-error');
+						void wrap.offsetWidth; // Force DOM reflow to restart shake animation
+						wrap.classList.add('input-error');
+					}
+					
+					// Play haptic vibration and audio feedback for no match
+					triggerErrorVibration();
+					playErrorSound();
+				}
+			}, 200); // 200ms debounce
+		});
+
+		input.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				goTo(e.shiftKey ? -1 : 1);
+			}
+		});
+
+		nextBtn.addEventListener('click', () => goTo(1));
+		prevBtn.addEventListener('click', () => goTo(-1));
+
+		clearBtn.addEventListener('click', () => {
+			resetSearch();
+			input.focus();
+		});
+
+		document.addEventListener('keydown', (e) => {
+			if (e.key === '/' && document.activeElement !== input) {
+				e.preventDefault();
+				input.focus();
+			} else if (e.key === 'Escape' && input && input.value) {
+				resetSearch();
+				input.blur();
+			}
+		});
+
+		// Theme Toggle inside CV Toolbar
+		const cvThemeBtn = document.getElementById('themeToggleCV');
+		if (cvThemeBtn) {
+			const updateCVThemeAccessibility = (theme: string) => {
+				cvThemeBtn.setAttribute(
+					'aria-label',
+					theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro',
+				);
+			};
+
+			const savedTheme = localStorage.getItem('theme') || 'dark';
+			updateCVThemeAccessibility(savedTheme);
+
+			cvThemeBtn.addEventListener('click', () => {
+				const current = document.documentElement.getAttribute('data-theme');
+				const next = current === 'dark' ? 'light' : 'dark';
+				document.documentElement.setAttribute('data-theme', next);
+				localStorage.setItem('theme', next);
+				updateCVThemeAccessibility(next);
+			});
+		}
+	});
+</script>

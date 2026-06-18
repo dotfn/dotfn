@@ -1,0 +1,121 @@
+---
+// CurrentFocus Component
+---
+
+<section class="home-section focus-section" id="foco" data-no-reveal>
+	<h2 class="section-num">06 / Foco Actual</h2>
+	<h3 class="section-heading">La próxima generación de herramientas</h3>
+	<p class="focus-text">
+	Además del desarrollo frontend, actualmente investigo el desarrollo asistido por IA y los sistemas agénticos. Me interesa entender cómo estas herramientas transforman el proceso de creación de software y cómo pueden integrarse para construir productos más útiles, mantenibles y centrados en las personas.</p>
+	<div class="tags-group" id="focusTags">
+		<span class="focus-tag" data-index="0">React</span>
+		<span class="focus-tag" data-index="1">Next.js</span>
+		<span class="focus-tag" data-index="2">Astro</span>
+		<span class="focus-tag" data-index="3">JavaScript / TS</span>
+		<span class="focus-tag" data-index="4">Tailwind CSS</span>
+		<span class="focus-tag" data-index="5">Figma</span>
+		<span class="focus-tag" data-index="6">Diseño UX/UI</span>
+		<span class="focus-tag" data-index="7">Sistemas Agénticos</span>
+		<span class="focus-tag" data-index="8">Desarrollo Asistido por IA</span>
+		<span class="focus-tag" data-index="9">Automatización</span>
+		<span class="focus-tag" data-index="10">Product Thinking</span>
+		<span class="focus-tag" data-index="11">Hermes Agent</span>
+		<span class="focus-tag" data-index="12">Skills</span>
+		<span class="focus-tag" data-index="13">Python</span>
+		<span class="focus-tag" data-index="14">Gestión de Proyectos</span>
+		<span class="focus-tag" data-index="15">Ingeniería de Software</span>
+	</div>
+</section>
+
+<style>
+	.home-section {
+		margin-bottom: 120px;
+	}
+
+	.section-num {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		color: var(--accent);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		margin-bottom: 12px;
+	}
+
+	.section-heading {
+		font-family: var(--font-display);
+		font-size: 1.8rem;
+		font-weight: 700;
+		color: var(--ink);
+		margin-bottom: 32px;
+		letter-spacing: -0.01em;
+	}
+
+	.focus-text {
+		font-size: 1rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		max-width: 62ch;
+		margin-bottom: 28px;
+	}
+
+	.tags-group {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		max-width: 62ch;
+	}
+
+	/* tags are invisible by default; script adds tag-in */
+	.focus-tag {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		padding: 6px 14px;
+		border-radius: 6px;
+		border: 1px solid var(--line);
+		background: var(--card);
+		color: var(--ink-soft);
+		cursor: default;
+		transition: border-color 0.25s ease, color 0.25s ease,
+					transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+					box-shadow 0.25s ease,
+					opacity 0.45s ease;
+		/* start invisible for the wave-in */
+		opacity: 0;
+		transform: translateY(8px);
+	}
+
+	/* :global() so JS-added class bypasses Astro scope hashing */
+	:global(.focus-tag.tag-in) {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* hover — keep translateY(0) base so transition doesn't snap */
+	.focus-tag:hover {
+		border-color: var(--accent);
+		color: var(--accent);
+		transform: translateY(0) rotate(-3deg) scale(1.07);
+		box-shadow: 0 4px 16px var(--accent-soft);
+	}
+</style>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		const tags = document.querySelectorAll('#focusTags .focus-tag');
+		if (tags.length) {
+			const io = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						tags.forEach(tag => {
+							const idx = Number((tag as HTMLElement).dataset.index) || 0;
+							setTimeout(() => tag.classList.add('tag-in'), idx * 70);
+						});
+						io.disconnect();
+					}
+				});
+			}, { threshold: 0.3 });
+			const group = document.getElementById('focusTags');
+			if (group) io.observe(group);
+		}
+	});
+</script>

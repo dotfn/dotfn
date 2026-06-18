@@ -1,0 +1,25 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# AI Crawlers (Allowed to enable GEO / Generative Engine Optimization)
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+
+Sitemap: https://dotfn.dev/sitemap-index.xml

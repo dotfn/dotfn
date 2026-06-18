@@ -1,26 +1,41 @@
 ---
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
+import SEO from '../components/SEO.astro';
+import { Font } from 'astro:assets';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
 	title?: string;
 	description?: string;
+	ogImage?: string;
+	ogType?: 'website' | 'profile' | 'article';
+	schema?: Record<string, any> | Record<string, any>[];
 }
 
 const {
 	title = 'Links · @dotfn',
 	description = 'Link hub personal',
+	ogImage = '/contact-profile.jpg',
+	ogType = 'website',
+	schema,
 } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="es" data-theme="dark">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="description" content={description} />
-		<title>{title}</title>
+		<Font cssVariable="--font-display" />
+		<Font cssVariable="--font-body" />
+		<SEO
+			title={title}
+			description={description}
+			ogImage={ogImage}
+			ogType={ogType}
+			schema={schema}
+		/>
+
 		<script is:inline>
 			const t = localStorage.getItem('theme') || 'dark';
 			document.documentElement.setAttribute('data-theme', t);
@@ -29,34 +44,156 @@ const {
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<Analytics />
+		<ClientRouter />
 	</head>
 	<body>
-		<button type="button" class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema"
-			>☀️</button
-		>
+
 		<slot />
 		<script is:inline>
-			(function () {
+			document.addEventListener('astro:page-load', () => {
 				const themeBtn = document.getElementById('theme-toggle');
-				if (!themeBtn) return;
-				function updateThemeIcon(theme) {
-					themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
-					themeBtn.setAttribute(
-						'aria-label',
-						theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro',
-					);
+				if (themeBtn) {
+					function updateThemeAccessibility(theme) {
+						themeBtn.setAttribute(
+							'aria-label',
+							theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro',
+						);
+					}
+					const savedTheme = localStorage.getItem('theme') || 'dark';
+					updateThemeAccessibility(savedTheme);
+					
+					// Remove existing listener to prevent duplicates on navigation
+					const newBtn = themeBtn.cloneNode(true);
+					themeBtn.parentNode.replaceChild(newBtn, themeBtn);
+					
+					newBtn.addEventListener('click', () => {
+						const current = document.documentElement.getAttribute('data-theme');
+						const next = current === 'dark' ? 'light' : 'dark';
+						document.documentElement.setAttribute('data-theme', next);
+						localStorage.setItem('theme', next);
+						updateThemeAccessibility(next);
+					});
 				}
-				const savedTheme = localStorage.getItem('theme') || 'dark';
-				document.documentElement.setAttribute('data-theme', savedTheme);
-				updateThemeIcon(savedTheme);
-				themeBtn.addEventListener('click', () => {
-					const current = document.documentElement.getAttribute('data-theme');
-					const next = current === 'dark' ? 'light' : 'dark';
-					document.documentElement.setAttribute('data-theme', next);
-					localStorage.setItem('theme', next);
-					updateThemeIcon(next);
+			});
+		</script>
+		<script is:inline>
+			document.addEventListener('astro:page-load', () => {
+				/* ── 1. SCROLL REVEAL ─────────────────────────────────── */
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('in-view');
+							observer.unobserve(entry.target);
+						}
+					});
+				}, {
+					threshold: 0.05,
+					rootMargin: '0px 0px -60px 0px'
 				});
-			})();
+
+				// Skip hero-section (own entrance) and data-no-reveal (own per-item observers)
+				const targets = document.querySelectorAll(
+					'main > section:not(.hero-section):not([data-no-reveal]), .profile-card, .page'
+				);
+				targets.forEach((target) => {
+					target.classList.add('scroll-reveal');
+					observer.observe(target);
+				});
+
+				/* ── 2. STICKY NAV SCROLL SHADOW ──────────────────────── */
+				const navHeader = document.querySelector('.nav-header');
+				if (navHeader) {
+					const onScroll = () => {
+						navHeader.classList.toggle('nav-scrolled', window.scrollY > 8);
+					};
+					window.removeEventListener('scroll', onScroll); // deduplicate
+					window.addEventListener('scroll', onScroll, { passive: true });
+					onScroll();
+				}
+
+				/* ── 3. CURSOR LIGHT TRACKING ON CARDS ────────────────── */
+				document.querySelectorAll('.card-glow').forEach((card) => {
+					// Need to ensure we don't attach multiple times
+					if (card.dataset.glowAttached) return;
+					card.dataset.glowAttached = "true";
+
+					card.addEventListener('mousemove', (e) => {
+						const el = card;
+						const rect = el.getBoundingClientRect();
+						const x = ((e.clientX - rect.left) / rect.width) * 100;
+						const y = ((e.clientY - rect.top) / rect.height) * 100;
+						el.style.setProperty('--glow-x', x + '%');
+						el.style.setProperty('--glow-y', y + '%');
+					});
+					card.addEventListener('mouseleave', () => {
+						card.style.removeProperty('--glow-x');
+						card.style.removeProperty('--glow-y');
+					});
+				});
+
+				/* ── 4. CONTACT BOX → PHOTO PARALLAX TILT ─────────────── */
+				const contactBox = document.querySelector('.contact-box');
+				const tiltTarget = document.getElementById('contactTiltWrap');
+				if (contactBox && tiltTarget) {
+					if (!contactBox.dataset.tiltAttached) {
+						contactBox.dataset.tiltAttached = "true";
+						let targetX = 0;
+						let targetY = 0;
+						let targetScale = 1;
+						
+						let currentX = 0;
+						let currentY = 0;
+						let currentScale = 1;
+						
+						let isHovered = false;
+						let rafId = null;
+						
+						function updateTilt() {
+							currentX += (targetX - currentX) * 0.08;
+							currentY += (targetY - currentY) * 0.08;
+							currentScale += (targetScale - currentScale) * 0.08;
+							
+							tiltTarget.style.transform = 'perspective(600px) rotateX(' + (-currentY * 10).toFixed(2) + 'deg) rotateY(' + (currentX * 10).toFixed(2) + 'deg) scale(' + currentScale.toFixed(3) + ')';
+							
+							const dist = Math.abs(targetX - currentX) + Math.abs(targetY - currentY) + Math.abs(targetScale - currentScale);
+							if (!isHovered && dist < 0.001) {
+								currentX = targetX;
+								currentY = targetY;
+								currentScale = targetScale;
+								tiltTarget.style.transform = '';
+								rafId = null;
+							} else {
+								rafId = requestAnimationFrame(updateTilt);
+							}
+						}
+						
+						contactBox.addEventListener('mouseenter', function () {
+							isHovered = true;
+							targetScale = 1.05;
+							if (!rafId) rafId = requestAnimationFrame(updateTilt);
+						});
+						
+						contactBox.addEventListener('mousemove', function (e) {
+							const rect = tiltTarget.getBoundingClientRect();
+							const cx = rect.left + rect.width / 2;
+							const cy = rect.top + rect.height / 2;
+							
+							targetX = Math.max(-1, Math.min(1, (e.clientX - cx) / 280));
+							targetY = Math.max(-1, Math.min(1, (e.clientY - cy) / 280));
+							
+							if (!rafId) rafId = requestAnimationFrame(updateTilt);
+						});
+						
+						contactBox.addEventListener('mouseleave', function () {
+							isHovered = false;
+							targetX = 0;
+							targetY = 0;
+							targetScale = 1;
+							if (!rafId) rafId = requestAnimationFrame(updateTilt);
+						});
+					}
+				}
+			});
 		</script>
 		<SpeedInsights />
 	</body>

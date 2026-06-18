@@ -1,0 +1,235 @@
+---
+import GitHubActivityReact from './GitHubActivity.tsx';
+---
+
+<section class="home-section">
+	<span class="section-num">04 / Actividad</span>
+	<h3 class="section-heading">Recientes contribuciones en GitHub</h3>
+	
+	<GitHubActivityReact client:load />
+</section>
+
+<style>
+	.home-section {
+		margin-bottom: 120px;
+	}
+
+	.section-num {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		color: var(--accent);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		margin-bottom: 12px;
+	}
+
+	.section-heading {
+		font-family: var(--font-display);
+		font-size: 1.8rem;
+		font-weight: 700;
+		color: var(--ink);
+		margin-bottom: 32px;
+		letter-spacing: -0.01em;
+	}
+
+	:global(.github-card) {
+		background: var(--card);
+		border: 1px solid var(--line);
+		border-radius: 20px;
+		padding: 36px;
+		box-shadow: var(--shadow-deep);
+		transition: var(--transition-theme);
+	}
+
+	:global(.card-header) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 24px;
+	}
+
+	:global(.user-profile) {
+		display: flex;
+		gap: 10px;
+		text-decoration: none;
+	}
+
+	:global(.user-profile:hover .github-username) {
+		color: var(--accent);
+	}
+
+	:global(.github-logo) {
+		color: var(--ink);
+	}
+
+	:global(.github-username) {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--ink);
+		transition: color var(--transition);
+	}
+
+	:global(.status-tag) {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		background: var(--card-mid);
+		border: 1px solid var(--line);
+		padding: 4px 10px;
+		border-radius: var(--radius-pill);
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.72rem;
+		color: var(--ink-soft);
+	}
+
+	:global(.status-dot) {
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: var(--muted);
+	}
+
+	:global(.status-tag.live .status-dot) {
+		background: var(--contrib-4);
+		box-shadow: 0 0 8px var(--contrib-4);
+		animation: pulse 2s infinite;
+	}
+
+	:global(.status-tag.simulated .status-dot) {
+		background: var(--accent);
+		box-shadow: 0 0 8px var(--accent);
+	}
+
+	@keyframes pulse {
+		0% { transform: scale(1); opacity: 1; }
+		50% { transform: scale(1.2); opacity: 0.5; }
+		100% { transform: scale(1); opacity: 1; }
+	}
+
+	:global(.calendar-wrapper) {
+		margin-bottom: 32px;
+		width: 100%;
+		container-type: inline-size;
+	}
+
+	:global(.calendar-grid-container) {
+		display: flex;
+		gap: clamp(4px, 1.5cqw, 12px);
+		align-items: flex-end;
+		margin-top: 24px;
+		width: 100%;
+	}
+
+	:global(.day-labels) {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		font-family: 'Inter', sans-serif;
+		font-size: clamp(7px, 1.25cqw, 11px);
+		color: var(--muted);
+		padding: 2px 0;
+		height: calc(7 * clamp(3.5px, 1.35cqw, 11px) + 6 * clamp(0.7px, 0.35cqw, 3px));
+		width: clamp(14px, 3.5cqw, 24px);
+		flex-shrink: 0;
+	}
+
+	:global(.day-labels span) {
+		line-height: 1;
+	}
+
+	:global(.calendar-grid) {
+		display: flex;
+		gap: clamp(0.7px, 0.35cqw, 3px);
+		flex-grow: 1;
+		min-width: 0;
+		justify-content: flex-start;
+	}
+
+	:global(.calendar-column) {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		flex-shrink: 0;
+	}
+
+	:global(.month-label-cell) {
+		position: absolute;
+		top: calc(-1.8 * clamp(3.5px, 1.35cqw, 11px));
+		left: 0;
+		font-family: 'Inter', sans-serif;
+		font-size: clamp(7px, 1.25cqw, 11px);
+		color: var(--muted);
+		white-space: nowrap;
+		pointer-events: none;
+	}
+
+	:global(.calendar-week) {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(0.7px, 0.35cqw, 3px);
+	}
+
+	:global(.day-cell) {
+		width: clamp(3.5px, 1.35cqw, 11px);
+		height: clamp(3.5px, 1.35cqw, 11px);
+		border-radius: 2px;
+		transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.1s;
+	}
+
+	:global(.is-animating .day-cell) {
+		transition: background-color 0.08s ease, transform 0.1s;
+	}
+
+	:global(.day-cell:hover) {
+		transform: scale(1.25);
+		z-index: 10;
+		box-shadow: 0 0 6px var(--accent);
+	}
+
+	:global([data-level="0"]) { background-color: var(--contrib-0); }
+	:global([data-level="1"]) { background-color: var(--contrib-1); }
+	:global([data-level="2"]) { background-color: var(--contrib-2); }
+	:global([data-level="3"]) { background-color: var(--contrib-3); }
+	:global([data-level="4"]) { background-color: var(--contrib-4); }
+
+	:global(.calendar-footer) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 16px;
+		font-family: 'Inter', sans-serif;
+		font-size: 0.72rem;
+		color: var(--muted);
+	}
+
+	:global(.legend) {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+	}
+
+	:global(.legend .square) {
+		width: 10px;
+		height: 10px;
+		border-radius: 2px;
+	}
+
+	:global(.legend .lvl-0) { background-color: var(--contrib-0); }
+	:global(.legend .lvl-1) { background-color: var(--contrib-1); }
+	:global(.legend .lvl-2) { background-color: var(--contrib-2); }
+	:global(.legend .lvl-3) { background-color: var(--contrib-3); }
+	:global(.legend .lvl-4) { background-color: var(--contrib-4); }
+
+	@media (max-width: 620px) {
+		:global(.github-card) {
+			padding: 24px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		:global(.github-card) {
+			padding: 16px;
+		}
+	}
+</style>

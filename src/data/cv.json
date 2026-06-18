@@ -1,0 +1,96 @@
+{
+  "name": "Nicolás Jiménez",
+  "title": "Frontend Developer · Producto Digital · Diseño UX/UI",
+  "location": "Buenos Aires, Argentina",
+  "email": "dotfn.contact@gmail.com",
+  "linkedin": "https://www.linkedin.com/in/dotfn",
+  "github": "https://github.com/dotfn",
+  "website": "https://dotfn.dev",
+  "x": "https://x.com/dotfn_",
+  "summary": "Desarrollador frontend con formación en diseño multimedial y enfoque en producto digital. Me interesa entender problemas, diseñar soluciones y construir experiencias digitales útiles para las personas que las utilizan. Combino diseño, experiencia de usuario y desarrollo para transformar ideas en productos funcionales.",
+  "experience": [
+    {
+      "role": "BondiMDP — Co-creador & Frontend Developer",
+      "period": "Abr 2026 – Actualidad",
+      "subtitle": "Producto digital colaborativo · Mar del Plata, Argentina",
+      "description": "Co-creación de una plataforma digital para mejorar la experiencia del transporte público mediante información de arribos en tiempo real.",
+      "highlights": [
+        "Participación en investigación, definición de funcionalidades, diseño de experiencia de usuario y desarrollo frontend.",
+        "Desarrollo de funcionalidades para consulta de arribos, recorridos, visualización de unidades en mapa, favoritos y herramientas de localización.",
+        "Implementación de una Progressive Web App (PWA) instalable en dispositivos móviles.",
+        "Integración de datos oficiales de transporte y geolocalización para facilitar el acceso a información de recorridos, paradas y tiempos de arribo.",
+        "Trabajo colaborativo en la evolución del producto, validación de ideas y definición de nuevas funcionalidades.",
+        "Alcanzó más de 19.000 usuarios únicos, 87.000 sesiones y aproximadamente 300.000 vistas durante su primer mes de operación.",
+        "Cobertura en medios de comunicación locales y adopción orgánica por parte de la comunidad marplatense."
+      ],
+      "techs": "React, Next.js, JavaScript, PWA, APIs REST, Geolocalización, Git",
+      "link": "https://bondimdp.com.ar"
+    },
+    {
+      "role": "Videojuego interactivo con sensores físicos",
+      "period": "Proyecto universitario",
+      "subtitle": "Único programador en un equipo interdisciplinario de 6 personas",
+      "highlights": [
+        "Desarrollo de un videojuego interactivo presentado en una muestra pública con más de 100 asistentes.",
+        "Diseño e implementación de la lógica del juego y la integración entre software y hardware.",
+        "Desarrollo de una alfombra sensorizada utilizada como sistema de control físico para la experiencia interactiva.",
+        "Coordinación técnica de la implementación y resolución de problemas durante el desarrollo del proyecto."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Tecnicatura Universitaria en Programación",
+      "period": "2025 – Actualidad",
+      "school": "Universidad Tecnológica Nacional (UTN)",
+      "description": "En curso."
+    },
+    {
+      "degree": "Licenciatura en Diseño Multimedial",
+      "period": "2019 – 2022",
+      "school": "Universidad Nacional de La Plata (UNLP)",
+      "description": "3 años cursados."
+    },
+    {
+      "degree": "Licenciatura en Artes Audiovisuales",
+      "period": "2018",
+      "school": "Universidad Nacional de La Plata (UNLP)",
+      "description": "1 año cursado."
+    },
+    {
+      "degree": "Licenciatura en Informática",
+      "period": "2018",
+      "school": "Universidad Nacional de La Plata (UNLP)",
+      "description": "1 cuatrimestre cursado."
+    }
+  ],
+  "technologies": [
+    "React",
+    "Next.js",
+    "JavaScript",
+    "Astro",
+    "HTML",
+    "CSS",
+    "Tailwind CSS",
+    "Git",
+    "GitHub",
+    "Figma"
+  ],
+  "skills": [
+    "Desarrollo Frontend",
+    "UX/UI",
+    "Diseño de Producto Digital",
+    "Pensamiento Crítico",
+    "Resolución de Problemas",
+    "Comunicación",
+    "Trabajo en Equipo",
+    "Aprendizaje Autónomo"
+  ],
+  "achievements": [
+    "Co-creador de BondiMDP, plataforma de transporte público utilizada por más de 19.000 usuarios únicos durante su primer mes.",
+    "Videojuego interactivo probado por más de 100 personas en una muestra pública.",
+    "Más de 10 años utilizando Linux y automatizando tareas mediante scripts y herramientas de línea de comandos.",
+    "Participación en proyectos colaborativos académicos vinculados a diseño, tecnología e interacción."
+  ],
+  "languages": "Español (nativo) · Inglés intermedio (lectura técnica y documentación)"
+}

@@ -1,0 +1,254 @@
+---
+import { ExternalLink } from '@lucide/astro';
+---
+
+<section class="home-section">
+	<h2 class="section-num">02 / Proyecto Destacado</h2>
+	<div class="project-detail-card card-glow">
+		<div class="project-info">
+			<span class="project-tag-badge">Caso de Éxito</span>
+			<h3>BondiMDP</h3>
+			<p class="project-role">Co-creador & Frontend Developer</p>
+			<p class="project-description">
+				Co-creé y desarrollé BondiMDP para solucionar la falta de acceso simple a los recorridos y arribos del transporte público en Mar del Plata. 
+				Concebido como una Progressive Web App (PWA) rápida y optimizada, integra datos oficiales de geolocalización para mostrar arribos de colectivos en tiempo real. 
+				La plataforma fue adoptada orgánicamente por la comunidad marplatense, validando la importancia de diseñar productos centrados en las personas.
+			</p>
+			<div class="project-tech-tags">
+				<span>React</span>
+				<span>Next.js</span>
+				<span>PWA</span>
+				<span>Geolocalización</span>
+				<span>APIs REST</span>
+			</div>
+			<a href="https://bondimdp.com.ar" target="_blank" rel="noopener noreferrer" class="project-link-out">
+				bondimdp.com.ar <ExternalLink size={16} class="link-icon-inline" />
+			</a>
+		</div>
+		<div class="project-stats-grid">
+			<div class="stat-card">
+				<span class="stat-num" data-target="19000" data-prefix="+" data-suffix="k">+0k</span>
+				<span class="stat-lbl">Usuarios únicos</span>
+			</div>
+			<div class="stat-card">
+				<span class="stat-num" data-target="87000" data-prefix="+" data-suffix="k">+0k</span>
+				<span class="stat-lbl">Sesiones totales</span>
+			</div>
+			<div class="stat-card">
+				<span class="stat-num" data-target="300000" data-prefix="~" data-suffix="k">~0k</span>
+				<span class="stat-lbl">Vistas de página</span>
+			</div>
+			<div class="stat-footer-note">Datos auditados en su primer mes de operación.</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		// Counter animation for stats
+		const statEls = document.querySelectorAll('.stat-num[data-target]');
+		if (statEls.length) {
+			const ease = (t: number) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+			const animate = (el: HTMLElement) => {
+				const target = Number(el.dataset.target);
+				const prefix = el.dataset.prefix || '';
+				const suffix = el.dataset.suffix || '';
+
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+					const display = target >= 1000 ? Math.round(target/1000) : target;
+					el.textContent = prefix + display + (target >= 1000 ? 'k' : suffix);
+					return;
+				}
+
+				const duration = 2000;
+				const start = performance.now();
+				
+				const step = (now: number) => {
+					const progress = Math.min((now - start) / duration, 1);
+					const current = Math.floor(ease(progress) * target);
+					const display = current >= 1000 ? (current/1000).toFixed(1).replace('.0','') : current;
+					el.textContent = prefix + display + (current >= 1000 ? 'k' : suffix);
+					if (progress < 1) requestAnimationFrame(step);
+					else {
+						const finalDisplay = target >= 1000 ? Math.round(target/1000) : target;
+						el.textContent = prefix + finalDisplay + (target >= 1000 ? 'k' : suffix);
+					}
+				};
+				requestAnimationFrame(step);
+			};
+
+			const io = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						animate(entry.target as HTMLElement);
+						io.unobserve(entry.target);
+					}
+				});
+			}, { threshold: 0.5 });
+			
+			statEls.forEach(el => io.observe(el));
+		}
+	});
+</script>
+
+<style>
+	.home-section {
+		margin-bottom: 120px;
+	}
+
+	.section-num {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		color: var(--accent);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		margin-bottom: 12px;
+	}
+
+	.project-detail-card {
+		display: grid;
+		grid-template-columns: 1.2fr 0.8fr;
+		gap: 32px;
+		background: var(--card);
+		border: 1px solid var(--line);
+		border-radius: 20px;
+		padding: 44px;
+		box-shadow: var(--shadow-deep);
+		transition: var(--transition-theme);
+	}
+
+	.project-info h3 {
+		font-family: var(--font-display);
+		font-size: 2rem;
+		font-weight: 800;
+		color: var(--ink);
+		margin: 8px 0 2px;
+		letter-spacing: -0.02em;
+	}
+
+	.project-tag-badge {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.72rem;
+		padding: 4px 10px;
+		background: var(--accent-soft);
+		color: var(--accent);
+		border: 1px solid var(--line);
+		border-radius: 4px;
+		font-weight: 600;
+	}
+
+	.project-role {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		color: var(--accent);
+		margin-bottom: 20px;
+	}
+
+	.project-description {
+		font-size: 0.92rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		margin-bottom: 24px;
+	}
+
+	.project-tech-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 28px;
+	}
+
+	.project-tech-tags span {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.72rem;
+		padding: 4px 10px;
+		background: var(--card-mid);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-pill);
+		color: var(--ink-soft);
+	}
+
+	.project-link-out {
+		display: inline-flex;
+		font-family: var(--font-display);
+		font-size: 0.95rem;
+		font-weight: 700;
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+		transition: var(--transition);
+	}
+
+	.project-link-out:hover {
+		border-bottom-color: var(--accent);
+		transform: translateX(2px);
+	}
+
+	.project-stats-grid {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 24px;
+		border-left: 1px solid var(--line);
+		padding-left: 32px;
+	}
+
+	.stat-card {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.stat-num {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 2.5rem;
+		font-weight: 700;
+		color: var(--accent);
+		line-height: 1.1;
+		letter-spacing: -0.04em;
+	}
+
+	.stat-lbl {
+		font-size: 0.8rem;
+		color: var(--ink-soft);
+		margin-top: 4px;
+	}
+
+	.stat-footer-note {
+		font-size: 0.7rem;
+		color: var(--muted);
+		font-style: italic;
+		margin-top: 12px;
+	}
+
+	.link-icon-inline {
+		margin-left: 4px;
+		vertical-align: middle;
+		display: inline-block;
+	}
+
+	@media (max-width: 860px) {
+		.project-detail-card {
+			grid-template-columns: 1fr;
+			padding: 32px;
+			gap: 40px;
+		}
+
+		.project-stats-grid {
+			border-left: none;
+			border-top: 1px solid var(--line);
+			padding-left: 0;
+			padding-top: 32px;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
+
+		.stat-card {
+			flex: 1 1 120px;
+		}
+
+		.stat-footer-note {
+			width: 100%;
+		}
+	}
+</style>
