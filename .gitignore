@@ -6,7 +6,8 @@ dist/
 
 # generated types
 .astro/
-
+.agents/
+skills-lock.json
 # dependencies
 node_modules/
 
