@@ -106,7 +106,9 @@ import GitHubActivityReact from './GitHubActivity.tsx';
 		50% { transform: scale(1.2); opacity: 0.5; }
 		100% { transform: scale(1); opacity: 1; }
 	}
-
+	:global(.calendar-grid) {
+		cursor: crosshair;
+	}
 	:global(.calendar-wrapper) {
 		margin-bottom: 32px;
 		width: 100%;
