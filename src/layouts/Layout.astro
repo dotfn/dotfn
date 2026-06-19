@@ -26,8 +26,8 @@ const {
 <!doctype html>
 <html lang="es" data-theme="dark">
 	<head>
-		<Font cssVariable="--font-display" preload />
-		<Font cssVariable="--font-body" preload />
+		<Font cssVariable="--font-display" preload={[{ weight: 800 }]} />
+		<Font cssVariable="--font-body" preload={[{ weight: 400, style: 'normal' }]} />
 		<SEO
 			title={title}
 			description={description}
