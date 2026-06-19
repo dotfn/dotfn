@@ -425,77 +425,61 @@ import XIcon from './icons/X.astro';
 </style>
 
 <script>
-	const navToggle = document.getElementById('navToggle');
-	const navLinks = document.getElementById('navLinks');
+	document.addEventListener('astro:page-load', () => {
+		const navToggle = document.getElementById('navToggle');
+		const navLinks = document.getElementById('navLinks');
 
-	if (navToggle && navLinks) {
-		// Toggle menu on click
-		navToggle.addEventListener('click', (e) => {
-			e.stopPropagation();
-			const isOpen = navToggle.classList.toggle('active');
-			navLinks.classList.toggle('active');
-			navToggle.setAttribute('aria-expanded', String(isOpen));
-			navToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
-			
-			// Toggle body scroll to prevent background scrolling
-			document.body.classList.toggle('menu-open', isOpen);
-		});
+		if (navToggle && navLinks) {
+			// Avoid duplicate event listeners on persisted element
+			if (navToggle.dataset.menuAttached === 'true') return;
+			navToggle.dataset.menuAttached = 'true';
 
-		// Close menu when clicking a link or button
-		navLinks.querySelectorAll('a, button').forEach(el => {
-			el.addEventListener('click', () => {
-				navToggle.classList.remove('active');
-				navLinks.classList.remove('active');
-				navToggle.setAttribute('aria-expanded', 'false');
-				navToggle.setAttribute('aria-label', 'Abrir menú');
-				document.body.classList.remove('menu-open');
+			// Toggle menu on click
+			navToggle.addEventListener('click', (e) => {
+				e.stopPropagation();
+				const isOpen = navToggle.classList.toggle('active');
+				navLinks.classList.toggle('active');
+				navToggle.setAttribute('aria-expanded', String(isOpen));
+				navToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+				
+				// Toggle body scroll to prevent background scrolling
+				document.body.classList.toggle('menu-open', isOpen);
 			});
-		});
 
-		// Close menu when clicking outside
-		document.addEventListener('click', (e) => {
-			const target = e.target as HTMLElement;
-			if (navLinks.classList.contains('active') && !navLinks.contains(target) && !navToggle.contains(target)) {
-				navToggle.classList.remove('active');
-				navLinks.classList.remove('active');
-				navToggle.setAttribute('aria-expanded', 'false');
-				navToggle.setAttribute('aria-label', 'Abrir menú');
-				document.body.classList.remove('menu-open');
-			}
-		});
+			// Close menu when clicking a link or button
+			navLinks.querySelectorAll('a, button').forEach(el => {
+				el.addEventListener('click', () => {
+					navToggle.classList.remove('active');
+					navLinks.classList.remove('active');
+					navToggle.setAttribute('aria-expanded', 'false');
+					navToggle.setAttribute('aria-label', 'Abrir menú');
+					document.body.classList.remove('menu-open');
+				});
+			});
 
-		// Close on Escape key press
-		document.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape' && navLinks.classList.contains('active')) {
-				navToggle.classList.remove('active');
-				navLinks.classList.remove('active');
-				navToggle.setAttribute('aria-expanded', 'false');
-				navToggle.setAttribute('aria-label', 'Abrir menú');
-				document.body.classList.remove('menu-open');
-				(navToggle as HTMLElement).focus();
-			}
-		});
-	}
+			// Close menu when clicking outside
+			document.addEventListener('click', (e) => {
+				const target = e.target as HTMLElement;
+				if (navLinks.classList.contains('active') && !navLinks.contains(target) && !navToggle.contains(target)) {
+					navToggle.classList.remove('active');
+					navLinks.classList.remove('active');
+					navToggle.setAttribute('aria-expanded', 'false');
+					navToggle.setAttribute('aria-label', 'Abrir menú');
+					document.body.classList.remove('menu-open');
+				}
+			});
 
-	// Theme Toggle inside Navbar
-	const navThemeBtn = document.getElementById('themeToggleNav');
-	if (navThemeBtn) {
-		const updateNavThemeAccessibility = (theme: string) => {
-			navThemeBtn.setAttribute(
-				'aria-label',
-				theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro',
-			);
-		};
-
-		const savedTheme = localStorage.getItem('theme') || 'dark';
-		updateNavThemeAccessibility(savedTheme);
-
-		navThemeBtn.addEventListener('click', () => {
-			const current = document.documentElement.getAttribute('data-theme');
-			const next = current === 'dark' ? 'light' : 'dark';
-			document.documentElement.setAttribute('data-theme', next);
-			localStorage.setItem('theme', next);
-			updateNavThemeAccessibility(next);
-		});
-	}
+			// Close on Escape key press
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+					navToggle.classList.remove('active');
+					navLinks.classList.remove('active');
+					navToggle.setAttribute('aria-expanded', 'false');
+					navToggle.setAttribute('aria-label', 'Abrir menú');
+					document.body.classList.remove('menu-open');
+					(navToggle as HTMLElement).focus();
+				}
+			});
+		}
+	});
 </script>

@@ -26,8 +26,8 @@ const {
 <!doctype html>
 <html lang="es" data-theme="dark">
 	<head>
-		<Font cssVariable="--font-display" />
-		<Font cssVariable="--font-body" />
+		<Font cssVariable="--font-display" preload />
+		<Font cssVariable="--font-body" preload />
 		<SEO
 			title={title}
 			description={description}
@@ -37,8 +37,20 @@ const {
 		/>
 
 		<script is:inline>
-			const t = localStorage.getItem('theme') || 'dark';
-			document.documentElement.setAttribute('data-theme', t);
+			(() => {
+				const getThemePreference = () => {
+					if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+						return localStorage.getItem('theme');
+					}
+					return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				};
+				const applyTheme = () => {
+					const theme = getThemePreference();
+					document.documentElement.setAttribute('data-theme', theme);
+				};
+				applyTheme();
+				document.addEventListener('astro:after-swap', applyTheme);
+			})();
 		</script>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
@@ -49,32 +61,43 @@ const {
 	<body>
 
 		<slot />
-		<script is:inline>
-			document.addEventListener('astro:page-load', () => {
-				const themeBtn = document.getElementById('theme-toggle');
-				if (themeBtn) {
-					function updateThemeAccessibility(theme) {
-						themeBtn.setAttribute(
-							'aria-label',
-							theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro',
-						);
-					}
-					const savedTheme = localStorage.getItem('theme') || 'dark';
-					updateThemeAccessibility(savedTheme);
+		<script>
+			const setupThemeToggles = () => {
+				const themeButtons = document.querySelectorAll('#themeToggleNav, #themeToggleCV');
+				
+				themeButtons.forEach(btn => {
+					// Update accessibility label initially
+					const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+					btn.setAttribute(
+						'aria-label',
+						currentTheme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'
+					);
 					
-					// Remove existing listener to prevent duplicates on navigation
-					const newBtn = themeBtn.cloneNode(true);
-					themeBtn.parentNode.replaceChild(newBtn, themeBtn);
+					// Avoid binding multiple times if persistent or already initialized
+					if ((btn as HTMLElement).dataset.themeBound === 'true') return;
+					(btn as HTMLElement).dataset.themeBound = 'true';
 					
-					newBtn.addEventListener('click', () => {
+					btn.addEventListener('click', () => {
 						const current = document.documentElement.getAttribute('data-theme');
 						const next = current === 'dark' ? 'light' : 'dark';
+						
 						document.documentElement.setAttribute('data-theme', next);
 						localStorage.setItem('theme', next);
-						updateThemeAccessibility(next);
+						
+						// Update accessibility labels on all buttons on the current page
+						document.querySelectorAll('#themeToggleNav, #themeToggleCV').forEach(b => {
+							b.setAttribute(
+								'aria-label',
+								next === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'
+							);
+						});
 					});
-				}
-			});
+				});
+			};
+
+			// Run on initial load and every subsequent view transition page load
+			setupThemeToggles();
+			document.addEventListener('astro:page-load', setupThemeToggles);
 		</script>
 		<script is:inline>
 			document.addEventListener('astro:page-load', () => {
