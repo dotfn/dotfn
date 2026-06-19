@@ -10,6 +10,9 @@ export default defineConfig({
   output: 'static',
   adapter: vercel(),
   integrations: [react(), sitemap()],
+  build: {
+    inlineStylesheets: 'always',
+  },
   fonts: [
     {
       name: 'Bricolage Grotesque',
