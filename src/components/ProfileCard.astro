@@ -17,6 +17,7 @@ export interface ProfileData {
 
 interface Props {
 	data: ProfileData;
+	headingLevel?: 'h1' | 'h2';
 }
 
 import {
@@ -47,7 +48,8 @@ const ICON_MAP: Record<string, any> = {
 	cv: FileText,
 };
 
-const { data } = Astro.props;
+const { data, headingLevel = 'h2' } = Astro.props;
+const NameTag = headingLevel;
 const avatarAlt = data.name || 'Avatar';
 
 const cvLink = data.links.find((l) => l.icon === 'cv');
@@ -82,7 +84,7 @@ const metaLinks = data.links.filter((l) => l.icon !== 'cv');
 	</div>
 
 	<header class="profile-header">
-		<h1 class="profile-name">{data.name}</h1>
+		<NameTag class="profile-name">{data.name}</NameTag>
 		{data.username && <p class="profile-username">{data.username}</p>}
 		{data.bio && <p class="profile-bio">{data.bio}</p>}
 	</header>
