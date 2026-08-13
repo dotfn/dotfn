@@ -1,15 +1,9 @@
 ---
 import { Terminal, Video, LayoutTemplate as LayoutIcon, GraduationCap } from '@lucide/astro';
 import { Image } from 'astro:assets';
+import FdaLogo from '../icons/FdaLogo.astro';
+import UtnLogo from '../icons/UtnLogo.astro';
 import facultadInformaticaLogo from '../../assets/logo-facultada-de-informatica.svg';
-import facultadArtesLogo from '../../assets/Logo-Facultad-de-Arte.jpeg';
-import utnLogo from '../../assets/logo-utn.png';
-
-const instituteLogos = [
-	{ key: 'informatica', src: facultadInformaticaLogo, alt: 'Facultad de Informática — UNLP' },
-	{ key: 'artes', src: facultadArtesLogo, alt: 'Facultad de Artes — UNLP' },
-	{ key: 'utn', src: utnLogo, alt: 'Universidad Tecnológica Nacional' },
-];
 ---
 
 <section class="home-section journey-section" id="journey" data-no-reveal>
@@ -32,7 +26,7 @@ const instituteLogos = [
 					<p>Mi primer acercamiento a la programación y al pensamiento lógico. Descubrí cómo descomponer problemas y construir soluciones paso a paso.</p>
 				</div>
 			</div>
-			<div class="journey-item" data-index="1" data-logo="artes">
+			<div class="journey-item" data-index="1" data-logo="artes-audiovisuales">
 				<span class="journey-year">2018</span>
 				<div class="journey-content">
 					<h4>
@@ -42,7 +36,7 @@ const instituteLogos = [
 					<p>Exploré la narrativa, el lenguaje visual y la comunicación. Aprendí que toda experiencia transmite un mensaje, incluso cuando el expectador no lo percibe de forma consciente.</p>
 				</div>
 			</div>
-			<div class="journey-item" data-index="2" data-logo="artes">
+			<div class="journey-item" data-index="2" data-logo="diseno-multimedial">
 				<span class="journey-year">2019 - 2022</span>
 				<div class="journey-content">
 					<h4>
@@ -66,9 +60,10 @@ const instituteLogos = [
 	</div>
 
 	<div class="journey-logo-stage" aria-hidden="true">
-		{instituteLogos.map((logo) => (
-			<Image src={logo.src} alt={logo.alt} width={220} height={220} class="journey-logo-img" data-logo-key={logo.key} />
-		))}
+		<Image src={facultadInformaticaLogo} alt="Facultad de Informática — UNLP" width={220} height={220} class="journey-logo-img" data-logo-key="informatica" />
+		<FdaLogo accent="#c62828" accentDot="row2-1" class="journey-logo-img journey-logo-svg" data-logo-key="artes-audiovisuales" />
+		<FdaLogo accent="#8e3aad" accentDot="row2-3" class="journey-logo-img journey-logo-svg" data-logo-key="diseno-multimedial" />
+		<UtnLogo class="journey-logo-img journey-logo-svg" data-logo-key="utn" />
 	</div>
 </section>
 
@@ -145,7 +140,11 @@ const instituteLogos = [
 		justify-content: center;
 	}
 
-	.journey-logo-img {
+	/* :global() — the FDA logo is an inline <svg> rendered by a child
+	   component (FdaLogo.astro), so Astro's scoped data-attribute never
+	   reaches it; matching by plain class name is the only way these
+	   rules apply to it too. */
+	:global(.journey-logo-img) {
 		position: absolute;
 		width: 220px;
 		height: 220px;

@@ -1,0 +1,33 @@
+---
+interface Props {
+	accent: string;
+	accentDot: 'row2-1' | 'row2-3';
+	class?: string;
+	'data-logo-key'?: string;
+}
+const { accent, accentDot, class: className, 'data-logo-key': logoKey } = Astro.props;
+
+const grey = '#9a9a9a';
+const dots = [
+	{ id: 'row1-1', cx: 60, cy: 60 },
+	{ id: 'row1-2', cx: 120, cy: 60 },
+	{ id: 'row1-3', cx: 180, cy: 60 },
+	{ id: 'row2-1', cx: 60, cy: 120 },
+	{ id: 'row2-2', cx: 120, cy: 120 },
+	{ id: 'row2-3', cx: 180, cy: 120 },
+	{ id: 'row3-1', cx: 60, cy: 180 },
+];
+---
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 240 240"
+	role="img"
+	aria-label="Facultad de Artes — UNLP"
+	class={className}
+	data-logo-key={logoKey}
+>
+	{dots.map((d) => (
+		<circle cx={d.cx} cy={d.cy} r="15" fill={d.id === accentDot ? accent : grey} />
+	))}
+	<text x="95" y="192" font-family="Arial, sans-serif" font-size="46" font-weight="800" fill="#1a1a1a">FDA</text>
+</svg>
