@@ -1,3 +1,9 @@
 <svg height="100" width="100" xmlns="http://www.w3.org/2000/svg">
-  <circle r="45" cx="50" cy="50" stroke-width="3" fill="#F4CF4E" />
+  <style>
+    circle { fill: #3ee68f; }
+    @media (prefers-color-scheme: light) {
+      circle { fill: #1a9d5c; }
+    }
+  </style>
+  <circle r="45" cx="50" cy="50" />
 </svg>
