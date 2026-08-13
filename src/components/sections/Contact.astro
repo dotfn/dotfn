@@ -5,26 +5,9 @@ import Github from '../icons/Github.astro';
 import X from '../icons/X.astro';
 import Button from '../Button.astro';
 import profileData from '../../data/profile.json';
-import growthIconRaw from '../../assets/Growth.svg?raw';
+import growthIcon from '../../assets/Growth.svg?raw';
 
 const email = profileData.links.find(l => l.icon === 'em')?.url.replace('mailto:', '') || 'dotfn.contact@gmail.com';
-
-// Growth.svg ships with its own purple/orange/green palette — recolor it
-// into the same accent-green-on-dark-green scheme the Focus section icons
-// use (see themeAdapt() there), swap for swap by the role each color
-// plays: purple was the dominant shape (steps/jacket) → accent green;
-// orange was the secondary shape (arrow/target) → dark green; the small
-// foliage green → light mint; black outlines/fills → dark green, same as
-// the siblings' stroke color.
-function recolorGrowth(svg: string): string {
-	return svg
-		.replaceAll('#7B5FF1', 'var(--accent)')
-		.replaceAll('#FF8B37', '#123f27')
-		.replaceAll('#55D087', '#e0f2e7')
-		.replaceAll('#010101', '#123f27');
-}
-
-const growthIcon = recolorGrowth(growthIconRaw);
 ---
 
 <section class="contact-section" id="contacto">
@@ -89,8 +72,8 @@ const growthIcon = recolorGrowth(growthIconRaw);
 	/* part of the section's background, not a floating card — pinned to
 	   the bottom-right corner, oversized and bleeding past the edge, and
 	   masked so it fades into the page instead of ending on a hard box
-	   edge. Colors come pre-recolored (see recolorGrowth() above) into the
-	   same accent-green palette as the Focus icons, so — unlike those —
+	   edge. Colors are baked into Growth.svg itself (accent-green palette
+	   matching the Focus icons), so — unlike those —
 	   it doesn't need its own fixed-light backdrop to read on dark theme;
 	   opacity is still pulled back a bit so it sits behind the text as
 	   background rather than as a distinct card on top of one. */

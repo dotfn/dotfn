@@ -3,6 +3,7 @@ interface Props {
 	title: string;
 	description: string;
 	ogImage?: string;
+	ogImageAlt?: string;
 	ogType?: 'website' | 'profile' | 'article';
 	schema?: Record<string, any> | Record<string, any>[];
 }
@@ -11,6 +12,7 @@ const {
 	title,
 	description,
 	ogImage = '/og-image.jpg',
+	ogImageAlt = 'Nicolás Jiménez (dotfn) — Software Developer & AI Developer, Full Stack Developer y co-creador de BondiMDP',
 	ogType = 'website',
 	schema,
 } = Astro.props;
@@ -40,6 +42,9 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImageURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={ogImageAlt} />
 <meta property="og:site_name" content="dotfn" />
 <meta property="og:locale" content="es_AR" />
 
@@ -49,6 +54,7 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImageURL} />
+<meta name="twitter:image:alt" content={ogImageAlt} />
 <meta name="twitter:site" content="@dotfn_" />
 
 <!-- JSON-LD Schema Markup -->

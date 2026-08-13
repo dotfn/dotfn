@@ -14,10 +14,10 @@ import {
 	Terminal,
 	Wrench,
 } from '@lucide/astro';
-import codingIconRaw from '../../assets/iconografia/Under-construction.svg?raw';
-import productLaunchIconRaw from '../../assets/iconografia/Launch.svg?raw';
-import aiIconRaw from '../../assets/iconografia/Magic offer.svg?raw';
-import orderDeliveredIconRaw from '../../assets/iconografia/Idea.svg?raw';
+import codingIcon from '../../assets/iconografia/Under-construction.svg?raw';
+import productLaunchIcon from '../../assets/iconografia/Launch.svg?raw';
+import aiIcon from '../../assets/iconografia/Magic offer.svg?raw';
+import orderDeliveredIcon from '../../assets/iconografia/Idea.svg?raw';
 
 // This is dark-outline-on-light-fill artwork: the outline only reads as
 // "linework" because it's darker than everything around it. Flipping the
@@ -25,19 +25,11 @@ import orderDeliveredIconRaw from '../../assets/iconografia/Idea.svg?raw';
 // the outline the same brightness as the fills and the page — everything
 // blends into one glow instead of showing shapes. That kind of illustration
 // can't cleanly invert without being redrawn, so colors stay native/fixed —
-// only the mid-tone shapes tie into the current accent for a light branding
-// touch. The card around the art (background, title, text) still adapts;
-// the illustration itself sits on its own fixed light canvas (see
-// .power-illustration below) so it always renders on the surface it was
-// drawn for, regardless of site theme.
-function themeAdapt(svg: string): string {
-	return svg.replaceAll('#1a9d5c', 'var(--accent)');
-}
-
-const codingIcon = themeAdapt(codingIconRaw);
-const productLaunchIcon = themeAdapt(productLaunchIconRaw);
-const aiIcon = themeAdapt(aiIconRaw);
-const orderDeliveredIcon = themeAdapt(orderDeliveredIconRaw);
+// only the mid-tone shapes (baked into the SVGs as var(--accent)) tie into
+// the current accent for a light branding touch. The card around the art
+// (background, title, text) still adapts; the illustration itself sits on
+// its own fixed light canvas (see .power-illustration below) so it always
+// renders on the surface it was drawn for, regardless of site theme.
 
 // icons live in a parallel array, not on `powers` itself — `powers` is a
 // named export (used elsewhere to build structured data), and Astro's
