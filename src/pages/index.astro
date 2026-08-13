@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import profileData from '../data/profile.json';
 import ProfileCard from '../components/ProfileCard.astro';
 import Hero from '../components/sections/Hero.astro';
-import Focus from '../components/sections/Focus.astro';
+import Focus, { powers } from '../components/sections/Focus.astro';
 import Projects from '../components/sections/Projects.astro';
 import GitHubActivity from '../components/sections/GitHubActivity.astro';
 import Journey from '../components/sections/Journey.astro';
@@ -21,7 +21,8 @@ const personSchema = {
 	"image": "https://dotfn.dev/contact-profile.jpg",
 	"sameAs": [
 		"https://github.com/dotfn",
-		"https://www.linkedin.com/in/dotfn"
+		"https://www.linkedin.com/in/dotfn",
+		"https://x.com/dotfn_"
 	],
 	"jobTitle": "Forward Deployed Engineer & AI Developer",
 	"description": "Software Developer argentino con background en Diseño Multimedia y UX/UI, cocreador de BondiMDP (PWA de transporte usada por miles de personas en Mar del Plata) y autor de herramientas propias como lumus-control y brewmenu. Combina diseño, producto y desarrollo full stack."
@@ -37,38 +38,23 @@ const bondiMDPSchema = {
 	"description": "Plataforma digital para mejorar la experiencia del transporte público en Mar del Plata mediante información de arribos en tiempo real."
 };
 
-const faqSchema = {
+const howHeWorksSchema = {
 	"@context": "https://schema.org",
-	"@type": "FAQPage",
-	"mainEntity": [
-		{
-			"@type": "Question",
-			"name": "¿Quién es Nicolás Jiménez (dotfn)?",
-			"acceptedAnswer": {
-				"@type": "Answer",
-				"text": "Nicolás Jiménez (también conocido como dotfn) es un Software Developer argentino con formación en diseño multimedial de la UNLP y programación en la UTN. Se especializa en la intersección de diseño de producto UX/UI, desarrollo full stack y herramientas de IA."
-			}
-		},
-		{
-			"@type": "Question",
-			"name": "¿Qué proyectos destacados ha creado dotfn?",
-			"acceptedAnswer": {
-				"@type": "Answer",
-				"text": "Su proyecto más destacado es BondiMDP, una aplicación colaborativa PWA de transporte público en Mar del Plata que superó los 19,000 usuarios en su primer mes, desarrollada con React, Next.js y geolocalización en tiempo real."
-			}
-		},
-		{
-			"@type": "Question",
-			"name": "¿Cuáles son las habilidades técnicas de Nicolás Jiménez?",
-			"acceptedAnswer": {
-				"@type": "Answer",
-				"text": "Sus habilidades técnicas principales incluyen React, Next.js, JavaScript, Astro, HTML, CSS/Tailwind CSS, Git/GitHub y diseño con Figma, con experiencia en el desarrollo de Progressive Web Apps (PWA) e integración de APIs."
-			}
+	"@type": "ItemList",
+	"name": "Cómo trabaja Nicolás Jiménez",
+	"itemListElement": powers.map((power, i) => ({
+		"@type": "ListItem",
+		"position": i + 1,
+		"item": {
+			"@type": "Thing",
+			"name": power.backTitle,
+			"alternateName": power.frontTitle,
+			"description": [power.backDesc, ...power.bullets.map((b) => b.text)].join(' ')
 		}
-	]
+	}))
 };
 
-const schemas = [personSchema, bondiMDPSchema, faqSchema];
+const schemas = [personSchema, bondiMDPSchema, howHeWorksSchema];
 ---
 
 <Layout

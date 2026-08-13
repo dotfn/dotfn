@@ -39,9 +39,14 @@ const productLaunchIcon = themeAdapt(productLaunchIconRaw);
 const aiIcon = themeAdapt(aiIconRaw);
 const orderDeliveredIcon = themeAdapt(orderDeliveredIconRaw);
 
-const powers = [
+// icons live in a parallel array, not on `powers` itself — `powers` is a
+// named export (used elsewhere to build structured data), and Astro's
+// compiler doesn't hoist the raw-SVG import chain correctly when it's
+// embedded inside an exported object literal.
+const powerIcons = [codingIcon, productLaunchIcon, aiIcon, orderDeliveredIcon];
+
+export const powers = [
 	{
-		icon: codingIcon,
 		frontTitle: 'Puente entre diseño y código',
 		role: 'Full Stack Developer',
 		backTitle: 'Menos idas y vueltas, más velocidad',
@@ -54,7 +59,6 @@ const powers = [
 		stats: ['PWA en producción', 'React · Next.js · Astro'],
 	},
 	{
-		icon: productLaunchIcon,
 		frontTitle: 'Constructor de productos reales',
 		role: 'Product Thinking',
 		backTitle: 'BondiMDP, de la idea a producción',
@@ -67,7 +71,6 @@ const powers = [
 		stats: ['+19k usuarios únicos', '+87k sesiones'],
 	},
 	{
-		icon: aiIcon,
 		frontTitle: 'Velocidad sin perder calidad',
 		role: 'IA & Tooling',
 		backTitle: 'Si lo hago dos veces, lo automatizo',
@@ -80,7 +83,6 @@ const powers = [
 		stats: ['Entregas más rápidas', 'Calidad revisada por mí'],
 	},
 	{
-		icon: orderDeliveredIcon,
 		frontTitle: 'Shipper de proyectos propios',
 		role: 'Indie Maker',
 		backTitle: 'Si digo que lo entrego, lo entrego',
@@ -101,7 +103,7 @@ const powers = [
 
 	<div class="powers-grid">
 		{
-			powers.map((power) => (
+			powers.map((power, i) => (
 				<button type="button" class="power-card" aria-pressed="false" aria-label={`${power.frontTitle}, tocá para ver más`}>
 					<div class="power-card-inner">
 						<div class="power-face power-front">
@@ -109,7 +111,7 @@ const powers = [
 							<Sparkle size={10} class="power-sparkle power-sparkle-b" />
 							<h4>{power.frontTitle}</h4>
 							<div class="power-illustration">
-								<div class="power-icon" set:html={power.icon} />
+								<div class="power-icon" set:html={powerIcons[i]} />
 							</div>
 							<span class="power-hint">
 								<RotateCw size={12} />
