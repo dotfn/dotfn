@@ -33,10 +33,21 @@ import Button from './Button.astro';
 import { Image } from 'astro:assets';
 import defaultAvatar from '../assets/contact-profile.jpg';
 import bondimdpIcon from '../assets/bondimdp-icono.jpg';
+import shipperIcon from '../assets/achievement-rocket-shipper.jpg';
+import bridgeIcon from '../assets/achievement-design-code-bridge.jpg';
+import bugHunterIcon from '../assets/achievement-samurai-scripter.jpg';
+import nightOwlIcon from '../assets/achievement-orca-optimizer.jpg';
 import { achievements, organizations } from '../data/achievements.json';
 
 const ORG_LOGO: Record<string, ImageMetadata> = {
 	'cuando-llega-mi-bondi': bondimdpIcon,
+};
+
+const ACHIEVEMENT_ICON: Record<string, ImageMetadata> = {
+	'Shipper: lanza productos a producción': shipperIcon,
+	'Diseño + Código: puente entre UX/UI y desarrollo': bridgeIcon,
+	'Bug Hunter: encuentra y aplasta bugs': bugHunterIcon,
+	'Night Owl: commits después de medianoche': nightOwlIcon,
 };
 
 const ICON_MAP: Record<string, any> = {
@@ -130,8 +141,13 @@ const metaLinks = data.links.filter((l) => l.icon !== 'cv');
 				<h2 class="section-label">Achievements</h2>
 				<ul class="badge-row">
 					{achievements.map((a) => (
-						<li class="badge achievement-badge" title={a.label}>
-							<span aria-hidden="true">{a.emoji}</span>
+						<li class="badge achievement-badge">
+							{ACHIEVEMENT_ICON[a.label] ? (
+								<Image src={ACHIEVEMENT_ICON[a.label]} alt={a.label} width={52} height={52} class="achievement-badge-img" />
+							) : (
+								<span aria-hidden="true">{a.emoji}</span>
+							)}
+							<span class="badge-tooltip" aria-hidden="true">{a.label}</span>
 						</li>
 					))}
 				</ul>
@@ -147,13 +163,14 @@ const metaLinks = data.links.filter((l) => l.icon !== 'cv');
 				<ul class="badge-row">
 					{organizations.map((org) => (
 						<li class="badge org-badge">
-							<a href={org.url} target="_blank" rel="noopener noreferrer" title={org.label}>
+							<a href={org.url} target="_blank" rel="noopener noreferrer" aria-label={org.label}>
 								{ORG_LOGO[org.label] ? (
-									<Image src={ORG_LOGO[org.label]} alt={org.label} width={40} height={40} class="org-badge-img" />
+									<Image src={ORG_LOGO[org.label]} alt="" width={40} height={40} class="org-badge-img" />
 								) : (
 									<span aria-hidden="true">{org.emoji}</span>
 								)}
 							</a>
+							<span class="badge-tooltip" aria-hidden="true">{org.label}</span>
 						</li>
 					))}
 				</ul>
@@ -289,10 +306,46 @@ const metaLinks = data.links.filter((l) => l.icon !== 'cv');
 	}
 
 	.badge {
+		position: relative;
 		flex-shrink: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	.badge-tooltip {
+		position: absolute;
+		bottom: calc(100% + 10px);
+		left: 50%;
+		z-index: 10;
+		padding: 5px 10px;
+		border-radius: 7px;
+		background: var(--text-light);
+		color: var(--card);
+		font-size: 0.72rem;
+		font-weight: 600;
+		white-space: nowrap;
+		pointer-events: none;
+		opacity: 0;
+		transform: translate(-50%, 4px) scale(0.9);
+		transform-origin: bottom center;
+		transition: opacity 0.16s ease, transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	.badge-tooltip::after {
+		content: '';
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		border: 5px solid transparent;
+		border-top-color: var(--text-light);
+	}
+
+	.badge:hover .badge-tooltip,
+	.badge:focus-within .badge-tooltip {
+		opacity: 1;
+		transform: translate(-50%, 0) scale(1);
 	}
 
 	.achievement-badge {
@@ -309,6 +362,13 @@ const metaLinks = data.links.filter((l) => l.icon !== 'cv');
 	.achievement-badge:hover {
 		transform: translateY(-3px) scale(1.05);
 		border-color: var(--accent);
+	}
+
+	.achievement-badge-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50%;
 	}
 
 	.org-badge {
