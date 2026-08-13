@@ -1,13 +1,13 @@
 {
   "name": "Nicolás Jiménez",
-  "title": "Frontend Developer · Producto Digital · Diseño UX/UI",
+  "title": "Full Stack Developer · Producto Digital · IA & Automatización",
   "location": "Buenos Aires, Argentina",
   "email": "dotfn.contact@gmail.com",
   "linkedin": "https://www.linkedin.com/in/dotfn",
   "github": "https://github.com/dotfn",
   "website": "https://dotfn.dev",
   "x": "https://x.com/dotfn_",
-  "summary": "Desarrollador frontend con formación en diseño multimedial y enfoque en producto digital. Me interesa entender problemas, diseñar soluciones y construir experiencias digitales útiles para las personas que las utilizan. Combino diseño, experiencia de usuario y desarrollo para transformar ideas en productos funcionales.",
+  "summary": "Full Stack Developer con foco en producto: diseño, desarrollo y mantengo productos digitales completos, de la idea a producción, apoyado en una formación previa en diseño multimedial. Uso IA (Claude, agentes) para acelerar el desarrollo y la iteración, revisando y decidiendo yo cada línea antes de shippear. Co-creé BondiMDP, una PWA de transporte público con adopción orgánica de más de 19.000 usuarios en su primer mes, y diseño, programo y mantengo en producción mis propios productos como lumus-control y brewmenu.",
   "experience": [
     {
       "role": "BondiMDP — Co-creador & Frontend Developer",
@@ -25,6 +25,22 @@
       ],
       "techs": "React, Next.js, JavaScript, PWA, APIs REST, Geolocalización, Git",
       "link": "https://bondimdp.com.ar"
+    },
+    {
+      "role": "lumus-control — Producto Personal",
+      "period": "2025 – Actualidad",
+      "subtitle": "Control de lámparas WiZ · Multiplataforma (Mac, Windows, Linux)",
+      "description": "Diseño y desarrollo en solitario de una app de escritorio para controlar lámparas WiZ por UDP, de forma local y sin depender de ningún servicio en la nube.",
+      "techs": "TypeScript, Tauri",
+      "link": "https://lumus-control.vercel.app/"
+    },
+    {
+      "role": "brewmenu — Producto Personal",
+      "period": "2025 – Actualidad",
+      "subtitle": "Gestor de Homebrew para macOS",
+      "description": "Diseño y desarrollo en solitario de una app de menu bar para macOS que supervisa fórmulas y casks de Homebrew, marca paquetes desactualizados y aplica actualizaciones con un clic.",
+      "techs": "Swift",
+      "link": "https://brewmenu.vercel.app/"
     },
     {
       "role": "Videojuego interactivo con sensores físicos",
@@ -67,8 +83,11 @@
   "technologies": [
     "React",
     "Next.js",
+    "TypeScript",
     "JavaScript",
     "Astro",
+    "Tauri",
+    "Swift",
     "HTML",
     "CSS",
     "Tailwind CSS",
@@ -77,9 +96,10 @@
     "Figma"
   ],
   "skills": [
-    "Desarrollo Frontend",
+    "Desarrollo Full Stack",
     "UX/UI",
     "Diseño de Producto Digital",
+    "IA Aplicada al Desarrollo",
     "Pensamiento Crítico",
     "Resolución de Problemas",
     "Comunicación",
@@ -88,6 +108,7 @@
   ],
   "achievements": [
     "Co-creador de BondiMDP, plataforma de transporte público utilizada por más de 19.000 usuarios únicos durante su primer mes.",
+    "Diseño, desarrollo y mantengo en solitario productos multiplataforma en producción: lumus-control (Mac, Windows, Linux) y brewmenu (macOS).",
     "Videojuego interactivo probado por más de 100 personas en una muestra pública.",
     "Más de 10 años utilizando Linux y automatizando tareas mediante scripts y herramientas de línea de comandos.",
     "Participación en proyectos colaborativos académicos vinculados a diseño, tecnología e interacción."
