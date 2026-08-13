@@ -314,7 +314,7 @@ export default function GitHubActivity() {
 						{animationFrame >= 0 
 							? 'Obteniendo historial de commits...' 
 							: status === 'loading' 
-								? '-- contribuciones' 
+								? '… contribuciones' 
 								: `${totalContribs} contribuciones en el último año`}
 					</span>
 					<div className="legend">

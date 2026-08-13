@@ -45,11 +45,11 @@ const powers = [
 		frontTitle: 'Puente entre diseño y código',
 		role: 'Full Stack Developer',
 		backTitle: 'Menos idas y vueltas, más velocidad',
-		backDesc: 'Diseño y desarrollo salen de la misma cabeza — sin handoff, sin fricción entre equipos.',
+		backDesc: 'Diseño y desarrollo salen de la misma cabeza: sin handoff, sin fricción entre equipos.',
 		bullets: [
 			{ icon: PenTool, text: 'Diseño y prototipo en Figma antes de escribir código' },
 			{ icon: Code, text: 'Programo el frontend completo: React, Next.js, Astro' },
-			{ icon: Layers, text: 'Cero handoff — la misma persona diseña y construye' },
+			{ icon: Layers, text: 'Cero handoff: la misma persona diseña y construye' },
 		],
 		stats: ['PWA en producción', 'React · Next.js · Astro'],
 	},
@@ -62,7 +62,7 @@ const powers = [
 		bullets: [
 			{ icon: Search, text: 'Research y validación con usuarios reales de Mar del Plata' },
 			{ icon: MapPin, text: 'Arribos y recorridos en tiempo real vía geolocalización' },
-			{ icon: Smartphone, text: 'Adopción orgánica — cero gasto en marketing' },
+			{ icon: Smartphone, text: 'Adopción orgánica, cero gasto en marketing' },
 		],
 		stats: ['+19k usuarios únicos', '+87k sesiones'],
 	},
@@ -71,7 +71,7 @@ const powers = [
 		frontTitle: 'Velocidad sin perder calidad',
 		role: 'IA & Tooling',
 		backTitle: 'Si lo hago dos veces, lo automatizo',
-		backDesc: 'Uso IA para acortar tiempos de entrega — la decisión final de cada línea sigue siendo mía.',
+		backDesc: 'Uso IA para acortar tiempos de entrega, pero la decisión final de cada línea sigue siendo mía.',
 		bullets: [
 			{ icon: Sparkle, text: 'Uso Claude y agentes para prototipar y escribir código más rápido' },
 			{ icon: RefreshCw, text: 'Automatizo tareas repetitivas con scripts y APIs propias' },
@@ -84,7 +84,7 @@ const powers = [
 		frontTitle: 'Shipper de proyectos propios',
 		role: 'Indie Maker',
 		backTitle: 'Si digo que lo entrego, lo entrego',
-		backDesc: 'Diseño, programo y mantengo mis propios productos en producción — la misma disciplina que le pongo al tuyo.',
+		backDesc: 'Diseño, programo y mantengo mis propios productos en producción, con la misma disciplina que le pongo al tuyo.',
 		bullets: [
 			{ icon: Lightbulb, text: 'lumus-control: lámparas WiZ por UDP con Tauri, sin nube (Mac/Win/Linux)' },
 			{ icon: Terminal, text: 'brewmenu: monitorea Homebrew desde la barra de menú' },
@@ -102,7 +102,7 @@ const powers = [
 	<div class="powers-grid">
 		{
 			powers.map((power) => (
-				<button type="button" class="power-card" aria-pressed="false" aria-label={`${power.frontTitle} — tocá para ver más`}>
+				<button type="button" class="power-card" aria-pressed="false" aria-label={`${power.frontTitle}, tocá para ver más`}>
 					<div class="power-card-inner">
 						<div class="power-face power-front">
 							<Sparkle size={14} class="power-sparkle power-sparkle-a" />

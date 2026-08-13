@@ -1,9 +1,9 @@
 {
   "achievements": [
-    { "emoji": "🚀", "label": "Shipper — lanza productos a producción" },
-    { "emoji": "🎨", "label": "Diseño + Código — puente entre UX/UI y desarrollo" },
-    { "emoji": "🐛", "label": "Bug Hunter — encuentra y aplasta bugs" },
-    { "emoji": "🌙", "label": "Night Owl — commits después de medianoche" }
+    { "emoji": "🚀", "label": "Shipper: lanza productos a producción" },
+    { "emoji": "🎨", "label": "Diseño + Código: puente entre UX/UI y desarrollo" },
+    { "emoji": "🐛", "label": "Bug Hunter: encuentra y aplasta bugs" },
+    { "emoji": "🌙", "label": "Night Owl: commits después de medianoche" }
   ],
   "organizations": [
     {
