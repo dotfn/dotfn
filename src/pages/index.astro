@@ -1,11 +1,11 @@
 ---
+import { Sun, Moon } from '@lucide/astro';
 import Layout from '../layouts/Layout.astro';
 import profileData from '../data/profile.json';
-import NavHeader from '../components/NavHeader.astro';
+import ProfileCard from '../components/ProfileCard.astro';
 import Hero from '../components/sections/Hero.astro';
 import Focus from '../components/sections/Focus.astro';
-import FeaturedProject from '../components/sections/FeaturedProject.astro';
-import OtherProjects from '../components/sections/OtherProjects.astro';
+import Projects from '../components/sections/Projects.astro';
 import GitHubActivity from '../components/sections/GitHubActivity.astro';
 import Journey from '../components/sections/Journey.astro';
 import CurrentFocus from '../components/sections/CurrentFocus.astro';
@@ -23,8 +23,8 @@ const personSchema = {
 		"https://github.com/dotfn",
 		"https://www.linkedin.com/in/dotfn"
 	],
-	"jobTitle": "Frontend Developer",
-	"description": "Frontend Developer con formación en diseño multimedial. Construyo productos digitales en la intersección entre diseño y código."
+	"jobTitle": "Forward Deployed Engineer & AI Developer",
+	"description": "Software Developer argentino con background en Diseño Multimedia y UX/UI, cocreador de BondiMDP (PWA de transporte usada por miles de personas en Mar del Plata) y autor de herramientas propias como lumus-control y brewmenu. Combina diseño, producto y desarrollo full stack."
 };
 
 const bondiMDPSchema = {
@@ -46,7 +46,7 @@ const faqSchema = {
 			"name": "¿Quién es Nicolás Jiménez (dotfn)?",
 			"acceptedAnswer": {
 				"@type": "Answer",
-				"text": "Nicolás Jiménez (también conocido como dotfn) es un desarrollador frontend argentino con formación en diseño multimedial de la UNLP y programación en la UTN. Se especializa en la intersección de diseño de producto UX/UI y desarrollo de software."
+				"text": "Nicolás Jiménez (también conocido como dotfn) es un Software Developer argentino con formación en diseño multimedial de la UNLP y programación en la UTN. Se especializa en la intersección de diseño de producto UX/UI, desarrollo full stack y herramientas de IA."
 			}
 		},
 		{
@@ -73,19 +73,35 @@ const schemas = [personSchema, bondiMDPSchema, faqSchema];
 
 <Layout
 	title={`${profileData.name} — Portfolio & Digital Products`}
-	description="Sitio web personal de Nicolás Jiménez. Frontend Developer con background en Diseño Multimedial y enfoque en producto digital."
+	description="Sitio personal de Nicolás Jiménez (dotfn). Software Developer & AI Developer, cocreador de BondiMDP y autor de herramientas como lumus-control y brewmenu."
 	schema={schemas}
 >
-	<NavHeader />
+	<button type="button" class="theme-toggle" id="themeToggleNav" aria-label="Cambiar tema" title="Cambiar tema">
+		<Sun class="icon-sun" size={16} />
+		<Moon class="icon-moon" size={16} />
+	</button>
 
-	<main class="home-wrapper">
+	<main>
 		<Hero />
-		<Focus />
-		<FeaturedProject />
-		<OtherProjects />
-		<GitHubActivity />
-		<Journey />
-		<CurrentFocus />
+
+		<div class="home-wrapper">
+			<Projects />
+			<Focus />
+
+			<div class="home-grid">
+				<aside class="home-sidebar">
+					<ProfileCard data={profileData} />
+				</aside>
+
+				<div class="home-content">
+					<GitHubActivity />
+					<CurrentFocus />
+				</div>
+			</div>
+
+			<Journey />
+		</div>
+
 		<Contact />
 	</main>
 
@@ -94,14 +110,37 @@ const schemas = [personSchema, bondiMDPSchema, faqSchema];
 
 <style>
 	.home-wrapper {
-		max-width: 860px;
-		margin: 120px auto 0;
-		padding: 0 24px;
+		max-width: 1600px;
+		margin: 0 auto;
+		padding: 0 clamp(16px, 4vw, 64px);
 	}
 
-	@media (max-width: 860px) {
-		.home-wrapper {
-			margin-top: 100px;
+	.home-grid {
+		display: grid;
+		grid-template-columns: 340px 1fr;
+		gap: 56px;
+		align-items: start;
+	}
+
+	.home-sidebar,
+	.home-content {
+		min-width: 0;
+	}
+
+	/* tighter rhythm than the sitewide .home-section gap — keeps the
+	   sidebar and this column's cards landing within one screen together */
+	.home-content > :global(.home-section) {
+		margin-bottom: 56px;
+	}
+
+	@media (max-width: 960px) {
+		.home-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.home-sidebar {
+			max-width: 420px;
+			margin: 0 auto;
 		}
 	}
 

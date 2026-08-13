@@ -1,111 +1,386 @@
 ---
-import { Brain, Compass, CodeXml } from '@lucide/astro';
+import {
+	RotateCw,
+	Sparkle,
+	PenTool,
+	Code,
+	Layers,
+	Search,
+	MapPin,
+	Smartphone,
+	RefreshCw,
+	Brain,
+	Lightbulb,
+	Terminal,
+	Wrench,
+} from '@lucide/astro';
+import codingIconRaw from '../../assets/iconografia/Under-construction.svg?raw';
+import productLaunchIconRaw from '../../assets/iconografia/Launch.svg?raw';
+import aiIconRaw from '../../assets/iconografia/Magic offer.svg?raw';
+import orderDeliveredIconRaw from '../../assets/iconografia/Idea.svg?raw';
+
+// This is dark-outline-on-light-fill artwork: the outline only reads as
+// "linework" because it's darker than everything around it. Flipping the
+// outline to white for dark mode seemed like the adaptive move, but it made
+// the outline the same brightness as the fills and the page — everything
+// blends into one glow instead of showing shapes. That kind of illustration
+// can't cleanly invert without being redrawn, so colors stay native/fixed —
+// only the mid-tone shapes tie into the current accent for a light branding
+// touch. The card around the art (background, title, text) still adapts;
+// the illustration itself sits on its own fixed light canvas (see
+// .power-illustration below) so it always renders on the surface it was
+// drawn for, regardless of site theme.
+function themeAdapt(svg: string): string {
+	return svg.replaceAll('#1a9d5c', 'var(--accent)');
+}
+
+const codingIcon = themeAdapt(codingIconRaw);
+const productLaunchIcon = themeAdapt(productLaunchIconRaw);
+const aiIcon = themeAdapt(aiIconRaw);
+const orderDeliveredIcon = themeAdapt(orderDeliveredIconRaw);
+
+const powers = [
+	{
+		icon: codingIcon,
+		frontTitle: 'Puente entre diseño y código',
+		role: 'Full Stack Developer',
+		backTitle: 'Menos idas y vueltas, más velocidad',
+		backDesc: 'Diseño y desarrollo salen de la misma cabeza — sin handoff, sin fricción entre equipos.',
+		bullets: [
+			{ icon: PenTool, text: 'Diseño y prototipo en Figma antes de escribir código' },
+			{ icon: Code, text: 'Programo el frontend completo: React, Next.js, Astro' },
+			{ icon: Layers, text: 'Cero handoff — la misma persona diseña y construye' },
+		],
+		stats: ['PWA en producción', 'React · Next.js · Astro'],
+	},
+	{
+		icon: productLaunchIcon,
+		frontTitle: 'Constructor de productos reales',
+		role: 'Product Thinking',
+		backTitle: 'BondiMDP, de la idea a producción',
+		backDesc: 'Una PWA de transporte que la comunidad adoptó sola, hoy en charlas para ser la app oficial.',
+		bullets: [
+			{ icon: Search, text: 'Research y validación con usuarios reales de Mar del Plata' },
+			{ icon: MapPin, text: 'Arribos y recorridos en tiempo real vía geolocalización' },
+			{ icon: Smartphone, text: 'Adopción orgánica — cero gasto en marketing' },
+		],
+		stats: ['+19k usuarios únicos', '+87k sesiones'],
+	},
+	{
+		icon: aiIcon,
+		frontTitle: 'Velocidad sin perder calidad',
+		role: 'IA & Tooling',
+		backTitle: 'Si lo hago dos veces, lo automatizo',
+		backDesc: 'Uso IA para acortar tiempos de entrega — la decisión final de cada línea sigue siendo mía.',
+		bullets: [
+			{ icon: Sparkle, text: 'Uso Claude y agentes para prototipar y escribir código más rápido' },
+			{ icon: RefreshCw, text: 'Automatizo tareas repetitivas con scripts y APIs propias' },
+			{ icon: Brain, text: 'Reviso y decido yo cada línea antes de shippear' },
+		],
+		stats: ['Entregas más rápidas', 'Calidad revisada por mí'],
+	},
+	{
+		icon: orderDeliveredIcon,
+		frontTitle: 'Shipper de proyectos propios',
+		role: 'Indie Maker',
+		backTitle: 'Si digo que lo entrego, lo entrego',
+		backDesc: 'Diseño, programo y mantengo mis propios productos en producción — la misma disciplina que le pongo al tuyo.',
+		bullets: [
+			{ icon: Lightbulb, text: 'lumus-control: lámparas WiZ por UDP con Tauri, sin nube (Mac/Win/Linux)' },
+			{ icon: Terminal, text: 'brewmenu: monitorea Homebrew desde la barra de menú' },
+			{ icon: Wrench, text: 'Los diseño, programo y mantengo yo, solo' },
+		],
+		stats: ['lumus-control', 'brewmenu'],
+	},
+];
 ---
 
 <section class="home-section">
-	<h2 class="section-num">01 / Enfoque</h2>
-	<h3 class="section-heading">Cómo abordo un proyecto</h3>
+	<h2 class="section-num">02 / Cómo Trabajo</h2>
+	<h3 class="section-heading">Lo que sumo a tu producto</h3>
 
-	<div class="focus-grid">
-		<div class="focus-card">
-			<div class="focus-icon"><Brain size={24} /></div>
-			<h4>Entender el problema</h4>
-			<p>
-				Antes de pensar en una solución, intento entender qué se necesita resolver y por qué.
-				Me gusta hacer preguntas, analizar el contexto y encontrar el problema real detrás
-				del pedido inicial.
-			</p>
-		</div>
-
-		<div class="focus-card">
-			<div class="focus-icon"><Compass size={24} /></div>
-			<h4>Pensar alternativas</h4>
-			<p>
-				Exploro distintas formas de abordar un problema antes de empezar a desarrollar.
-				Utilizo diferentes sistemas para organizar ideas, visualizar propuestas y
-				evaluar posibles caminos.
-			</p>
-		</div>
-
-		<div class="focus-card">
-			<div class="focus-icon"><CodeXml size={24} /></div>
-			<h4>Construir y mejorar</h4>
-			<p>
-				Una vez definida la dirección, desarrollo interfaces web buscando claridad,
-				simplicidad y una buena experiencia de uso. Considero el desarrollo como un
-				proceso iterativo que siempre puede mejorarse.
-			</p>
-		</div>
+	<div class="powers-grid">
+		{
+			powers.map((power) => (
+				<button type="button" class="power-card" aria-pressed="false" aria-label={`${power.frontTitle} — tocá para ver más`}>
+					<div class="power-card-inner">
+						<div class="power-face power-front">
+							<Sparkle size={14} class="power-sparkle power-sparkle-a" />
+							<Sparkle size={10} class="power-sparkle power-sparkle-b" />
+							<h4>{power.frontTitle}</h4>
+							<div class="power-illustration">
+								<div class="power-icon" set:html={power.icon} />
+							</div>
+							<span class="power-hint">
+								<RotateCw size={12} />
+								Tocá para ver más
+							</span>
+							<span class="power-role">{power.role}</span>
+						</div>
+						<div class="power-face power-back">
+							<h4>{power.backTitle}</h4>
+							<p>{power.backDesc}</p>
+							<ul class="power-bullets">
+								{power.bullets.map((bullet) => (
+									<li>
+										<bullet.icon size={14} class="power-bullet-icon" />
+										<span>{bullet.text}</span>
+									</li>
+								))}
+							</ul>
+							<div class="power-stats">
+								{power.stats.map((stat) => (
+									<span class="power-stat">{stat}</span>
+								))}
+							</div>
+						</div>
+					</div>
+				</button>
+			))
+		}
 	</div>
 </section>
 
+<script>
+	document.addEventListener('astro:page-load', () => {
+		document.querySelectorAll<HTMLButtonElement>('.power-card').forEach((card) => {
+			if (card.dataset.flipBound) return;
+			card.dataset.flipBound = 'true';
+
+			card.addEventListener('click', () => {
+				const flipped = card.classList.toggle('is-flipped');
+				card.setAttribute('aria-pressed', String(flipped));
+			});
+		});
+	});
+</script>
+
 <style>
-	.home-section {
-		margin-bottom: 120px;
-	}
-
-	.section-num {
-		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.78rem;
-		color: var(--accent);
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		margin-bottom: 12px;
-	}
-
-	.section-heading {
-		font-family: var(--font-display);
-		font-size: 1.8rem;
-		font-weight: 700;
-		color: var(--ink);
-		margin-bottom: 32px;
-		letter-spacing: -0.01em;
-	}
-
-	.focus-grid {
+	.powers-grid {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 24px;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 20px;
 	}
 
-	.focus-card {
-		background: var(--card);
-		border: 1px solid var(--line);
-		border-radius: 12px;
-		padding: 32px 24px;
-		transition: var(--transition);
+	.power-card {
+		display: block;
+		width: 100%;
+		height: 500px;
+		perspective: 1200px;
+		background: none;
+		border: none;
+		padding: 0;
+		margin: 0;
+		font: inherit;
+		text-align: inherit;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
 	}
 
-	.focus-card:hover {
-		border-color: var(--accent);
+	.power-card-inner {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		border-radius: 20px;
+		transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1), box-shadow 0.3s ease;
+		transform-style: preserve-3d;
+	}
+
+	/* Hover only invites — a lift, nothing flips yet */
+	.power-card:hover .power-card-inner {
 		transform: translateY(-4px);
+		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
 	}
 
-	.focus-icon {
+	/* An actual click/tap flips it */
+	.power-card.is-flipped .power-card-inner {
+		transform: rotateY(180deg);
+	}
+
+	.power-card.is-flipped:hover .power-card-inner {
+		transform: rotateY(180deg) translateY(-4px);
+	}
+
+	/* sits in normal flow now, just above the role label at the bottom of
+	   the card, instead of floating over the title up top */
+	.power-hint {
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
 		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.8rem;
+		font-size: 0.68rem;
 		color: var(--accent);
-		margin-bottom: 24px;
+		background: var(--accent-soft);
+		padding: 5px 10px;
+		border-radius: var(--radius-pill);
+		margin-bottom: 10px;
+		opacity: 0;
+		transform: translateY(4px);
+		transition: opacity 0.25s ease, transform 0.25s ease;
 	}
 
-	.focus-card h4 {
+	.power-card:hover .power-hint {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* touch input has no hover, so the hint would otherwise never appear —
+	   show it outright instead of gating it behind an interaction the
+	   device can't perform */
+	@media (hover: none) {
+		.power-hint {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.power-card.is-flipped .power-hint {
+		display: none;
+	}
+
+	.power-face {
+		position: absolute;
+		inset: 0;
+		backface-visibility: hidden;
+		border-radius: 20px;
+		border: 1px solid var(--line);
+		padding: 28px;
+	}
+
+	.power-front {
+		background: var(--card);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		text-align: center;
+		overflow: hidden;
+	}
+
+	.power-sparkle {
+		position: absolute;
+		color: var(--line);
+	}
+
+	.power-sparkle-a {
+		top: 22px;
+		right: 44px;
+	}
+
+	.power-sparkle-b {
+		top: 96px;
+		left: 28px;
+	}
+
+	.power-front h4 {
 		font-family: var(--font-display);
-		font-size: 1.15rem;
-		font-weight: 700;
+		font-size: 1.3rem;
+		font-weight: 800;
 		color: var(--ink);
-		margin-bottom: 12px;
+		letter-spacing: -0.01em;
+		line-height: 1.15;
+		max-width: 20ch;
 	}
 
-	.focus-card p {
-		font-size: 0.88rem;
-		line-height: 1.6;
+	.power-illustration {
+		position: relative;
+		flex: 1;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10px 0;
+	}
+
+	.power-illustration :global(.power-icon) {
+		position: relative;
+		width: 100%;
+		max-width: 230px;
+		padding: 0 16px;
+	}
+
+	.power-illustration :global(.power-icon svg) {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.power-role {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.85rem;
 		color: var(--ink-soft);
 	}
 
-	@media (max-width: 768px) {
-		.focus-grid {
+	.power-back {
+		background: var(--card-mid);
+		transform: rotateY(180deg);
+		display: flex;
+		flex-direction: column;
+	}
+
+	.power-back h4 {
+		font-family: var(--font-display);
+		font-size: 1.5rem;
+		font-weight: 800;
+		color: var(--ink);
+		letter-spacing: -0.015em;
+		line-height: 1.15;
+		margin-bottom: 14px;
+	}
+
+	.power-back p {
+		font-size: 1.02rem;
+		line-height: 1.5;
+		color: var(--ink-soft);
+		margin-bottom: 16px;
+	}
+
+	.power-bullets {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 11px;
+		margin-bottom: 16px;
+	}
+
+	.power-bullets li {
+		display: flex;
+		align-items: flex-start;
+		gap: 9px;
+		font-size: 0.86rem;
+		line-height: 1.4;
+		color: var(--ink-soft);
+	}
+
+	.power-bullet-icon {
+		flex-shrink: 0;
+		margin-top: 2px;
+		color: var(--accent);
+	}
+
+	.power-stats {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-top: 16px;
+	}
+
+	.power-stat {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		padding: 6px 12px;
+		background: var(--accent-soft);
+		color: var(--accent);
+		border-radius: var(--radius-pill);
+	}
+
+	@media (max-width: 640px) {
+		.powers-grid {
 			grid-template-columns: 1fr;
-			gap: 16px;
+		}
+
+		.power-card {
+			height: 390px;
 		}
 	}
 </style>

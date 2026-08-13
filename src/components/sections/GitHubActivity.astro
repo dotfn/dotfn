@@ -3,40 +3,19 @@ import GitHubActivityReact from './GitHubActivity.tsx';
 ---
 
 <section class="home-section">
-	<span class="section-num">04 / Actividad</span>
-	<h3 class="section-heading">Recientes contribuciones en GitHub</h3>
+	<span class="section-num">03 / Constancia</span>
+	<h3 class="section-heading">Ritmo de ejecución diario</h3>
 	
 	<GitHubActivityReact client:visible />
 </section>
 
 <style>
-	.home-section {
-		margin-bottom: 120px;
-	}
-
-	.section-num {
-		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.78rem;
-		color: var(--accent);
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		margin-bottom: 12px;
-	}
-
-	.section-heading {
-		font-family: var(--font-display);
-		font-size: 1.8rem;
-		font-weight: 700;
-		color: var(--ink);
-		margin-bottom: 32px;
-		letter-spacing: -0.01em;
-	}
 
 	:global(.github-card) {
 		background: var(--card);
 		border: 1px solid var(--line);
 		border-radius: 20px;
-		padding: 36px;
+		padding: 26px;
 		box-shadow: var(--shadow-deep);
 		transition: var(--transition-theme);
 	}
@@ -45,7 +24,7 @@ import GitHubActivityReact from './GitHubActivity.tsx';
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 24px;
+		margin-bottom: 18px;
 	}
 
 	:global(.user-profile) {
@@ -110,16 +89,16 @@ import GitHubActivityReact from './GitHubActivity.tsx';
 		cursor: crosshair;
 	}
 	:global(.calendar-wrapper) {
-		margin-bottom: 32px;
+		margin-bottom: 20px;
 		width: 100%;
 		container-type: inline-size;
 	}
 
 	:global(.calendar-grid-container) {
 		display: flex;
-		gap: clamp(4px, 1.5cqw, 12px);
-		align-items: flex-end;
-		margin-top: 24px;
+		gap: clamp(8px, 1.5cqw, 16px);
+		align-items: stretch;
+		margin-top: 18px;
 		width: 100%;
 	}
 
@@ -128,11 +107,10 @@ import GitHubActivityReact from './GitHubActivity.tsx';
 		flex-direction: column;
 		justify-content: space-between;
 		font-family: 'Inter', sans-serif;
-		font-size: clamp(7px, 1.25cqw, 11px);
+		font-size: clamp(9px, 1.1cqw, 13px);
 		color: var(--muted);
 		padding: 2px 0;
-		height: calc(7 * clamp(3.5px, 1.35cqw, 11px) + 6 * clamp(0.7px, 0.35cqw, 3px));
-		width: clamp(14px, 3.5cqw, 24px);
+		width: clamp(20px, 3cqw, 30px);
 		flex-shrink: 0;
 	}
 
@@ -140,27 +118,29 @@ import GitHubActivityReact from './GitHubActivity.tsx';
 		line-height: 1;
 	}
 
+	/* Each week is a flex column sharing the row equally, so the grid always
+	   fills the full card width regardless of how wide the card gets. */
 	:global(.calendar-grid) {
 		display: flex;
-		gap: clamp(0.7px, 0.35cqw, 3px);
+		gap: clamp(2px, 0.3cqw, 5px);
 		flex-grow: 1;
 		min-width: 0;
-		justify-content: flex-start;
 	}
 
 	:global(.calendar-column) {
 		display: flex;
 		flex-direction: column;
+		flex: 1 1 0;
+		min-width: 0;
 		position: relative;
-		flex-shrink: 0;
 	}
 
 	:global(.month-label-cell) {
 		position: absolute;
-		top: calc(-1.8 * clamp(3.5px, 1.35cqw, 11px));
+		top: -22px;
 		left: 0;
 		font-family: 'Inter', sans-serif;
-		font-size: clamp(7px, 1.25cqw, 11px);
+		font-size: clamp(9px, 1.1cqw, 13px);
 		color: var(--muted);
 		white-space: nowrap;
 		pointer-events: none;
@@ -169,13 +149,14 @@ import GitHubActivityReact from './GitHubActivity.tsx';
 	:global(.calendar-week) {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(0.7px, 0.35cqw, 3px);
+		gap: clamp(2px, 0.3cqw, 5px);
+		height: 100%;
 	}
 
 	:global(.day-cell) {
-		width: clamp(3.5px, 1.35cqw, 11px);
-		height: clamp(3.5px, 1.35cqw, 11px);
-		border-radius: 2px;
+		width: 100%;
+		aspect-ratio: 1;
+		border-radius: 3px;
 		transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.1s;
 	}
 

@@ -99,31 +99,17 @@ const {
 			setupThemeToggles();
 			document.addEventListener('astro:page-load', setupThemeToggles);
 		</script>
+		<script>
+			import { setupMotion, teardownMotion } from '../scripts/motion';
+
+			// GSAP + Lenis own scroll reveals & smooth scroll; re-init on every
+			// view-transition page load, tear down beforehand to avoid leaks.
+			document.addEventListener('astro:page-load', setupMotion);
+			document.addEventListener('astro:before-swap', teardownMotion);
+		</script>
 		<script is:inline>
 			document.addEventListener('astro:page-load', () => {
-				/* ── 1. SCROLL REVEAL ─────────────────────────────────── */
-				const observer = new IntersectionObserver((entries) => {
-					entries.forEach((entry) => {
-						if (entry.isIntersecting) {
-							entry.target.classList.add('in-view');
-							observer.unobserve(entry.target);
-						}
-					});
-				}, {
-					threshold: 0.05,
-					rootMargin: '0px 0px -60px 0px'
-				});
-
-				// Skip hero-section (own entrance) and data-no-reveal (own per-item observers)
-				const targets = document.querySelectorAll(
-					'main > section:not(.hero-section):not([data-no-reveal]), .profile-card, .page'
-				);
-				targets.forEach((target) => {
-					target.classList.add('scroll-reveal');
-					observer.observe(target);
-				});
-
-				/* ── 2. STICKY NAV SCROLL SHADOW ──────────────────────── */
+				/* ── 1. STICKY NAV SCROLL SHADOW ──────────────────────── */
 				const navHeader = document.querySelector('.nav-header');
 				if (navHeader) {
 					const onScroll = () => {
@@ -134,7 +120,7 @@ const {
 					onScroll();
 				}
 
-				/* ── 3. CURSOR LIGHT TRACKING ON CARDS ────────────────── */
+				/* ── 2. CURSOR LIGHT TRACKING ON CARDS ────────────────── */
 				document.querySelectorAll('.card-glow').forEach((card) => {
 					// Need to ensure we don't attach multiple times
 					if (card.dataset.glowAttached) return;
@@ -154,7 +140,7 @@ const {
 					});
 				});
 
-				/* ── 4. CONTACT BOX → PHOTO PARALLAX TILT ─────────────── */
+				/* ── 3. CONTACT BOX → PHOTO PARALLAX TILT ─────────────── */
 				const contactBox = document.querySelector('.contact-box');
 				const tiltTarget = document.getElementById('contactTiltWrap');
 				if (contactBox && tiltTarget) {

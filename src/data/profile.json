@@ -1,9 +1,8 @@
 {
   "username": "@dotfn",
   "name": "Nicolás Jiménez",
-  "bio": "Frontend Developer · Producto Digital · Diseño UX/UI",
+  "bio": "Forward Deployed Engineer & AI Developer | Full Stack Software Engineer | Product-Focused | Multimedia Design Background",
   "avatar": "/contact-profile.jpg",
-  "featuredImage": "/background.jpg",
   "links": [
     {
       "label": "Curriculum Vitae",
@@ -42,5 +41,5 @@
       "description": "Escribime directo"
     }
   ],
-  "footer": "Sitio en construcción · Volvé pronto"
+  "footer": "Gracias por pasar · Hablamos pronto"
 }

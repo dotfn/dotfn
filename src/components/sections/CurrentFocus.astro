@@ -1,122 +1,191 @@
 ---
-// CurrentFocus Component
+const DEVICON_BASE = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons';
+// devicon doesn't carry these AI-tool brand marks yet — simple-icons does.
+const SIMPLEICONS_BASE = 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons';
+
+interface Tech {
+	name: string;
+	slug: string;
+	source?: 'simple';
+}
+
+const marqueeRow1: Tech[] = [
+	{ name: 'React', slug: 'react/react-original' },
+	{ name: 'Next.js', slug: 'nextjs/nextjs-original' },
+	{ name: 'Astro', slug: 'astro/astro-original' },
+	{ name: 'TypeScript', slug: 'typescript/typescript-original' },
+	{ name: 'Tailwind CSS', slug: 'tailwindcss/tailwindcss-original' },
+	{ name: 'Figma', slug: 'figma/figma-original' },
+];
+
+const marqueeRow2: Tech[] = [
+	{ name: 'Python', slug: 'python/python-original' },
+	{ name: 'JavaScript', slug: 'javascript/javascript-original' },
+	{ name: 'Git', slug: 'git/git-original' },
+	{ name: 'GitHub', slug: 'github/github-original' },
+	{ name: 'Node.js', slug: 'nodejs/nodejs-original' },
+];
+
+const marqueeRow3: Tech[] = [
+	{ name: 'VS Code', slug: 'vscode/vscode-original' },
+	{ name: 'Claude', slug: 'claude', source: 'simple' },
+	{ name: 'Cursor', slug: 'cursor', source: 'simple' },
+	{ name: 'Gemini', slug: 'googlegemini', source: 'simple' },
+	{ name: 'Supabase', slug: 'supabase/supabase-original' },
+];
+
+const marqueeRows = [marqueeRow1, marqueeRow2, marqueeRow3];
+const iconSrc = (tech: Tech) => `${tech.source === 'simple' ? SIMPLEICONS_BASE : DEVICON_BASE}/${tech.slug}.svg`;
 ---
 
 <section class="home-section focus-section" id="foco" data-no-reveal>
-	<h2 class="section-num">06 / Foco Actual</h2>
-	<h3 class="section-heading">La próxima generación de herramientas</h3>
-	<p class="focus-text">
-	Además del desarrollo frontend, actualmente investigo el desarrollo asistido por IA y los sistemas agénticos. Me interesa entender cómo estas herramientas transforman el proceso de creación de software y cómo pueden integrarse para construir productos más útiles, mantenibles y centrados en las personas.</p>
-	<div class="tags-group" id="focusTags">
-		<span class="focus-tag" data-index="0">React</span>
-		<span class="focus-tag" data-index="1">Next.js</span>
-		<span class="focus-tag" data-index="2">Astro</span>
-		<span class="focus-tag" data-index="3">JavaScript / TS</span>
-		<span class="focus-tag" data-index="4">Tailwind CSS</span>
-		<span class="focus-tag" data-index="5">Figma</span>
-		<span class="focus-tag" data-index="6">Diseño UX/UI</span>
-		<span class="focus-tag" data-index="7">Sistemas Agénticos</span>
-		<span class="focus-tag" data-index="8">Desarrollo Asistido por IA</span>
-		<span class="focus-tag" data-index="9">Automatización</span>
-		<span class="focus-tag" data-index="10">Product Thinking</span>
-		<span class="focus-tag" data-index="11">Hermes Agent</span>
-		<span class="focus-tag" data-index="12">Skills</span>
-		<span class="focus-tag" data-index="13">Python</span>
-		<span class="focus-tag" data-index="14">Gestión de Proyectos</span>
-		<span class="focus-tag" data-index="15">Ingeniería de Software</span>
+	<div class="focus-head">
+		<h2 class="section-num">04 / Foco Actual</h2>
+		<h3 class="section-heading">Human in the Loop</h3>
+	</div>
+
+	<div class="focus-bento">
+		<div class="focus-card focus-text-card">
+			<p class="focus-text">
+				Los agentes de IA aceleran mi flujo de trabajo: prototipo ideas, automatizo tareas repetitivas y escribo código más rápido. Pero las decisiones importantes siguen siendo mías — reviso cada output, cuestiono lo que proponen y decido qué llega a producción. El resultado: entregas más rápidas, sin resignar calidad ni control.
+			</p>
+		</div>
+
+		<div class="focus-card focus-marquee-card">
+			<div class="focus-marquee" aria-label={`Tecnologías: ${marqueeRows.flat().map(t => t.name).join(', ')}`}>
+				{marqueeRows.map((row, rowIndex) => (
+					<div class={`marquee-row ${rowIndex % 2 === 1 ? 'marquee-row-reverse' : ''}`}>
+						<div class="marquee-track">
+							{[...row, ...row].map((tech, i) => (
+								<span class="marquee-item" aria-hidden={i >= row.length ? 'true' : undefined}>
+									<img src={iconSrc(tech)} alt="" width="28" height="28" loading="lazy" />
+									{tech.name}
+								</span>
+							))}
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
 	</div>
 </section>
 
 <style>
-	.home-section {
-		margin-bottom: 120px;
+	/* matches .focus-bento's own column math below, so the heading wraps
+	   to the same width as the text card instead of running under the
+	   marquee card too */
+	.focus-head .section-heading {
+		<!-- font-size: clamp(2.25rem, 4vw, 3rem); -->
+		max-width: calc((100% - 20px) * 1.3 / 2.3);
 	}
 
-	.section-num {
-		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.78rem;
-		color: var(--accent);
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		margin-bottom: 12px;
+	.focus-bento {
+		display: grid;
+		grid-template-columns: 1.3fr 1fr;
+		gap: 20px;
+		align-items: stretch;
 	}
 
-	.section-heading {
-		font-family: var(--font-display);
-		font-size: 1.8rem;
-		font-weight: 700;
-		color: var(--ink);
-		margin-bottom: 32px;
-		letter-spacing: -0.01em;
+	.focus-card {
+		background: var(--card);
+		border: 1px solid var(--line);
+		border-radius: 20px;
+		padding: 22px;
+		box-shadow: var(--shadow-btn);
+	}
+
+	.focus-marquee-card {
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+	}
+
+	.focus-text-card {
+		display: flex;
+		align-items: center;
 	}
 
 	.focus-text {
-		font-size: 1rem;
-		line-height: 1.65;
+		font-size: 0.95rem;
+		line-height: 1.6;
 		color: var(--ink-soft);
-		max-width: 62ch;
-		margin-bottom: 28px;
 	}
 
-	.tags-group {
+	.focus-marquee {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-		max-width: 62ch;
+		flex-direction: column;
+		gap: 12px;
+		width: 100%;
 	}
 
-	/* tags are invisible by default; script adds tag-in */
-	.focus-tag {
+	.marquee-row {
+		overflow: hidden;
+		-webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+		mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+	}
+
+	.marquee-track {
+		display: flex;
+		width: max-content;
+		gap: 12px;
+		animation: marquee-scroll 28s linear infinite;
+	}
+
+	.marquee-row-reverse .marquee-track {
+		animation-direction: reverse;
+	}
+
+	@keyframes marquee-scroll {
+		from { transform: translateX(0); }
+		to { transform: translateX(-50%); }
+	}
+
+	.marquee-item {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		flex-shrink: 0;
 		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.78rem;
-		padding: 6px 14px;
-		border-radius: 6px;
-		border: 1px solid var(--line);
-		background: var(--card);
+		font-size: 0.82rem;
 		color: var(--ink-soft);
-		cursor: default;
-		transition: border-color 0.25s ease, color 0.25s ease,
-					transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-					box-shadow 0.25s ease,
-					opacity 0.45s ease;
-		/* start invisible for the wave-in */
-		opacity: 0;
-		transform: translateY(8px);
+		background: var(--card-mid);
+		border: 1px solid var(--line);
+		border-radius: 14px;
+		padding: 10px 16px;
 	}
 
-	/* :global() so JS-added class bypasses Astro scope hashing */
-	:global(.focus-tag.tag-in) {
-		cursor: cell;
-		opacity: 1;
-		transform: translateY(0);
+	.marquee-item img {
+		width: 28px;
+		height: 28px;
+		object-fit: contain;
+		/* fixed light chip behind each logo — several devicons (Next.js,
+		   GitHub) and simple-icons brand marks (Claude, Cursor, Gemini) are
+		   solid dark shapes that vanish on the dark theme's own dark card
+		   background */
+		background: #f2ede1;
+		border-radius: 8px;
+		padding: 3px;
 	}
 
-	/* hover — keep translateY(0) base so transition doesn't snap */
-	.focus-tag:hover {
-		border-color: var(--accent);
-		color: var(--accent);
-		transform: translateY(0) rotate(-3deg) scale(1.07);
-		box-shadow: 0 4px 16px var(--accent-soft);
+	@media (prefers-reduced-motion: reduce) {
+		.marquee-track {
+			animation: none;
+		}
+	}
+
+	@media (max-width: 720px) {
+		.focus-bento {
+			grid-template-columns: 1fr;
+		}
+
+		.focus-head .section-heading {
+			max-width: none;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.focus-card {
+			padding: 22px;
+		}
 	}
 </style>
-
-<script>
-	document.addEventListener('astro:page-load', () => {
-		const tags = document.querySelectorAll('#focusTags .focus-tag');
-		if (tags.length) {
-			const io = new IntersectionObserver((entries) => {
-				entries.forEach(entry => {
-					if (entry.isIntersecting) {
-						tags.forEach(tag => {
-							const idx = Number((tag as HTMLElement).dataset.index) || 0;
-							setTimeout(() => tag.classList.add('tag-in'), idx * 70);
-						});
-						io.disconnect();
-					}
-				});
-			}, { threshold: 0.3 });
-			const group = document.getElementById('focusTags');
-			if (group) io.observe(group);
-		}
-	});
-</script>

@@ -1,5 +1,15 @@
 ---
 import { Terminal, Video, LayoutTemplate as LayoutIcon, GraduationCap } from '@lucide/astro';
+import { Image } from 'astro:assets';
+import facultadInformaticaLogo from '../../assets/logo-facultada-de-informatica.svg';
+import facultadArtesLogo from '../../assets/Logo-Facultad-de-Arte.jpeg';
+import utnLogo from '../../assets/logo-utn.png';
+
+const instituteLogos = [
+	{ key: 'informatica', src: facultadInformaticaLogo, alt: 'Facultad de Informática — UNLP' },
+	{ key: 'artes', src: facultadArtesLogo, alt: 'Facultad de Artes — UNLP' },
+	{ key: 'utn', src: utnLogo, alt: 'Universidad Tecnológica Nacional' },
+];
 ---
 
 <section class="home-section journey-section" id="journey" data-no-reveal>
@@ -7,90 +17,86 @@ import { Terminal, Video, LayoutTemplate as LayoutIcon, GraduationCap } from '@l
 		<h2 class="section-num">05 / Trayectoria</h2>
 	</div>
 	<div class="journey-body">
-		<h3 class="section-heading">Una mirada construida desde distintas disciplinas</h3>
+		<h3 class="section-heading">Un criterio de producto construido desde distintas disciplinas</h3>
 		<p class="journey-intro">
-			Mi recorrido académico pasó por la informática, el arte y el diseño antes de enfocarme en el desarrollo de software. Más que una secuencia de carreras, cada etapa incorporó una forma distinta de entender cómo se diseñan y construyen los productos digitales.
+			Pasé por la informática, el arte y el diseño antes de dedicarme al desarrollo de software — esa mezcla es la que hoy me permite pensar tu producto de punta a punta: negocio, experiencia y código, no solo una parte.
 		</p>
 		<div class="journey-timeline" id="journeyTimeline">
-			<div class="journey-item" data-index="0">
+			<div class="journey-item" data-index="0" data-logo="informatica">
 				<span class="journey-year">2018</span>
 				<div class="journey-content">
 					<h4>
-						<Terminal size={16} class="timeline-icon" />
-						Informática
+						<Terminal size={19} class="timeline-icon" />
+						Licenciatura en Informática (UNLP - FI)
 					</h4>
 					<p>Mi primer acercamiento a la programación y al pensamiento lógico. Descubrí cómo descomponer problemas y construir soluciones paso a paso.</p>
 				</div>
 			</div>
-			<div class="journey-item" data-index="1">
+			<div class="journey-item" data-index="1" data-logo="artes">
 				<span class="journey-year">2018</span>
 				<div class="journey-content">
 					<h4>
-						<Video size={16} class="timeline-icon" />
-						Artes Audiovisuales
+						<Video size={19} class="timeline-icon" />
+						Artes Audiovisuales (UNLP - FDA)
 					</h4>
 					<p>Exploré la narrativa, el lenguaje visual y la comunicación. Aprendí que toda experiencia transmite un mensaje, incluso cuando el expectador no lo percibe de forma consciente.</p>
 				</div>
 			</div>
-			<div class="journey-item" data-index="2">
+			<div class="journey-item" data-index="2" data-logo="artes">
 				<span class="journey-year">2019 - 2022</span>
 				<div class="journey-content">
 					<h4>
-						<LayoutIcon size={16} class="timeline-icon" />
-						Licenciatura en Diseño Multimedial
+						<LayoutIcon size={19} class="timeline-icon" />
+						Licenciatura en Diseño Multimedial (UNLP - FDA)
 					</h4>
 					<p>Profundicé en diseño de interfaces, experiencia de usuario, prototipado y desarrollo interactivo. Fue la etapa donde entendí que el diseño y la tecnología no compiten: trabajan mejor cuando forman parte del mismo proceso.</p>
 				</div>
 			</div>
-			<div class="journey-item" data-index="3">
+			<div class="journey-item" data-index="3" data-logo="utn">
 				<span class="journey-year">2025 - Pres.</span>
 				<div class="journey-content">
 					<h4>
-						<GraduationCap size={18} class="timeline-icon" />
-						Tecnicatura en Programación UTN
+						<GraduationCap size={21} class="timeline-icon" />
+						Tecnicatura en Programación UTN - MDP
 					</h4>
 					<p>Consolidé mis fundamentos en desarrollo de software.</p>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<div class="journey-logo-stage" aria-hidden="true">
+		{instituteLogos.map((logo) => (
+			<Image src={logo.src} alt={logo.alt} width={220} height={220} class="journey-logo-img" data-logo-key={logo.key} />
+		))}
+	</div>
 </section>
 
 <style>
 	/* layout */
 	.journey-section {
-		margin-bottom: 120px;
+		/* .journey-body's own padding-bottom (the sticky logo stage's
+		   runway) already provides the trailing gap before the next section */
+		margin-bottom: 0;
+		margin-top: 240px;
 		display: grid;
-		grid-template-columns: 180px 1fr;
+		grid-template-columns: 180px minmax(380px, 1fr) minmax(260px, 340px);
 		gap: 0 40px;
 		align-items: start;
 	}
 
 	/* STICKY LABEL (left column) */
 	.journey-sticky-label {
+		grid-column: 1;
 		position: sticky;
-		top: 80px;
+		top: 340px;
 		align-self: start;
 		padding-top: 6px;
 	}
 
-	.section-num {
-		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.78rem;
-		color: var(--accent);
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
+	/* This column's label sits beside the timeline rather than above it */
+	.journey-sticky-label .section-num {
 		margin-bottom: 0;
-		writing-mode: initial;
-	}
-
-	.section-heading {
-		font-family: var(--font-display);
-		font-size: 1.8rem;
-		font-weight: 700;
-		color: var(--ink);
-		margin-bottom: 32px;
-		letter-spacing: -0.01em;
 	}
 
 	.journey-intro {
@@ -101,6 +107,20 @@ import { Terminal, Video, LayoutTemplate as LayoutIcon, GraduationCap } from '@l
 		margin-bottom: 40px;
 	}
 
+	/* extra runway at the bottom of this grid row so the sticky logo stage
+	   (third column) has room to fully settle at `top` even while the last
+	   timeline item is active — without it, the row (sized to this
+	   column's content) ends too soon and drags the stage up mid-
+	   transition, clipping it against the viewport top. */
+	.journey-body {
+		/* explicit placement — otherwise, once the script pulls the label
+		   and logo stage out of grid flow (position: absolute) below,
+		   auto-placement drops this into column 1 (the label's narrow
+		   180px track) instead of column 2, exploding text wrap height */
+		grid-column: 2;
+		padding-bottom: 240px;
+	}
+
 	.journey-timeline {
 		position: relative;
 		padding-left: 20px;
@@ -108,10 +128,61 @@ import { Terminal, Video, LayoutTemplate as LayoutIcon, GraduationCap } from '@l
 		transition: var(--transition-theme);
 	}
 
+	/* third grid column, sibling to .journey-sticky-label and .journey-body
+	   — same "grid child" setup that already lets the sticky label track
+	   scroll correctly, so this sticks the same way instead of fighting a
+	   nested flex row's shorter containing block. Crossfades to whichever
+	   item's date is currently level with the sticky "05 / Trayectoria"
+	   label (see the script below). */
+	.journey-logo-stage {
+		grid-column: 3;
+		position: sticky;
+		top: 300px;
+		align-self: start;
+		min-height: 260px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.journey-logo-img {
+		position: absolute;
+		width: 220px;
+		height: 220px;
+		object-fit: contain;
+		background: #f2ede1;
+		border-radius: 50%;
+		padding: 26px;
+		border: 1px solid var(--line);
+		box-shadow: var(--shadow-deep);
+		opacity: 0;
+		transform: scale(0.9);
+		transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1);
+	}
+
+	/* :global() so the JS-added class bypasses Astro scope hashing */
+	:global(.journey-logo-img.is-active) {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	/* below this, the fixed-width columns (label + logo stage) don't leave
+	   the content column enough room to read comfortably — drop the logo
+	   stage entirely rather than let it squeeze the timeline text */
+	@media (max-width: 1300px) {
+		.journey-section {
+			grid-template-columns: 180px 1fr;
+		}
+
+		.journey-logo-stage {
+			display: none;
+		}
+	}
+
 	/* each timeline item hidden until scroll-reveals */
 	.journey-item {
 		position: relative;
-		margin-bottom: 36px;
+		margin-bottom: 120px;
 		display: grid;
 		grid-template-columns: 80px 1fr;
 		gap: 20px;
@@ -132,7 +203,7 @@ import { Terminal, Video, LayoutTemplate as LayoutIcon, GraduationCap } from '@l
 
 	.journey-year {
 		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.85rem;
+		font-size: 1rem;
 		font-weight: 600;
 		color: var(--accent);
 		line-height: 1.4;
@@ -163,10 +234,10 @@ import { Terminal, Video, LayoutTemplate as LayoutIcon, GraduationCap } from '@l
 
 	.journey-content h4 {
 		font-family: var(--font-display);
-		font-size: 1.1rem;
+		font-size: 1.35rem;
 		font-weight: 700;
 		color: var(--ink);
-		margin-bottom: 6px;
+		margin-bottom: 10px;
 		transition: color 0.3s;
 	}
 
@@ -175,8 +246,8 @@ import { Terminal, Video, LayoutTemplate as LayoutIcon, GraduationCap } from '@l
 	}
 
 	.journey-content p {
-		font-size: 0.88rem;
-		line-height: 1.6;
+		font-size: 1.02rem;
+		line-height: 1.65;
 		color: var(--ink-soft);
 		max-width: 55ch;
 	}
@@ -198,6 +269,11 @@ import { Terminal, Video, LayoutTemplate as LayoutIcon, GraduationCap } from '@l
 	@media (max-width: 768px) {
 		.journey-section {
 			grid-template-columns: 1fr;
+		}
+
+		.journey-sticky-label,
+		.journey-body {
+			grid-column: 1;
 		}
 
 		.journey-sticky-label {
@@ -235,6 +311,78 @@ import { Terminal, Video, LayoutTemplate as LayoutIcon, GraduationCap } from '@l
 				});
 			}, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
 			items.forEach(el => io.observe(el));
+		}
+
+		// Crossfades the institute logo in the free space next to the
+		// timeline: whichever item's date row is the last one to have
+		// crossed the sticky "05 / Trayectoria" label's line becomes the
+		// active one. Driven directly off scroll position (rAF-throttled)
+		// rather than IntersectionObserver — items sit closer together
+		// than a reveal-style trigger band, so multiple would overlap the
+		// band at once and fire in DOM order instead of "closest to the
+		// label". Any item without a data-logo would be skipped (last
+		// matched logo just stays put instead of disappearing) —
+		// currently every item has one.
+		//
+		// The last item still needs .journey-body's padding-bottom runway
+		// to reach its fully-settled `top` once — but past that, CSS
+		// sticky has nothing left to pin against (the row ends shortly
+		// after) and starts unsticking on its own. Label and stage have
+		// different top/height combos, so left to native sticky they'd
+		// unstick at different scroll amounts and visibly drift apart —
+		// the label left behind while the item itself keeps scrolling up
+		// past it. A one-time "freeze the current position" approach was
+		// tried here and discarded: it depends on a `current === lastItem`
+		// boolean staying perfectly in sync with real (Lenis-smoothed)
+		// scroll events, and any single frame where that flips — a wheel
+		// flick overshooting, a resize, a rAF skipped under load — desyncs
+		// the two permanently until the user scrolls back out and in again.
+		// Instead, every frame both elements' `top` is recomputed fresh
+		// from the *live* gap between the last item and the trigger line:
+		// zero once the item hasn't reached it yet (native sticky, as
+		// before), then that same negative delta subtracted from both
+		// elements' base `top` once it has. Pure function of current
+		// scroll position — nothing to fall out of sync because there's
+		// no state carried between frames.
+		const logoImgs = document.querySelectorAll<HTMLElement>('.journey-logo-img');
+		const loggedItems = document.querySelectorAll<HTMLElement>('#journeyTimeline .journey-item[data-logo]');
+		const stickyLabel = document.querySelector<HTMLElement>('.journey-sticky-label');
+		const logoStage = document.querySelector<HTMLElement>('.journey-logo-stage');
+		if (logoImgs.length && loggedItems.length && stickyLabel && logoStage) {
+			const LABEL_TOP = parseFloat(getComputedStyle(stickyLabel).top) || 0;
+			const STAGE_TOP = parseFloat(getComputedStyle(logoStage).top) || 0;
+			const lastItem = loggedItems[loggedItems.length - 1];
+			let ticking = false;
+			let lastKey = '';
+
+			const updateActiveLogo = () => {
+				ticking = false;
+
+				let current: HTMLElement | null = null;
+				loggedItems.forEach((el) => {
+					if (el.getBoundingClientRect().top <= LABEL_TOP) current = el;
+				});
+				const key = current ? (current as HTMLElement).dataset.logo ?? '' : '';
+				if (key && key !== lastKey) {
+					lastKey = key;
+					logoImgs.forEach((img) => {
+						img.classList.toggle('is-active', img.dataset.logoKey === key);
+					});
+				}
+
+				const overshoot = Math.min(0, lastItem.getBoundingClientRect().top - LABEL_TOP);
+				stickyLabel.style.top = `${LABEL_TOP + overshoot}px`;
+				logoStage.style.top = `${STAGE_TOP + overshoot}px`;
+			};
+
+			const onScroll = () => {
+				if (ticking) return;
+				ticking = true;
+				requestAnimationFrame(updateActiveLogo);
+			};
+
+			window.addEventListener('scroll', onScroll, { passive: true });
+			updateActiveLogo();
 		}
 	});
 </script>

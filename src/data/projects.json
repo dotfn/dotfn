@@ -1,0 +1,51 @@
+[
+  {
+    "id": "bondimdp",
+    "name": "BondiMDP",
+    "badge": "Caso de Éxito",
+    "description": "Co-creé BondiMDP para resolver algo bien concreto: en Mar del Plata no había forma simple de ver recorridos y arribos del transporte público. Es una PWA con geolocalización en tiempo real que la comunidad adoptó de forma orgánica.",
+    "tech": ["React", "Next.js", "PWA", "Geolocalización"],
+    "url": "https://bondimdp.com.ar",
+    "urlLabel": "bondimdp.com.ar",
+    "big": true,
+    "stats": [
+      { "value": "+19k", "label": "Usuarios únicos" },
+      { "value": "+87k", "label": "Sesiones totales" },
+      { "value": "~300k", "label": "Vistas de página" }
+    ]
+  },
+  {
+    "id": "lumus-control",
+    "name": "lumus-control",
+    "badge": "Público",
+    "description": "Panel para controlar lámparas WiZ por UDP, local, sin depender de la nube de nadie. Construido con Tauri: corre en Mac, Windows y Linux.",
+    "tech": ["TypeScript", "Tauri"],
+    "url": "https://lumus-control.vercel.app/",
+    "urlLabel": "lumus-control.vercel.app"
+  },
+  {
+    "id": "brewmenu",
+    "name": "brewmenu",
+    "badge": "Público",
+    "description": "Saca a Homebrew de la terminal y lo lleva a la menu bar: supervisa fórmulas y casks instalados, marca los paquetes desactualizados con actualizaciones de un clic y organiza todo por ecosistema (Core, Cask y taps de terceros).",
+    "tech": ["Swift"],
+    "url": "https://brewmenu.vercel.app/",
+    "urlLabel": "brewmenu.vercel.app"
+  },
+  {
+    "id": "sensor-game",
+    "name": "Videojuego con sensores físicos",
+    "badge": "Proyecto Universitario",
+    "description": "Diseño de software y hardware (alfombra sensorizada) para un videojuego interactivo presentado en una muestra pública para más de 100 personas.",
+    "tech": ["JavaScript", "Hardware"]
+  },
+  {
+    "id": "links-hub",
+    "name": "Tarjeta Digital / Links Hub",
+    "badge": "Producto Personal",
+    "description": "Tarjeta de presentación digital minimalista optimizada para mobile, con soporte de temas rápido y micro-animaciones personalizadas.",
+    "tech": ["Astro"],
+    "url": "/links",
+    "urlLabel": "Ver tarjeta"
+  }
+]

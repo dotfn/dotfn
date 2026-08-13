@@ -9,35 +9,64 @@
   padding: 0;
 }
 
+img {
+  max-width: 100%;
+}
+
+/* ── SHARED SECTION HEADERS (used by every home section) ── */
+.home-section {
+  margin-bottom: 120px;
+}
+
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 32px;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
 :root {
-  --bg: #1d2021;
+  --bg: #08090b;
   --bg-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
   --bg-image: var(--bg-noise);
 
   /* Surfaces */
-  --card: #282828;
-  --card-mid: #3c3836;
-  --line: #3c3836;
+  --card: #131316;
+  --card-mid: #1b1b1f;
+  --line: #26262c;
 
   /* Typography Colors */
-  --text-light: #fbf1c7;
-  --text-muted: #a89984;
-  --text-dark: #1d2021;
-  --ink: #ebdbb2;
-  --ink-soft: #bdae93;
-  --muted: #a89984;
+  --text-light: #f4f4f0;
+  --text-muted: #8c8c94;
+  --text-dark: #08090b;
+  --ink: #f0f0ec;
+  --ink-soft: #a3a3ab;
+  --muted: #75757c;
 
   /* Accents */
-  --accent: #fabd2f;
-  --accent-soft: #352f1b;
-  --accent-hot: #fe8019;
+  --accent: #3ee68f;
+  --accent-soft: #16321f;
+  --accent-hot: #b892f5;
 
-  /* GitHub Contributions (Gruvbox Green style - solid high contrast) */
-  --contrib-0: #32302f;
-  --contrib-1: #3a4d2e;
-  --contrib-2: #597a3a;
-  --contrib-3: #87b04f;
-  --contrib-4: #b8bb26;
+  /* GitHub Contributions (green scale, matches accent) */
+  --contrib-0: #1b1b1f;
+  --contrib-1: #163a26;
+  --contrib-2: #1f6b3f;
+  --contrib-3: #2ea862;
+  --contrib-4: #3ee68f;
 
   /* Radii */
   --radius-card: 28px;
@@ -45,7 +74,7 @@
   --radius-pill: 999px;
 
   /* Shadows */
-  --shadow-deep: 0 32px 80px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .3);
+  --shadow-deep: 0 32px 80px rgba(0, 0, 0, .5), 0 8px 24px rgba(0, 0, 0, .35);
   --shadow-btn: 0 2px 12px rgba(0, 0, 0, .3);
 
   /* Animations & Transitions */
@@ -74,31 +103,33 @@ body {
   transition: var(--transition-theme);
 }
 
-/* ambient blobs */
+/* ambient blobs — isolated onto their own GPU layer (will-change + translateZ)
+   so the blur filter isn't re-rasterized on every scroll frame */
 body::before,
 body::after {
   content: '';
   position: fixed;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(55px);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
+  will-change: transform;
 }
 
 body::before {
-  width: 520px;
-  height: 520px;
-  background: radial-gradient(circle, #fabd2f14 0%, transparent 70%);
-  top: -140px;
-  right: -120px;
+  width: 640px;
+  height: 640px;
+  background: radial-gradient(circle, #3ee68f22 0%, transparent 70%);
+  top: -180px;
+  right: -160px;
 }
 
 body::after {
-  width: 420px;
-  height: 420px;
-  background: radial-gradient(circle, #8ec07c14 0%, transparent 70%);
-  bottom: -100px;
-  left: -100px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, #b892f51c 0%, transparent 70%);
+  bottom: -120px;
+  left: -140px;
 }
 
 
@@ -153,37 +184,37 @@ body:has(.nav-header) .theme-toggle {
 /* ── LIGHT MODE ──────────────────────────────────────── */
 [data-theme="light"] {
   /* ── CONTEXT: LIGHT MODE ── */
-  --bg: #fbfaf5;
-  --bg-image: linear-gradient(rgba(251, 250, 245, 0.82), rgba(251, 250, 245, 0.82)), url('/beige-paper.png');
+  --bg: #f5f1e6;
+  --bg-image: linear-gradient(rgba(245, 241, 230, 0.9), rgba(245, 241, 230, 0.9)), url('/beige-paper.png');
 
   /* Surfaces */
   --card: #ffffff;
-  --card-mid: #f5f3e9;
-  --line: #e5e1d3;
+  --card-mid: #f0ebdc;
+  --line: #e2dbc7;
 
   /* Typography Colors */
-  --text-light: #282828;
-  --text-muted: #7c6f64;
-  --text-dark: #ffffff;
-  --ink: #3c3836;
-  --ink-soft: #504945;
-  --muted: #7c6f64;
+  --text-light: #17181a;
+  --text-muted: #6b6b62;
+  --text-dark: #08090b;
+  --ink: #17181a;
+  --ink-soft: #4a4a44;
+  --muted: #6b6b62;
 
   /* Accents */
-  --accent: #b57614;
-  --accent-soft: #f5ede0;
-  --accent-hot: #af3a03;
+  --accent: #1a9d5c;
+  --accent-soft: #e0f2e7;
+  --accent-hot: #7c4fd1;
 
-  /* GitHub Contributions (Gruvbox Green style for light theme - solid high contrast) */
-  --contrib-0: #f0ede1;
-  --contrib-1: #c1cc8a;
-  --contrib-2: #9baf69;
-  --contrib-3: #728f46;
-  --contrib-4: #496b24;
+  /* GitHub Contributions (green scale for light theme) */
+  --contrib-0: #e9e5d6;
+  --contrib-1: #b3ddc4;
+  --contrib-2: #6fc696;
+  --contrib-3: #34a869;
+  --contrib-4: #1a9d5c;
 
   /* Shadows */
-  --shadow-deep: 0 24px 64px rgba(40, 40, 40, .06), 0 8px 16px rgba(40, 40, 40, .04);
-  --shadow-btn: 0 2px 10px rgba(40, 40, 40, .03);
+  --shadow-deep: 0 24px 64px rgba(23, 24, 26, .07), 0 8px 16px rgba(23, 24, 26, .04);
+  --shadow-btn: 0 2px 10px rgba(23, 24, 26, .04);
 }
 
 /* ── ANIMATIONS ──────────────────────────────────────── */
@@ -256,33 +287,27 @@ body::after {
   animation: blobDriftAlt 22s ease-in-out infinite;
 }
 
-/* Hero entrance sequence (staggered) */
-@keyframes heroBlink {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero-tagline {
-  animation: heroBlink 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
-}
-
-.hero-title {
-  animation: heroBlink 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
-}
-
-.hero-desc {
-  animation: heroBlink 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both;
-}
-
+/* Hero entrance is driven by GSAP (src/scripts/motion.ts); pre-hide to avoid
+   a flash of unanimated content before the script runs. */
+.hero-tagline,
+.hero-title,
+.hero-desc,
 .hero-actions {
-  animation: heroBlink 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.62s both;
+  opacity: 0;
+}
+
+/* ── LENIS SMOOTH SCROLL (JS-driven, src/scripts/motion.ts) ── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 /* Nav sticky shadow scroll effect (JS-driven class) */
@@ -363,26 +388,6 @@ code {
   body::after {
     display: none !important;
   }
-
-  .scroll-reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-    will-change: auto !important;
-  }
-}
-
-/* ── SCROLL REVEAL MICRO-EFFECTS ────────────────────── */
-.scroll-reveal {
-  opacity: 0;
-  transform: translateY(28px) scale(0.985);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
-}
-
-.scroll-reveal.in-view {
-  opacity: 1;
-  transform: translateY(0) scale(1);
 }
 
 /* ── CARD CURSOR GLOW (JS-driven) ────────────────────── */
@@ -398,7 +403,7 @@ code {
   inset: 0;
   border-radius: inherit;
   background: radial-gradient(280px circle at var(--glow-x, 50%) var(--glow-y, 50%),
-      rgba(250, 189, 47, 0.06) 0%,
+      rgba(62, 230, 143, 0.08) 0%,
       transparent 70%);
   opacity: 0;
   transition: opacity 0.35s ease;
@@ -412,6 +417,6 @@ code {
 
 [data-theme="light"] .card-glow::after {
   background: radial-gradient(280px circle at var(--glow-x, 50%) var(--glow-y, 50%),
-      rgba(181, 118, 20, 0.07) 0%,
+      rgba(26, 157, 92, 0.08) 0%,
       transparent 70%);
 }

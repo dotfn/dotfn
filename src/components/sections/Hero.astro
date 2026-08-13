@@ -6,38 +6,178 @@ import Button from '../Button.astro';
 ---
 
 <section class="hero-section">
-	<span class="hero-tagline">Hola, soy Nicolás</span>
-	<h1 class="hero-title">Desarrollador Frontend con foco en producto.</h1>
-	<p class="hero-desc">
-		Transformo ideas en interfaces funcionales y experiencias intuitivas. Mi formación en Diseño Multimedial y mi interés por la ingeniería me permiten entender el producto de principio a fin, conectando el diseño UX/UI con el desarrollo de software. 
-	</p>
-	<div class="hero-actions">
-		<Button href="/cv" variant="primary">
-			Ver Curriculum 
-			<ArrowRight size={16} class="btn-icon" />
-		</Button>
-		<div class="hero-socials">
-			<a href="https://www.linkedin.com/in/dotfn" target="_blank" rel="noopener noreferrer">
-				<Linkedin size={14} class="social-icon" /> LinkedIn
-			</a>
-			<a href="https://github.com/dotfn" target="_blank" rel="noopener noreferrer">
-				<Github size={14} class="social-icon" /> GitHub
-			</a>
+	<div class="hero-bg" aria-hidden="true">
+		<div class="hero-bg-base"></div>
+		<div class="hero-bg-blur"></div>
+		<div class="hero-bg-glow"></div>
+		<div class="hero-bg-vignette"></div>
+		<div class="hero-bg-fade"></div>
+		<div class="hero-bg-noise"></div>
+	</div>
+	<div class="hero-inner">
+		<span class="hero-tagline">Hola, soy Nicolás</span>
+		<h1 class="hero-title">Diseño y desarrollo productos digitales pensados para convertir, escalar y durar.</h1>
+		<p class="hero-desc">
+			Ayudo a empresas y startups a transformar ideas complejas en software rápido, intuitivo y rentable. Combino visión de negocio, UX estratégico e ingeniería para crear productos que la gente usa y que impulsan tus métricas.
+		</p>
+		<div class="hero-actions">
+			<Button href="#contacto" variant="primary">
+				Agendar llamada estratégica
+				<ArrowRight size={16} class="btn-icon" />
+			</Button>
+			<Button href="#proyectos" variant="tertiary">
+				Ver casos de impacto
+			</Button>
+			<div class="hero-socials">
+				<a href="https://www.linkedin.com/in/dotfn" target="_blank" rel="noopener noreferrer">
+					<Linkedin size={14} class="social-icon" /> LinkedIn
+				</a>
+				<a href="https://github.com/dotfn" target="_blank" rel="noopener noreferrer">
+					<Github size={14} class="social-icon" /> GitHub
+				</a>
+			</div>
+		</div>
+		<span class="hero-microcopy">Respuesta en menos de 24hs · Disponible para nuevos proyectos</span>
+
+		<div class="hero-stats">
+			<div class="hero-stat">
+				<span class="hero-stat-value">+19k</span>
+				<span class="hero-stat-label">Usuarios únicos en BondiMDP</span>
+			</div>
+			<div class="hero-stat">
+				<span class="hero-stat-value">100%</span>
+				<span class="hero-stat-label">End-to-end — producto, diseño y código</span>
+			</div>
+			<div class="hero-stat">
+				<span class="hero-stat-value">&lt;24h</span>
+				<span class="hero-stat-label">Tiempo de respuesta</span>
+			</div>
 		</div>
 	</div>
 </section>
 
 <style>
 	.hero-section {
-		margin: 100px 0 140px 0;
+		position: relative;
+		isolation: isolate;
+		overflow: hidden;
+		min-height: 100dvh;
+		display: flex;
+		align-items: center;
+		padding: 90px clamp(24px, 6vw, 96px) 56px;
+
+		/* gradient stops — dark theme default, fades into the page's own --bg
+		   at 100% so the hero blends seamlessly into the section below */
+		--hero-g1: #d9dbd3;
+		--hero-g2: #8f9683;
+		--hero-g3: #4c5442;
+		--hero-g4: #232a1c;
+		--hero-g5: #10130d;
+		--hero-g6: var(--bg);
+		--hero-blur-1: rgba(255, 255, 255, 0.16);
+		--hero-blur-2: rgba(62, 230, 143, 0.32);
+		--hero-blur-3: rgba(0, 0, 0, 0.45);
+		--hero-glow-1: rgba(255, 255, 255, 0.22);
+		--hero-glow-2: rgba(184, 146, 245, 0.22);
+		--hero-vignette-mid: rgba(0, 0, 0, 0.22);
+		--hero-vignette-strong: rgba(0, 0, 0, 0.8);
+	}
+
+	:global([data-theme="light"]) .hero-section {
+		--hero-g1: #ffffff;
+		--hero-g2: #e6ead8;
+		--hero-g3: #c2caab;
+		--hero-g4: #97a17c;
+		--hero-g5: #dcd9c5;
+		--hero-g6: var(--bg);
+		--hero-blur-1: rgba(255, 255, 255, 0.55);
+		--hero-blur-2: rgba(26, 157, 92, 0.24);
+		--hero-blur-3: rgba(23, 24, 26, 0.10);
+		--hero-glow-1: rgba(255, 255, 255, 0.6);
+		--hero-glow-2: rgba(124, 79, 209, 0.16);
+		--hero-vignette-mid: rgba(23, 24, 26, 0.03);
+		--hero-vignette-strong: rgba(23, 24, 26, 0.12);
+	}
+
+	.hero-bg {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	.hero-bg-base {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(197deg, var(--hero-g1) 0%, var(--hero-g2) 19%, var(--hero-g3) 35%, var(--hero-g4) 61%, var(--hero-g5) 77%, var(--hero-g6) 100%);
+	}
+
+	.hero-bg-blur {
+		position: absolute;
+		inset: -20%;
+		background-image:
+			radial-gradient(circle at 13% 25%, var(--hero-blur-1), transparent 22%),
+			radial-gradient(circle at 27% 53%, var(--hero-blur-2), transparent 30%),
+			radial-gradient(circle at 44% 60%, var(--hero-blur-3), transparent 34%);
+		filter: blur(70px);
+		opacity: 0.51;
+	}
+
+	.hero-bg-glow {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(ellipse at 58% 2%, var(--hero-glow-1), transparent 38%),
+			radial-gradient(ellipse at 52% 36%, var(--hero-glow-2), transparent 42%);
+	}
+
+	.hero-bg-vignette {
+		position: absolute;
+		inset: 0;
+		/* second layer anchored to a fixed distance from the bottom (not a %
+		   of section height) for the same reason as .hero-bg-fade below —
+		   keeps the darkening confined to the trailing padding regardless of
+		   how tall the hero grows */
+		background:
+			radial-gradient(circle at center, transparent 25%, var(--hero-vignette-mid) 58%, var(--hero-vignette-strong) 100%),
+			linear-gradient(to bottom, transparent calc(100% - 540px), var(--hero-vignette-strong) 100%);
+	}
+
+	/* straight (non-diagonal) fade so the very bottom edge lands on --bg
+	   uniformly across the full width — the diagonal base gradient alone
+	   reaches its final stop at different heights per column, leaving a
+	   visible seam against the flat --bg of the section below.
+	   Fixed distance-from-bottom (not a % of section height) so this only
+	   ever eats into the trailing padding — a % stop crept upward and
+	   swallowed the hero-stats row into flat background once the hero grew
+	   taller than 100dvh, making the stats look unglued from the gradient. */
+	.hero-bg-fade {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to bottom, transparent calc(100% - 260px), var(--bg) 100%);
+	}
+
+	/* dithers the gradient — near-black tones only have a handful of 8-bit
+	   steps between them, which the eye reads as a hard banding line;
+	   noise breaks up the steps so the falloff reads as smooth again */
+	.hero-bg-noise {
+		position: absolute;
+		inset: 0;
+		background-image: var(--bg-noise);
+		opacity: 0.6;
+	}
+
+	.hero-inner {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
+		max-width: 1400px;
 	}
 
 	.hero-tagline {
 		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.82rem;
+		font-size: clamp(0.82rem, 1vw, 1rem);
 		color: var(--accent);
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
@@ -46,35 +186,71 @@ import Button from '../Button.astro';
 
 	.hero-title {
 		font-family: var(--font-display);
-		font-size: 3rem;
+		font-size: clamp(2.5rem, 5.5vw, 5.5rem);
 		font-weight: 800;
-		line-height: 1.15;
+		line-height: 1.08;
 		color: var(--ink);
 		letter-spacing: -0.03em;
-		max-width: 18ch;
+		max-width: 30ch;
 		margin-bottom: 24px;
 	}
 
 	.hero-desc {
-		font-size: 1.05rem;
-		line-height: 1.65;
+		font-size: clamp(1rem, 1.2vw, 1.2rem);
+		line-height: 1.6;
 		color: var(--ink-soft);
-		max-width: 62ch;
-		margin-bottom: 40px;
+		max-width: 68ch;
+		margin-bottom: 28px;
 	}
 
 	.hero-actions {
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
-		gap: 32px;
+		gap: 20px;
+		margin-bottom: 14px;
 	}
 
+	.hero-microcopy {
+		font-size: 0.85rem;
+		color: var(--muted);
+		margin-bottom: 22px;
+	}
 
+	.hero-stats {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 40px;
+		padding-top: 22px;
+		border-top: 1px solid var(--line);
+		width: 100%;
+		max-width: 68ch;
+	}
+
+	.hero-stat {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.hero-stat-value {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 1.6rem;
+		font-weight: 700;
+		color: var(--accent);
+		letter-spacing: -0.02em;
+	}
+
+	.hero-stat-label {
+		font-size: 0.82rem;
+		color: var(--ink-soft);
+		max-width: 20ch;
+	}
 
 	.hero-socials {
 		display: flex;
 		gap: 20px;
+		margin-left: 4px;
 	}
 
 	.hero-socials a {
@@ -103,15 +279,10 @@ import Button from '../Button.astro';
 		display: inline-block;
 	}
 
-	@media (max-width: 860px) {
-		.hero-title {
-			font-size: 2.4rem;
-		}
-	}
-
 	@media (max-width: 480px) {
-		.hero-title {
-			font-size: 2rem;
+		.hero-section {
+			min-height: 92dvh;
+			padding-top: 100px;
 		}
 	}
 </style>

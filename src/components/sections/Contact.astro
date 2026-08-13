@@ -1,249 +1,270 @@
 ---
-import { Mail, FileText, ArrowUpRight } from '@lucide/astro';
+import { Mail, FileText } from '@lucide/astro';
 import Linkedin from '../icons/LinkedIn.astro';
 import Github from '../icons/Github.astro';
 import X from '../icons/X.astro';
+import Button from '../Button.astro';
 import profileData from '../../data/profile.json';
-import { Image } from 'astro:assets';
-import contactProfile from '../../assets/contact-profile.jpg';
+import growthIconRaw from '../../assets/Growth.svg?raw';
+
+const email = profileData.links.find(l => l.icon === 'em')?.url.replace('mailto:', '') || 'dotfn.contact@gmail.com';
+
+// Growth.svg ships with its own purple/orange/green palette — recolor it
+// into the same accent-green-on-dark-green scheme the Focus section icons
+// use (see themeAdapt() there), swap for swap by the role each color
+// plays: purple was the dominant shape (steps/jacket) → accent green;
+// orange was the secondary shape (arrow/target) → dark green; the small
+// foliage green → light mint; black outlines/fills → dark green, same as
+// the siblings' stroke color.
+function recolorGrowth(svg: string): string {
+	return svg
+		.replaceAll('#7B5FF1', 'var(--accent)')
+		.replaceAll('#FF8B37', '#123f27')
+		.replaceAll('#55D087', '#e0f2e7')
+		.replaceAll('#010101', '#123f27');
+}
+
+const growthIcon = recolorGrowth(growthIconRaw);
 ---
 
-<section class="home-section" id="contacto">
-	<h2 class="section-num">07 / Contacto</h2>
-	<div class="contact-box card-glow">
-		<div class="contact-grid">
-			<div class="contact-image-col" id="contactTiltWrap">
-				<Image src={contactProfile} alt="Nicolás Jiménez" class="contact-avatar" width={400} height={400} quality="high" />
-			</div>
-			
-			<div class="contact-info-col">
-				<h3 class="contact-heading">Charlemos.</h3>
-				<p class="contact-text">
-					Si te interesa construir productos digitales pensados para las personas, o simplemente querés intercambiar ideas sobre desarrollo, diseño o tecnología, escribime. Siempre disfruto conocer proyectos nuevos y las personas que los hacen posibles.
-				</p>
-				<a href={`mailto:${profileData.links.find(l => l.icon === 'em')?.url.replace('mailto:', '') || 'dotfn.contact@gmail.com'}`} class="btn-email-home" id="contactEmailLink">
-					<Mail size={20} class="social-icon" /> dotfn.contact@gmail.com
-				</a>
-			</div>
+<section class="contact-section" id="contacto">
+	<div class="contact-inner">
+		<span class="contact-badge">
+			<span class="contact-badge-dot" aria-hidden="true"></span>
+			Disponible para nuevos proyectos
+		</span>
+
+		<h2 class="contact-title">
+			¿Tu producto necesita<br />
+			un socio técnico?<br />
+			<span class="contact-title-accent">Hablemos, dale.</span>
+		</h2>
+
+		<div class="contact-cta-row">
+			<Button href={`mailto:${email}`} variant="primary" id="contactEmailLink">
+				<Mail size={18} class="btn-icon" /> Hablemos de tu proyecto
+			</Button>
+			<span class="contact-response-time">Respuesta en menos de 24hs</span>
 		</div>
-		
-		<div class="contact-footer-links" id="contactFooter">
-			<a href="https://www.linkedin.com/in/dotfn" target="_blank" rel="noopener noreferrer" data-index="0">
-				<Linkedin size={14} class="social-icon" /> LinkedIn<ArrowUpRight size={14} class="arrow-icon" />
+
+		<div class="contact-social-row" id="contactFooter">
+			<a href="https://www.linkedin.com/in/dotfn" target="_blank" rel="noopener noreferrer" class="social-pill" aria-label="LinkedIn">
+				<Linkedin size={18} />
 			</a>
-			<a href="https://github.com/dotfn" target="_blank" rel="noopener noreferrer" data-index="1">
-				<Github size={14} class="social-icon" /> GitHub<ArrowUpRight size={14} class="arrow-icon" />
+			<a href="https://github.com/dotfn" target="_blank" rel="noopener noreferrer" class="social-pill" aria-label="GitHub">
+				<Github size={18} />
 			</a>
-			<a href="https://x.com/dotfn_" target="_blank" rel="noopener noreferrer" data-index="2">
-				<X size={14} class="social-icon" /> X (Twitter)<ArrowUpRight size={14} class="arrow-icon" />
+			<a href="https://x.com/dotfn_" target="_blank" rel="noopener noreferrer" class="social-pill" aria-label="X (Twitter)">
+				<X size={18} />
 			</a>
-			<a href="/cv" data-index="3">
-				<FileText size={14} class="social-icon" />C.V<ArrowUpRight size={14} class="arrow-icon" />
+			<a href="/cv" class="social-pill" aria-label="Curriculum">
+				<FileText size={18} />
 			</a>
+			<span class="contact-location-chip">Escribiendo código desde <strong>Argentina</strong></span>
 		</div>
 	</div>
+
+	<div class="contact-illustration" aria-hidden="true" set:html={growthIcon} />
 </section>
 
 <style>
-	.home-section {
-		margin-bottom: 120px;
+	.contact-section {
+		position: relative;
+		overflow: hidden;
+		min-height: 100dvh;
+		display: flex;
+		align-items: center;
+		padding: 100px clamp(24px, 6vw, 96px);
 	}
 
-	.section-num {
-		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.78rem;
-		color: var(--accent);
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		margin-bottom: 12px;
+	.contact-inner {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		max-width: 1400px;
 	}
 
-	.contact-box {
+	/* part of the section's background, not a floating card — pinned to
+	   the bottom-right corner, oversized and bleeding past the edge, and
+	   masked so it fades into the page instead of ending on a hard box
+	   edge. Colors come pre-recolored (see recolorGrowth() above) into the
+	   same accent-green palette as the Focus icons, so — unlike those —
+	   it doesn't need its own fixed-light backdrop to read on dark theme;
+	   opacity is still pulled back a bit so it sits behind the text as
+	   background rather than as a distinct card on top of one. */
+	.contact-illustration {
+		position: absolute;
+		z-index: 0;
+		right: 0;
+		bottom: 0;
+		width: min(36vw, 620px);
+		aspect-ratio: 467 / 536;
+		opacity: 0.85;
+		pointer-events: none;
+		/* radial, anchored to the corner it's pinned to, so it fades out in
+		   every direction — top, left, AND toward the section's own bottom
+		   edge — instead of hard-clipping against the section boundary.
+		   Radius stays wide (opaque out to 68%) so the fade only eats the
+		   outer margin instead of the figure itself; too tight a radius
+		   was fading out the character's head near the top of the frame. */
+		-webkit-mask-image: radial-gradient(circle at 100% 100%, #000 0%, #000 68%, transparent 100%);
+		mask-image: radial-gradient(circle at 100% 100%, #000 0%, #000 68%, transparent 100%);
+	}
+
+	@media (max-width: 1200px) {
+		.contact-illustration {
+			width: min(48vw, 480px);
+		}
+	}
+
+	@media (max-width: 640px) {
+		.contact-illustration {
+			display: none;
+		}
+	}
+
+	.contact-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
 		background: var(--card);
 		border: 1px solid var(--line);
-		border-radius: 20px;
-		padding: 56px;
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		box-shadow: var(--shadow-deep);
-		transition: var(--transition-theme);
-	}
-
-	.contact-grid {
-		display: grid;
-		grid-template-columns: .6fr 1fr;
-		gap: 48px;
-		align-items: center;
-		width: 100%;
-		margin-bottom: 24px;
-	}
-
-	.contact-image-col {
-		cursor: grab;
-		border-radius: 50%;
-		overflow: hidden;
-		border: 2px solid var(--accent);
-		box-shadow: 0 8px 24px rgba(252, 213, 53, 0.15);
-		background: var(--card-mid);
-		transition: border-color 0.3s ease, box-shadow 0.3s ease;
-		flex-shrink: 0;
-		align-self: center;
-		transform-style: preserve-3d;
-		will-change: transform;
-	}
-
-	.contact-avatar {
-		width: 100%;
-		height: 100%;
-		max-width:240px;
-		max-height:240px;
-		object-fit: cover;
-		display: block;
-	}
-
-	.contact-info-col {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-	}
-
-	.contact-heading {
-		font-family: var(--font-display);
-		font-size: 2.8rem;
-		font-weight: 800;
-		color: var(--ink);
-		margin-bottom: 16px;
-		letter-spacing: -0.02em;
-		line-height: 1.1;
-	}
-
-	.contact-text {
-		font-size: 1rem;
-		line-height: 1.6;
+		padding: 10px 20px;
+		border-radius: var(--radius-pill);
+		font-size: 0.9rem;
+		font-weight: 500;
 		color: var(--ink-soft);
-		max-width: 52ch;
-		margin-bottom: 24px;
+		box-shadow: var(--shadow-btn);
+		margin-bottom: 40px;
 	}
 
-	.btn-email-home {
-		font-family: 'JetBrains Mono', monospace;
-		font-size: 1.25rem;
-		font-weight: 600;
+	.contact-badge-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--accent);
+		box-shadow: 0 0 8px var(--accent);
+		animation: contact-pulse 2s infinite;
+	}
+
+	@keyframes contact-pulse {
+		0% { transform: scale(1); opacity: 1; }
+		50% { transform: scale(1.3); opacity: 0.5; }
+		100% { transform: scale(1); opacity: 1; }
+	}
+
+	.contact-title {
+		font-family: var(--font-display);
+		font-size: clamp(2.75rem, 6.5vw, 6rem);
+		font-weight: 800;
+		line-height: 1.05;
+		color: var(--ink);
+		letter-spacing: -0.03em;
+		margin-bottom: 48px;
+	}
+
+	.contact-title-accent {
 		color: var(--accent);
-		text-decoration: none;
-		border-bottom: 2px solid transparent;
-		transition: var(--transition);
-		margin-bottom: 8px;
-		word-break: break-all;
 	}
 
-	.btn-email-home:hover {
-		border-bottom-color: var(--accent);
-	}
-
-	.contact-footer-links {
+	.contact-cta-row {
 		display: flex;
+		align-items: center;
 		flex-wrap: wrap;
 		gap: 24px;
-		width: 100%;
-		border-top: 1px solid var(--line);
-		padding-top: 24px;
+		margin-bottom: 56px;
 	}
 
-	.contact-footer-links a {
+	.contact-response-time {
+		font-size: 0.95rem;
+		color: var(--ink-soft);
+	}
+
+	.btn-icon {
+		vertical-align: middle;
+		display: inline-block;
+	}
+
+	.contact-social-row {
 		display: flex;
 		align-items: center;
-		gap: 4px;
-		font-size: 0.88rem;
-		color: var(--ink-soft);
-		text-decoration: none;
-		font-weight: 500;
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+
+	.social-pill {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 46px;
+		height: 46px;
+		border-radius: 50%;
+		background: var(--card);
+		border: 1px solid var(--line);
+		color: var(--ink);
+		box-shadow: var(--shadow-btn);
 		transition: var(--transition);
 	}
 
-	.contact-footer-links a:hover {
+	.social-pill:hover {
+		border-color: var(--accent);
 		color: var(--accent);
+		transform: translateY(-2px);
 	}
 
-	.social-icon {
-		margin-right: 6px;
-		vertical-align: middle;
-		display: inline-block;
+	.contact-location-chip {
+		font-size: 0.9rem;
+		color: var(--ink-soft);
+		background: var(--card);
+		border: 1px solid var(--line);
+		padding: 12px 22px;
+		border-radius: var(--radius-pill);
+		box-shadow: var(--shadow-btn);
 	}
 
-	.arrow-icon {
-		margin-left: 2px;
-		vertical-align: middle;
-		display: inline-block;
-		transition: transform var(--transition);
+	.contact-location-chip strong {
+		color: var(--ink);
 	}
 
-	.contact-footer-links a:hover .arrow-icon {
-		transform: translate(2px, -2px);
-	}
-
-	@media (max-width: 768px) {
-		.contact-box {
-			padding: 40px 24px;
+	@media (max-width: 480px) {
+		.contact-section {
+			min-height: 92dvh;
+			padding: 80px 20px;
 		}
 
-		.contact-grid {
-			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-			gap: 24px;
-			margin-bottom: 24px;
+		.contact-title {
+			margin-bottom: 36px;
 		}
 
-		.contact-image-col {
-			border-width: 1.5px;
-		}
-
-		.contact-heading {
-			font-size: 2.2rem;
-			margin-bottom: 12px;
-		}
-
-		.contact-text {
-			font-size: 0.95rem;
-			margin-bottom: 20px;
-		}
-
-		.btn-email-home {
-			font-size: clamp(0.95rem, 4.5vw, 1.15rem);
-			margin-bottom: 4px;
-		}
-		
-		.contact-footer-links {
-			gap: 12px 16px;
-			padding-top: 16px;
+		.contact-cta-row {
+			gap: 16px;
+			margin-bottom: 40px;
 		}
 	}
 </style>
 
 <script>
 	document.addEventListener('astro:page-load', () => {
-		// ── Stagger-reveal footer social links on scroll
-		const footer = document.getElementById('contactFooter');
-		if (footer) {
-			const links = footer.querySelectorAll('a');
-			links.forEach(a => { (a as HTMLElement).style.opacity = '0'; (a as HTMLElement).style.transform = 'translateY(10px)'; });
-			const io = new IntersectionObserver((entries) => {
-				entries.forEach(entry => {
-					if (entry.isIntersecting) {
-						links.forEach((a, i) => {
-							setTimeout(() => {
-								(a as HTMLElement).style.opacity = '1';
-								(a as HTMLElement).style.transform = 'translateY(0)';
-								(a as HTMLElement).style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-							}, i * 80);
-						});
-						io.disconnect();
-					}
-				});
-			}, { threshold: 0.1 });
-			io.observe(footer);
-		}
+		const row = document.getElementById('contactFooter');
+		if (!row) return;
+		const items = row.querySelectorAll('a, span');
+		items.forEach(el => { (el as HTMLElement).style.opacity = '0'; (el as HTMLElement).style.transform = 'translateY(10px)'; });
+		const io = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					items.forEach((el, i) => {
+						setTimeout(() => {
+							(el as HTMLElement).style.opacity = '1';
+							(el as HTMLElement).style.transform = 'translateY(0)';
+							(el as HTMLElement).style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+						}, i * 80);
+					});
+					io.disconnect();
+				}
+			});
+		}, { threshold: 0.1 });
+		io.observe(row);
 	});
 </script>
