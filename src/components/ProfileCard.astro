@@ -24,7 +24,8 @@ import {
 	Globe,
 	Mail,
 	FileText,
-	MapPin
+	MapPin,
+	Trophy
 } from '@lucide/astro';
 import Linkedin from './icons/LinkedIn.astro';
 import Github from './icons/Github.astro';
@@ -140,16 +141,39 @@ const metaLinks = data.links.filter((l) => l.icon !== 'cv');
 				<div class="divider" role="separator" />
 				<h2 class="section-label">Achievements</h2>
 				<ul class="badge-row">
-					{achievements.map((a) => (
-						<li class="badge achievement-badge">
-							{ACHIEVEMENT_ICON[a.label] ? (
-								<Image src={ACHIEVEMENT_ICON[a.label]} alt={a.label} width={52} height={52} class="achievement-badge-img" />
-							) : (
-								<span aria-hidden="true">{a.emoji}</span>
-							)}
-							<span class="badge-tooltip" aria-hidden="true">{a.label}</span>
-						</li>
-					))}
+					{achievements.map((a) => {
+						const [aTitle, aDesc] = a.label.includes(': ') ? a.label.split(/:\s(.+)/) : [a.label, ''];
+						return (
+							<li class="badge achievement-badge">
+								{ACHIEVEMENT_ICON[a.label] ? (
+									<Image src={ACHIEVEMENT_ICON[a.label]} alt={a.label} width={52} height={52} class="achievement-badge-img" />
+								) : (
+									<span aria-hidden="true">{a.emoji}</span>
+								)}
+								<div class="achievement-tooltip" role="tooltip" aria-hidden="true">
+									<div class="achievement-tooltip-banner">
+										<span class="achievement-tooltip-avatar">
+											{ACHIEVEMENT_ICON[a.label] ? (
+												<Image src={ACHIEVEMENT_ICON[a.label]} alt="" width={72} height={72} />
+											) : (
+												<span aria-hidden="true">{a.emoji}</span>
+											)}
+										</span>
+									</div>
+									<div class="achievement-tooltip-body">
+										<p class="achievement-tooltip-title">{aTitle}</p>
+										{aDesc && <p class="achievement-tooltip-desc">{aDesc}</p>}
+										<div class="achievement-tooltip-divider" />
+										<p class="achievement-tooltip-label">History</p>
+										<p class="achievement-tooltip-history">
+											<Trophy size={12} />
+											<span>100% unlocked</span>
+										</p>
+									</div>
+								</div>
+							</li>
+						);
+					})}
 				</ul>
 			</>
 		)
@@ -369,6 +393,110 @@ const metaLinks = data.links.filter((l) => l.icon !== 'cv');
 		height: 100%;
 		object-fit: cover;
 		border-radius: 50%;
+	}
+
+	/* ── ACHIEVEMENT TOOLTIP (rich card) ─────────────────── */
+	.achievement-tooltip {
+		position: absolute;
+		bottom: calc(100% + 12px);
+		left: 50%;
+		z-index: 20;
+		width: 220px;
+		border-radius: 14px;
+		overflow: hidden;
+		background: var(--text-light);
+		box-shadow: var(--shadow-deep);
+		pointer-events: none;
+		opacity: 0;
+		transform: translate(-50%, 6px) scale(0.94);
+		transform-origin: bottom center;
+		transition: opacity 0.16s ease, transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	.achievement-tooltip::after {
+		content: '';
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		border: 6px solid transparent;
+		border-top-color: var(--text-light);
+	}
+
+	.achievement-badge:hover .achievement-tooltip,
+	.achievement-badge:focus-within .achievement-tooltip {
+		opacity: 1;
+		transform: translate(-50%, 0) scale(1);
+	}
+
+	.achievement-tooltip-banner {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 18px 0;
+		background: linear-gradient(160deg, var(--accent), color-mix(in srgb, var(--accent) 55%, var(--card-mid)));
+	}
+
+	.achievement-tooltip-avatar {
+		width: 64px;
+		height: 64px;
+		border-radius: 50%;
+		border: 3px solid var(--text-light);
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.8rem;
+		background: var(--card-mid);
+	}
+
+	.achievement-tooltip-avatar :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.achievement-tooltip-body {
+		padding: 12px 14px 14px;
+	}
+
+	.achievement-tooltip-title {
+		font-family: var(--font-display);
+		font-weight: 700;
+		font-size: 0.92rem;
+		color: var(--card);
+		white-space: normal;
+	}
+
+	.achievement-tooltip-desc {
+		font-size: 0.78rem;
+		color: color-mix(in srgb, var(--card) 70%, transparent);
+		margin-top: 2px;
+		white-space: normal;
+	}
+
+	.achievement-tooltip-divider {
+		height: 1px;
+		background: color-mix(in srgb, var(--card) 15%, transparent);
+		margin: 10px 0 8px;
+	}
+
+	.achievement-tooltip-label {
+		font-size: 0.65rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: color-mix(in srgb, var(--card) 55%, transparent);
+	}
+
+	.achievement-tooltip-history {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		margin-top: 6px;
+		font-size: 0.78rem;
+		color: #4ade80;
+		font-weight: 600;
 	}
 
 	.org-badge {
