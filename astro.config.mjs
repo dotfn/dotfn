@@ -11,7 +11,7 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [react(), sitemap()],
   build: {
-    inlineStylesheets: 'auto',
+    inlineStylesheets: 'always',
   },
   fonts: [
     {
