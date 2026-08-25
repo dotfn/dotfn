@@ -12,6 +12,8 @@ import CurrentFocus from '../components/sections/CurrentFocus.astro';
 import Contact from '../components/sections/Contact.astro';
 import Footer from '../components/Footer.astro';
 
+export const prerender = false; // needed so src/middleware.ts can content-negotiate text/markdown
+
 const personSchema = {
 	"@context": "https://schema.org",
 	"@type": "Person",
@@ -58,7 +60,7 @@ const schemas = [personSchema, bondiMDPSchema, howHeWorksSchema];
 ---
 
 <Layout
-	title={`${profileData.name} · Digital Products`}
+	title={`${profileData.name} (dotfn) · Digital Products`}
 	description="Sitio personal de Nicolás Jiménez (dotfn). Software Developer & AI Developer, cocreador de BondiMDP y autor de herramientas como lumus-control y brewmenu."
 	schema={schemas}
 >

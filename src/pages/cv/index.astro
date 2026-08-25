@@ -4,6 +4,8 @@ import cvData from '../../data/cv.json';
 import CVToolbar from '../../components/cv/CVToolbar.astro';
 import CVHeader from '../../components/cv/CVHeader.astro';
 
+export const prerender = false; // needed so src/middleware.ts can content-negotiate text/markdown
+
 const profilePageSchema = {
 	"@context": "https://schema.org",
 	"@type": "ProfilePage",
@@ -30,7 +32,7 @@ const profilePageSchema = {
 ---
 
 <Layout
-	title={`${cvData.name} · ${cvData.title}`}
+	title={`${cvData.name} (dotfn) · ${cvData.title}`}
 	description={`Curriculum Vitae de ${cvData.name}, ${cvData.title}.`}
 	ogType="profile"
 	schema={profilePageSchema}

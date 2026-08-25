@@ -5,6 +5,8 @@ import NavHeader from '../../components/NavHeader.astro';
 import Footer from '../../components/Footer.astro';
 import profileData from '../../data/profile.json';
 
+export const prerender = false; // needed so src/middleware.ts can content-negotiate text/markdown
+
 const breadcrumbSchema = {
 	"@context": "https://schema.org",
 	"@type": "BreadcrumbList",
