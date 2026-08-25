@@ -8,7 +8,11 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://dotfn.dev',
   output: 'static',
-  adapter: vercel(),
+  // imageService: the home/CV/links/about/contact/privacy pages are on-demand
+  // (prerender = false, for markdown content negotiation), so their <Image>
+  // transforms run per-request instead of at build time and need a runtime
+  // image service — Vercel's own Image Optimization API covers that in prod.
+  adapter: vercel({ imageService: true }),
   integrations: [react(), sitemap()],
   build: {
     inlineStylesheets: 'always',
