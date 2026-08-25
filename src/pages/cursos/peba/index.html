@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>IA para Emprendedores · PEBa · dotfn</title>
+<meta name="description" content="Recibidor virtual del curso IA para Emprendedores (PEBa, Municipalidad de Mar del Plata). Dictado por Nicolás Jiménez (dotfn). Entrá a la clase por Google Meet." />
+<meta name="robots" content="noindex" />
+<link rel="icon" href="/favicon.svg" />
+<meta property="og:title" content="IA para Emprendedores · PEBa" />
+<meta property="og:description" content="Curso virtual gratuito, Programa Educativo Barrial, Municipalidad de Mar del Plata. Dictado por dotfn." />
+<meta property="og:image" content="/og-cursos-peba.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #08090b;
+    --bg-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    --card: #131316;
+    --card-mid: #1b1b1f;
+    --line: #26262c;
+    --ink: #f0f0ec;
+    --ink-soft: #a3a3ab;
+    --muted: #75757c;
+    --text-dark: #08090b;
+    --accent: #3ee68f;
+    --accent-soft: #16321f;
+    --accent-hot: #b892f5;
+    --radius-card: 28px;
+    --radius-btn: 16px;
+    --radius-pill: 999px;
+    --shadow-deep: 0 32px 80px rgba(0, 0, 0, .5), 0 8px 24px rgba(0, 0, 0, .35);
+    --shadow-btn: 0 2px 12px rgba(0, 0, 0, .3);
+    --transition: 0.28s cubic-bezier(.4, 0, .2, 1);
+    --font-display: 'Bricolage Grotesque', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: var(--bg);
+    background-image: var(--bg-noise);
+    font-family: var(--font-body);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before,
+  body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(70px);
+    pointer-events: none;
+    z-index: 0;
+    animation: blobDrift 20s ease-in-out infinite;
+  }
+
+  body::before {
+    width: 560px;
+    height: 560px;
+    background: radial-gradient(circle, #3ee68f26 0%, transparent 70%);
+    top: -160px;
+    left: -140px;
+  }
+
+  body::after {
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, #b892f51e 0%, transparent 70%);
+    bottom: -140px;
+    right: -120px;
+    animation-name: blobDriftAlt;
+    animation-duration: 24s;
+  }
+
+  @keyframes blobDrift {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(18px, -24px) scale(1.04); }
+    66% { transform: translate(-12px, 14px) scale(0.97); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+
+  @keyframes blobDriftAlt {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-20px, 16px) scale(1.03); }
+    66% { transform: translate(10px, -18px) scale(0.98); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0s !important;
+    }
+  }
+
+  .wordmark {
+    position: fixed;
+    top: 24px;
+    left: 28px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: var(--transition);
+  }
+  .wordmark .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+    flex-shrink: 0;
+    margin-right: 6px;
+    transition: var(--transition);
+  }
+  .wordmark:hover .dot {
+    box-shadow: 0 0 10px var(--accent);
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 460px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    padding: 36px 32px 28px;
+    box-shadow: var(--shadow-deep);
+    overflow: hidden;
+  }
+
+  /* muni accent — a nod to the tri-color bars in the Mar del Plata mark,
+     kept as a thin ribbon so it reads as a credential, not a palette */
+  main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg,
+      #1cab97 0%, #1cab97 33.33%,
+      #fbc843 33.33%, #fbc843 66.66%,
+      #ec4c8c 66.66%, #ec4c8c 100%);
+  }
+
+  .eyebrow-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .icon-badge {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .icon-badge svg { width: 15px; height: 15px; }
+  .icon-badge .live-dot {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--card);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .muni-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .muni-mark-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--card-mid);
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .muni-mark-icon span {
+    width: 26px;
+    height: 4px;
+    border-radius: 2px;
+  }
+  .muni-mark-icon span:nth-child(1) { background: #1cab97; }
+  .muni-mark-icon span:nth-child(2) { background: #fbc843; }
+  .muni-mark-icon span:nth-child(3) { background: #ec4c8c; }
+  .muni-header .muni-text strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: -0.01em;
+  }
+  .muni-header .muni-text span {
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 5vw, 2.35rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    color: var(--ink);
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+
+  .desc {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin-bottom: 24px;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .info-card {
+    background: var(--card-mid);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 11px 14px;
+  }
+  .info-card .label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+  .info-card .value {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+  .info-card .value .nowrap {
+    white-space: nowrap;
+  }
+
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card-mid);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    padding: 11px 16px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+  }
+  .status-pill .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 22px;
+    background: var(--accent);
+    color: var(--text-dark);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: var(--radius-btn);
+    box-shadow: var(--shadow-btn);
+    transition: var(--transition);
+  }
+  .cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(62, 230, 143, 0.3);
+  }
+  .cta:active { transform: scale(0.98); }
+  .cta svg { width: 18px; height: 18px; }
+
+  .fine-print {
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  footer a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  footer a:hover { color: var(--accent); }
+
+  *:focus-visible {
+    outline: 2px solid var(--accent) !important;
+    outline-offset: 4px !important;
+  }
+
+  @media (max-width: 480px) {
+    main { padding: 28px 22px 22px; }
+    footer { flex-direction: column; gap: 6px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<a class="wordmark" href="https://dotfn.dev" target="_blank" rel="noopener" aria-label="dotfn.dev">
+  <span class="dot" aria-hidden="true"></span>fn
+</a>
+
+<main>
+  <div class="muni-header">
+    <div class="muni-mark-icon" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="muni-text">
+      <strong>Municipalidad de Mar del Plata</strong>
+      <span>Programa Educativo Barrial (PEBa)</span>
+    </div>
+  </div>
+
+  <div class="eyebrow-row">
+    <div class="icon-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg>
+      <span class="live-dot" aria-hidden="true"></span>
+    </div>
+    <span class="eyebrow">Curso virtual · PEBa</span>
+  </div>
+
+  <h1>IA para Emprendedores</h1>
+  <p class="desc">Ocho clases para perder el miedo a la IA y ponerla a laburar en tu emprendimiento. Herramientas gratuitas, casos reales y práctica todas las semanas.</p>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="label">Día y horario</div>
+      <div class="value">Martes <span class="nowrap">18:30–20:30 hs</span></div>
+    </div>
+    <div class="info-card">
+      <div class="label">Duración</div>
+      <div class="value">8 clases</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Inicio</div>
+      <div class="value">01/09/2026</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Finalización</div>
+      <div class="value">20/10/2026</div>
+    </div>
+  </div>
+
+  <div class="status-pill">
+    <span class="dot" aria-hidden="true"></span>
+    <span id="next-class-text">Calculando próxima clase…</span>
+  </div>
+
+  <a class="cta" href="https://meet.google.com/rgy-rqok-xce" target="_blank" rel="noopener">
+    Entrar a la clase
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </a>
+  <p class="fine-print">El link se activa 10 minutos antes de cada clase.</p>
+
+  <footer>
+    <span>Docente: Nicolás Jiménez</span>
+    <a href="https://dotfn.dev" target="_blank" rel="noopener">dotfn.dev</a>
+  </footer>
+</main>
+
+<script>
+  (function () {
+    var start = new Date(2026, 8, 1);
+    var end = new Date(2026, 9, 20, 20, 30);
+    var now = new Date();
+    var text = document.getElementById('next-class-text');
+
+    function classStartFor(date) { var d = new Date(date); d.setHours(18, 30, 0, 0); return d; }
+    function classEndFor(date) { var d = new Date(date); d.setHours(20, 30, 0, 0); return d; }
+    function fmt(d) { return d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' }); }
+
+    if (now > end) {
+      text.textContent = 'El curso ya terminó. ¡Gracias por venir!';
+    } else if (now < start) {
+      text.textContent = 'Primera clase: ' + fmt(start) + ', 18:30 hs.';
+    } else {
+      var d = new Date(now);
+      var diff = (2 - d.getDay() + 7) % 7;
+      var thisTuesday = new Date(d);
+      thisTuesday.setDate(d.getDate() + diff);
+      var classStart = classStartFor(thisTuesday);
+      var classEnd = classEndFor(thisTuesday);
+
+      if (now >= classStart && now <= classEnd) {
+        text.textContent = 'Estamos en vivo ahora. ¡Entrá!';
+      } else if (now < classStart) {
+        text.textContent = 'Próxima clase: ' + fmt(thisTuesday) + ', 18:30 hs.';
+      } else {
+        var nextTuesday = new Date(thisTuesday);
+        nextTuesday.setDate(thisTuesday.getDate() + 7);
+        text.textContent = 'Próxima clase: ' + fmt(nextTuesday) + ', 18:30 hs.';
+      }
+    }
+  })();
+</script>
+</body>
+</html>
