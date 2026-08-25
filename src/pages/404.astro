@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavHeader from '../components/NavHeader.astro';
+import Footer from '../components/Footer.astro';
+import Button from '../components/Button.astro';
+---
+
+<Layout
+	title="404 · Página no encontrada · dotfn"
+	description="La página que buscás no existe. Encontrá el sitemap, el CV y los links de Nicolás Jiménez (dotfn) desde acá."
+>
+	<NavHeader />
+
+	<main class="page">
+		<span class="not-found-code">404</span>
+		<h1>Página no encontrada</h1>
+		<p class="not-found-desc">
+			La URL a la que intentaste acceder no existe en dotfn.dev. Puede que se haya movido, que el
+			link tenga un error de tipeo, o que nunca haya existido. Esto es lo que sí existe:
+		</p>
+
+		<h2 class="section-title">Dónde mirar</h2>
+		<ul class="not-found-links">
+			<li><a href="/">Inicio</a>: perfil, proyectos y cómo trabajo</li>
+			<li><a href="/cv">CV</a>: experiencia, educación y stack técnico</li>
+			<li><a href="/links">Links</a>: tarjeta digital con todos los enlaces</li>
+			<li><a href="/about">About</a>: quién es Nicolás Jiménez (dotfn)</li>
+			<li><a href="/contact">Contact</a>: cómo escribirme</li>
+			<li><a href="/privacy">Privacy</a>: qué datos se recolectan en este sitio</li>
+		</ul>
+
+		<h2 class="section-title">Para agentes y crawlers</h2>
+		<ul class="not-found-links">
+			<li><a href="/sitemap-index.xml">/sitemap-index.xml</a>: mapa completo del sitio</li>
+			<li><a href="/llms.txt">/llms.txt</a>: resumen estructurado para modelos de IA</li>
+			<li><a href="/robots.txt">/robots.txt</a>: reglas de acceso para crawlers</li>
+		</ul>
+
+		<Button href="/" variant="primary" class="not-found-cta">Volver al inicio</Button>
+	</main>
+
+	<Footer />
+</Layout>
+
+<style>
+	.page {
+		max-width: 640px;
+		margin: 160px auto 80px;
+		padding: 0 24px;
+	}
+
+	.not-found-code {
+		display: block;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.85rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		color: var(--accent);
+		margin-bottom: 12px;
+	}
+
+	.page h1 {
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 5vw, 2.75rem);
+		font-weight: 800;
+		color: var(--ink);
+		letter-spacing: -0.02em;
+		margin-bottom: 20px;
+	}
+
+	.not-found-desc {
+		font-size: 1rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		margin-bottom: 40px;
+		max-width: 56ch;
+	}
+
+	.section-title {
+		font-family: var(--font-display), sans-serif;
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		color: var(--ink);
+		margin: 32px 0 14px;
+	}
+
+	.not-found-links {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.not-found-links li {
+		font-size: 0.92rem;
+		color: var(--ink-soft);
+		line-height: 1.5;
+	}
+
+	.not-found-links a {
+		font-family: 'JetBrains Mono', monospace;
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--accent-soft);
+	}
+
+	.not-found-links a:hover {
+		border-bottom-color: var(--accent);
+	}
+
+	.not-found-cta {
+		margin-top: 40px;
+	}
+
+	@media (max-width: 480px) {
+		.page {
+			margin-top: 120px;
+		}
+	}
+</style>
