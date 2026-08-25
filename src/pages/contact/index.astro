@@ -1,0 +1,198 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavHeader from '../../components/NavHeader.astro';
+import Footer from '../../components/Footer.astro';
+import Button from '../../components/Button.astro';
+import { Mail } from '@lucide/astro';
+import Linkedin from '../../components/icons/LinkedIn.astro';
+import Github from '../../components/icons/Github.astro';
+import X from '../../components/icons/X.astro';
+
+export const prerender = false; // needed so src/middleware.ts can content-negotiate text/markdown
+
+const contactSchema = {
+	"@context": "https://schema.org",
+	"@type": "ContactPage",
+	"mainEntity": {
+		"@type": "Person",
+		"name": "Nicolás Jiménez",
+		"alternateName": "dotfn",
+		"email": "dotfn.contact@gmail.com",
+		"url": "https://dotfn.dev",
+		"address": {
+			"@type": "PostalAddress",
+			"addressLocality": "Buenos Aires",
+			"addressCountry": "AR"
+		}
+	}
+};
+---
+
+<Layout
+	title="Contact · dotfn"
+	description="Cómo contactar a Nicolás Jiménez (dotfn): email, LinkedIn, GitHub y X. Respuesta en menos de 24hs."
+	schema={contactSchema}
+>
+	<NavHeader />
+
+	<main class="page">
+		<span class="eyebrow">Contact</span>
+		<h1>Hablemos de tu proyecto</h1>
+
+		<p class="lead">
+			Estoy disponible para nuevos proyectos como Forward Deployed Engineer & AI Developer:
+			desarrollo de producto full stack, UX/UI y automatización con IA. Escribime directo y te
+			respondo en menos de 24hs.
+		</p>
+
+		<h2 class="section-title">Contacto directo</h2>
+		<ul class="contact-list">
+			<li>
+				<Mail size={16} class="contact-icon" />
+				<a href="mailto:dotfn.contact@gmail.com">dotfn.contact@gmail.com</a>
+			</li>
+			<li>
+				<Linkedin size={16} class="contact-icon" />
+				<a href="https://www.linkedin.com/in/dotfn" target="_blank" rel="noopener noreferrer">linkedin.com/in/dotfn</a>
+			</li>
+			<li>
+				<Github size={16} class="contact-icon" />
+				<a href="https://github.com/dotfn" target="_blank" rel="noopener noreferrer">github.com/dotfn</a>
+			</li>
+			<li>
+				<X size={16} class="contact-icon" />
+				<a href="https://x.com/dotfn_" target="_blank" rel="noopener noreferrer">x.com/dotfn_</a>
+			</li>
+		</ul>
+
+		<h2 class="section-title">Datos de contacto (NAP)</h2>
+		<ul class="nap-list">
+			<li><strong>Nombre:</strong> Nicolás Jiménez (dotfn)</li>
+			<li><strong>Ubicación:</strong> Buenos Aires, Argentina</li>
+			<li><strong>Email:</strong> dotfn.contact@gmail.com</li>
+			<li><strong>Tiempo de respuesta:</strong> menos de 24hs</li>
+		</ul>
+
+		<p class="footnote">
+			También podés ver la sección de contacto completa en la <a href="/#contacto">página de inicio</a>,
+			o revisar <a href="/about">quién soy</a> y mi <a href="/cv">CV</a> antes de escribirme.
+		</p>
+
+		<div class="contact-actions">
+			<Button href="mailto:dotfn.contact@gmail.com" variant="primary">
+				<Mail size={18} class="btn-icon" /> Escribime un email
+			</Button>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>
+
+<style>
+	.page {
+		max-width: 680px;
+		margin: 140px auto 80px;
+		padding: 0 24px;
+	}
+
+	.eyebrow {
+		display: block;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--accent);
+		margin-bottom: 12px;
+	}
+
+	.page h1 {
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 5vw, 2.75rem);
+		font-weight: 800;
+		color: var(--ink);
+		letter-spacing: -0.02em;
+		margin-bottom: 24px;
+	}
+
+	.lead {
+		font-size: 1.05rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		max-width: 62ch;
+		margin-bottom: 8px;
+	}
+
+	.page a:not(.custom-btn) {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--accent-soft);
+	}
+
+	.page a:not(.custom-btn):hover {
+		border-bottom-color: var(--accent);
+	}
+
+	.section-title {
+		font-family: var(--font-display), sans-serif;
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		color: var(--ink);
+		margin: 36px 0 14px;
+	}
+
+	.contact-list,
+	.nap-list {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.contact-list li {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 0.95rem;
+	}
+
+	.contact-icon {
+		color: var(--muted);
+		flex-shrink: 0;
+	}
+
+	.nap-list li {
+		font-size: 0.92rem;
+		color: var(--ink-soft);
+	}
+
+	.nap-list strong {
+		color: var(--ink);
+		font-weight: 600;
+	}
+
+	.footnote {
+		font-size: 0.9rem;
+		line-height: 1.6;
+		color: var(--muted);
+		margin-top: 32px;
+		max-width: 62ch;
+	}
+
+	.contact-actions {
+		margin-top: 40px;
+	}
+
+	.btn-icon {
+		vertical-align: middle;
+		display: inline-block;
+	}
+
+	@media (max-width: 480px) {
+		.page {
+			margin-top: 110px;
+		}
+	}
+</style>

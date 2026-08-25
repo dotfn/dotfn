@@ -5,6 +5,11 @@
 <footer class="home-site-footer">
 	<div class="footer-inner">
 		<span>Nicolás Jiménez © {new Date().getFullYear()}</span>
+		<nav class="footer-links" aria-label="Enlaces legales y de contacto">
+			<a href="/about">About</a>
+			<a href="/contact">Contact</a>
+			<a href="/privacy">Privacy</a>
+		</nav>
 		<span>dotfn.dev</span>
 	</div>
 </footer>
@@ -26,6 +31,21 @@
 		font-family: 'JetBrains Mono', monospace;
 		font-size: 0.75rem;
 		color: var(--muted);
+	}
+
+	.footer-links {
+		display: flex;
+		gap: 16px;
+	}
+
+	.footer-links a {
+		color: var(--muted);
+		text-decoration: none;
+		transition: var(--transition);
+	}
+
+	.footer-links a:hover {
+		color: var(--accent);
 	}
 
 	@media (max-width: 480px) {

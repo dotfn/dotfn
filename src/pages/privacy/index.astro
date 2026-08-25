@@ -1,0 +1,164 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavHeader from '../../components/NavHeader.astro';
+import Footer from '../../components/Footer.astro';
+
+export const prerender = false; // needed so src/middleware.ts can content-negotiate text/markdown
+
+const LAST_UPDATED = '2026-08-25';
+---
+
+<Layout
+	title="Privacy Policy · dotfn"
+	description="Política de privacidad de dotfn.dev: qué datos se recolectan, qué servicios se usan (Vercel Analytics, Speed Insights, GitHub API) y qué no se hace con tus datos."
+>
+	<NavHeader />
+
+	<main class="page">
+		<span class="eyebrow">Privacy</span>
+		<h1>Política de privacidad</h1>
+		<p class="updated">Última actualización: {LAST_UPDATED}</p>
+
+		<p class="lead">
+			dotfn.dev es el sitio personal de Nicolás Jiménez. Es un sitio simple, sin cuentas de
+			usuario, sin formularios que guarden datos en un servidor propio y sin venta de datos a
+			terceros. Esta página explica, en términos concretos, qué se recolecta y por qué.
+		</p>
+
+		<h2 class="section-title">Qué se recolecta</h2>
+		<p>
+			Este sitio usa <strong>Vercel Web Analytics</strong> y <strong>Vercel Speed Insights</strong>
+			para entender visitas y rendimiento de forma agregada y anónima. Ambos servicios están
+			diseñados para no usar cookies de seguimiento ni identificar visitantes individuales; no
+			recolectan direcciones IP completas ni construyen perfiles personales. No se usa Google
+			Analytics ni ningún otro rastreador publicitario de terceros.
+		</p>
+
+		<h2 class="section-title">Almacenamiento local (localStorage)</h2>
+		<p>
+			El sitio guarda una sola preferencia en el <code>localStorage</code> de tu navegador: el
+			modo de tema (claro u oscuro) que elegiste. Ese valor nunca sale de tu dispositivo, no se
+			envía a ningún servidor y podés borrarlo en cualquier momento desde la configuración de tu
+			navegador.
+		</p>
+
+		<h2 class="section-title">API de GitHub</h2>
+		<p>
+			La sección de actividad de GitHub en la home consulta un endpoint propio
+			(<code>/api/github</code>) que a su vez lee datos <strong>públicos</strong> de contribuciones
+			de la cuenta <code>dotfn</code> en GitHub, para mostrar el calendario de commits. Esa
+			consulta no depende de ni recolecta ningún dato tuyo como visitante: solo trae información
+			pública sobre la actividad del autor del sitio.
+		</p>
+
+		<h2 class="section-title">Si me escribís</h2>
+		<p>
+			Los links de contacto de este sitio abren tu cliente de email (<code>mailto:</code>) hacia
+			<a href="mailto:dotfn.contact@gmail.com">dotfn.contact@gmail.com</a>. El contenido de esos
+			emails se maneja como cualquier correo electrónico normal, fuera de este sitio: no queda
+			guardado en ninguna base de datos de dotfn.dev.
+		</p>
+
+		<h2 class="section-title">Hosting</h2>
+		<p>
+			El sitio está alojado en <strong>Vercel</strong>, que procesa las solicitudes HTTP
+			necesarias para servir las páginas (incluyendo la dirección IP de la solicitud, como
+			cualquier proveedor de hosting) según su propia política de privacidad. dotfn.dev no
+			comparte esos datos con nadie más ni los usa para publicidad.
+		</p>
+
+		<h2 class="section-title">Cambios a esta política</h2>
+		<p>
+			Si esta política cambia de forma relevante, se actualizará la fecha de arriba. Para
+			consultas sobre privacidad, escribí a
+			<a href="mailto:dotfn.contact@gmail.com">dotfn.contact@gmail.com</a>.
+		</p>
+	</main>
+
+	<Footer />
+</Layout>
+
+<style>
+	.page {
+		max-width: 680px;
+		margin: 140px auto 80px;
+		padding: 0 24px;
+	}
+
+	.eyebrow {
+		display: block;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--accent);
+		margin-bottom: 12px;
+	}
+
+	.page h1 {
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 5vw, 2.75rem);
+		font-weight: 800;
+		color: var(--ink);
+		letter-spacing: -0.02em;
+		margin-bottom: 8px;
+	}
+
+	.updated {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.8rem;
+		color: var(--muted);
+		margin-bottom: 24px;
+	}
+
+	.lead {
+		font-size: 1rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		max-width: 62ch;
+	}
+
+	.page p {
+		font-size: 0.93rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		max-width: 62ch;
+	}
+
+	.page code {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.85em;
+		background: var(--card-mid);
+		border: 1px solid var(--line);
+		border-radius: 4px;
+		padding: 1px 6px;
+		color: var(--ink);
+	}
+
+	.page a:not(.custom-btn) {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--accent-soft);
+	}
+
+	.page a:not(.custom-btn):hover {
+		border-bottom-color: var(--accent);
+	}
+
+	.section-title {
+		font-family: var(--font-display), sans-serif;
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		color: var(--ink);
+		margin: 32px 0 12px;
+	}
+
+	@media (max-width: 480px) {
+		.page {
+			margin-top: 110px;
+		}
+	}
+</style>

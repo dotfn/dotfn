@@ -1,0 +1,185 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavHeader from '../../components/NavHeader.astro';
+import Footer from '../../components/Footer.astro';
+import Button from '../../components/Button.astro';
+
+export const prerender = false; // needed so src/middleware.ts can content-negotiate text/markdown
+
+const aboutSchema = {
+	"@context": "https://schema.org",
+	"@type": "AboutPage",
+	"mainEntity": {
+		"@type": "Person",
+		"name": "Nicolás Jiménez",
+		"alternateName": "dotfn",
+		"url": "https://dotfn.dev",
+		"email": "dotfn.contact@gmail.com",
+		"address": {
+			"@type": "PostalAddress",
+			"addressLocality": "Buenos Aires",
+			"addressCountry": "AR"
+		},
+		"sameAs": [
+			"https://github.com/dotfn",
+			"https://www.linkedin.com/in/dotfn",
+			"https://x.com/dotfn_"
+		]
+	}
+};
+---
+
+<Layout
+	title="Sobre Nicolás Jiménez (dotfn) · About"
+	description="Quién es Nicolás Jiménez (dotfn) y cómo lleva un producto digital de la idea a producción, con BondiMDP como caso real."
+	schema={aboutSchema}
+>
+	<NavHeader />
+
+	<main class="page">
+		<span class="eyebrow">About</span>
+		<h1>Nicolás Jiménez (dotfn)</h1>
+
+		<p class="lead">
+			Ayudo a que tu producto digital deje de ser una idea en un doc y se convierta en algo que la
+			gente usa de verdad. Soy Nico, de Buenos Aires, Argentina: vengo del diseño multimedial y hoy
+			programo full stack, así que la misma persona piensa la experiencia, la diseña y la construye.
+			Nada se pierde en el traspaso entre etapas, porque no hay traspaso.
+		</p>
+
+		<h2 class="section-title">En qué te puedo ayudar</h2>
+		<p>
+			Tomo tu proyecto de punta a punta: investigo qué necesita resolver, diseño la experiencia en
+			Figma y después lo construyo yo mismo con React, Next.js o Astro, según lo que pida el
+			proyecto. Para las partes repetitivas del trabajo uso Claude y otros agentes de IA, así avanzo
+			más rápido sin bajar la calidad, pero la decisión de qué llega a producción siempre la tomo
+			yo. Eso es lo que te garantiza que lo que se entrega funciona, no solo que se ve bien en una
+			demo.
+		</p>
+
+		<h2 class="section-title">Un caso real: BondiMDP</h2>
+		<p>
+			Con un equipo chico armamos <a href="https://bondimdp.com.ar" target="_blank" rel="noopener noreferrer">BondiMDP</a>
+			porque en Mar del Plata no había una forma simple de saber cuándo llegaba el colectivo. La
+			gente la adoptó sola, sin que gastáramos un peso en marketing: hoy suma más de 19.000 usuarios
+			únicos, 87.000 sesiones y cerca de 300.000 vistas en su primer mes. Es la prueba de que, si el
+			producto resuelve algo real, la gente lo usa.
+		</p>
+
+		<h2 class="section-title">Por qué pienso distinto</h2>
+		<p>
+			Antes de dedicarme de lleno a programar pasé por la Facultad de Informática, por Artes
+			Audiovisuales y por Diseño Multimedial, todas en la UNLP, y hoy estoy terminando la
+			Tecnicatura en Programación en la UTN. No fue un plan prolijo, fue ir probando cosas
+			distintas, pero terminó siendo mi ventaja: entiendo tanto el negocio y la experiencia de
+			usuario como la línea de código que los sostiene.
+		</p>
+
+		<h2 class="section-title">Datos de contacto</h2>
+		<ul class="nap-list">
+			<li><strong>Nombre:</strong> Nicolás Jiménez (dotfn)</li>
+			<li><strong>Ubicación:</strong> Buenos Aires, Argentina</li>
+			<li><strong>Email:</strong> <a href="mailto:dotfn.contact@gmail.com">dotfn.contact@gmail.com</a></li>
+			<li><strong>Sitio web:</strong> <a href="https://dotfn.dev">https://dotfn.dev</a></li>
+		</ul>
+
+		<div class="about-actions">
+			<Button href="/contact" variant="primary">Ir a Contact</Button>
+			<Button href="/cv" variant="secondary">Ver CV completo</Button>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>
+
+<style>
+	.page {
+		max-width: 680px;
+		margin: 140px auto 80px;
+		padding: 0 24px;
+	}
+
+	.eyebrow {
+		display: block;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--accent);
+		margin-bottom: 12px;
+	}
+
+	.page h1 {
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 5vw, 2.75rem);
+		font-weight: 800;
+		color: var(--ink);
+		letter-spacing: -0.02em;
+		margin-bottom: 24px;
+	}
+
+	.lead {
+		font-size: 1.05rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		margin-bottom: 8px;
+	}
+
+	.page p {
+		font-size: 0.95rem;
+		line-height: 1.65;
+		color: var(--ink-soft);
+		max-width: 62ch;
+	}
+
+	.page a:not(.custom-btn) {
+		color: var(--accent);
+		text-decoration: none;
+		border-bottom: 1px solid var(--accent-soft);
+	}
+
+	.page a:not(.custom-btn):hover {
+		border-bottom-color: var(--accent);
+	}
+
+	.section-title {
+		font-family: var(--font-display), sans-serif;
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		color: var(--ink);
+		margin: 36px 0 14px;
+	}
+
+	.nap-list {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.nap-list li {
+		font-size: 0.92rem;
+		color: var(--ink-soft);
+	}
+
+	.nap-list strong {
+		color: var(--ink);
+		font-weight: 600;
+	}
+
+	.about-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+		margin-top: 40px;
+	}
+
+	@media (max-width: 480px) {
+		.page {
+			margin-top: 110px;
+		}
+	}
+</style>
