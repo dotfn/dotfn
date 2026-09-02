@@ -359,6 +359,21 @@
   .cta:active { transform: scale(0.98); }
   .cta svg { width: 18px; height: 18px; }
 
+  .cta-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .cta-group .cta { font-size: 0.9rem; }
+
+  .cta-whatsapp {
+    background: #25d366;
+    margin-bottom: 12px;
+  }
+  .cta-whatsapp:hover {
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+  }
+
   .fine-print {
     margin-top: 12px;
     font-size: 0.78rem;
@@ -444,11 +459,21 @@
     <span id="next-class-text">Calculando próxima clase…</span>
   </div>
 
-  <a class="cta" href="https://meet.google.com/rgy-rqok-xce" target="_blank" rel="noopener">
-    Entrar a la clase
+  <div class="cta-group">
+    <a class="cta" href="https://meet.google.com/okh-womf-amb" target="_blank" rel="noopener">
+      1ra hora
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+    <a class="cta" href="https://meet.google.com/wih-jeyh-pgm" target="_blank" rel="noopener">
+      2da hora
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </div>
+  <a class="cta cta-whatsapp" href="https://chat.whatsapp.com/KvNbNNaMWJj6xX0AypuhQY?s=cl&amp;p=i&amp;mlu=4" target="_blank" rel="noopener">
+    Grupo de WhatsApp
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
   </a>
-  <p class="fine-print">El link se activa 10 minutos antes de cada clase.</p>
+  <p class="fine-print">Los links de Meet se activan 10 minutos antes de cada clase.</p>
 
   <footer>
     <span>Docente: Nicolás Jiménez</span>
